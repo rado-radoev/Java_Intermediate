@@ -1,4 +1,6 @@
-package com.amazonlite.model;
+package com.amazonlite.interfaces;
+
+import com.amazonlite.model.Item;
 
 public interface ItemActions {
 
