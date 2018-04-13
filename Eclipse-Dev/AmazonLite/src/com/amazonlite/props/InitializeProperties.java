@@ -7,7 +7,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Properties;
+import java.util.stream.Collectors;
 import java.io.OutputStream;
 
 import com.amazonlite.model.ItemType;
@@ -22,17 +26,29 @@ public class InitializeProperties {
 
 	private void initializeDefaultProperites(ItemType itemType) {
 		if (checkPropertiesFileExists(itemType)) { 
-			loadProperties(itemType);
+			readProperties(loadProperties(itemType));
 		}
 		else {
 			createDummyProperties(itemType);
 		}
 	}
 	
+	private void readProperties(Properties prop) {
+		Map<String, String> map = new HashMap();
+		map.putAll(prop.entrySet().stream()
+                .collect(Collectors.toMap(e -> e.getKey().toString(), e -> e.getValue().toString())));
+		
+		Iterator mapIterator = map.entrySet().iterator();
+		while (mapIterator.hasNext()) {
+			Map.Entry pair = (Map.Entry) mapIterator.next();
+			System.out.println(pair.getKey() + " = " + pair.getValue());
+		}
+	}
+	
 	private void createDummyProperties(ItemType itemType) {
 		Properties prop = new Properties();
 		
-		String fileName = itemType.name() + ".prpperties";
+		String fileName = itemType.name() + ".properties";
 		
 		try (OutputStream output = new FileOutputStream(fileName)) {
 			if (itemType == ItemType.CD) {
@@ -84,7 +100,7 @@ public class InitializeProperties {
 	 * @return the Properties in the file or null
 	 */
 	private Properties loadProperties(ItemType itemType) {
-		String fileName = itemType.name() + ".prpperties";
+		String fileName = itemType.name() + ".properties";
 		
 		Properties prop = new Properties();
 		
@@ -111,7 +127,7 @@ public class InitializeProperties {
 	 * @return boolean if file exists or not
 	 */
 	private boolean checkPropertiesFileExists(ItemType itemType) {
-		if (new File(itemType.name() + ".properties").isFile()) return true;
+		if (new File(itemType.name() + ".properties").exists()) return true;
 		else return false;
 	}
 }
