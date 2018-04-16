@@ -79,4 +79,28 @@ public final class Item implements ItemActions {
 		return String.format("Title: %s%nAuthor: %s%nLength: %2d%nRelease Date: %tD%nItem Type: %s%n", 
 				title, author, length, releaseDate, itemType);
 	}
+
+	@Override
+	public boolean updateItem(Item item) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean addItem(Item item) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Item searchItem(Item item) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void displayItem(Item item) {
+		// TODO Auto-generated method stub
+		
+	}
 }

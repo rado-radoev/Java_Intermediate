@@ -6,11 +6,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.sql.Savepoint;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
+import com.amazonlite.model.Item;
 import com.amazonlite.model.ItemType;
 
 import java.util.Map;
@@ -20,15 +22,17 @@ import java.util.Map.Entry;
 
 public class Props {
 
-	public Props() {
-		// TODO Auto-generated constructor stub
+	public static void main(String[] args) {
+		Props props = new Props();
+		
+		props.saveProperties(props.loadProperties(ItemType.CD), ItemType.CD);
+		props.displayProperties(props.loadProperties(ItemType.CD));
 	}
-
 	
 	/**
 	 * Read properties
 	 */
-	public void readProperties(Properties prop) {
+	public void displayProperties(Properties prop) {
 		Map<String, String> propMap = new HashMap<String, String>();
 		propMap.putAll(prop.entrySet().stream()
 				.collect(Collectors.toMap(e -> e.getKey().toString(), e -> e.getValue().toString())));
@@ -71,20 +75,38 @@ public class Props {
 		String fileName = itemType.name() + ".properties";
 		
 		try (OutputStream output = new FileOutputStream(fileName)) {
-			properties.store(output, "This is fucking test");
+			properties.store(output, null);
 			return true;
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		return false;
 	}
 	
+	/**
+	 * Add property
+	 */
+	public void addItem(Item item, Properties property) {
+		property.setProperty(String.valueOf(property.size() + 1), String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
+				item.getTitle(), item.getAuthor(), item.getLength(), item.getReleaseDate(), item.getItemType()));
+		saveProperties(property, item.getItemType());
+	}
 	
+	/**
+	 * Update property
+	 */
+	
+	
+	/**
+	 * Delete property
+	 */
+	
+	/**
+	 * Display property
+	 */
 	
 }
 
