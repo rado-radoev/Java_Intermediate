@@ -2,7 +2,9 @@ package com.amazonlite.model;
 
 import java.util.Date;
 
-public final class Item {
+import com.amazonlite.interfaces.ItemActions;
+
+public final class Item implements ItemActions {
 	
 	private String title;
 	private String author;

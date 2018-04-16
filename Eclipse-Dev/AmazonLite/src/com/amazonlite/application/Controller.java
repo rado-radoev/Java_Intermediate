@@ -1,9 +1,21 @@
 package com.amazonlite.application;
 
-public class Controller {
+import com.amazonlite.model.Item;
+import com.amazonlite.model.ItemType;
 
-	public Controller() {
-		// TODO Auto-generated constructor stub
+public class Controller {
+	
+	private ItemType itemType;
+	private Item item;
+
+	public Controller(ItemType itemType) {
+		this.itemType = itemType;
+	}
+	
+	public Controller(Item item) {
+		this.item = item;
 	}
 
+	
+	
 }
