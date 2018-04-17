@@ -13,6 +13,7 @@ import com.amazonlite.Controller.Controller;
 public class View {
 	
 	private static Controller controller = new Controller(new View());
+	private static ItemType itemType;
 	
 	public static void main(String[] args) {
 		controller.startMenu();
@@ -30,7 +31,7 @@ public class View {
 			controller.displayActionMenu();
 		}
 		
-		controller.setSelectedItem(itemSelected(Integer.valueOf(selected - 1)));
+		controller.setSelectedItem(setItemType(Integer.valueOf(selected - 1)));
 	}
 	
 	public void displayAddMenu() {
@@ -42,11 +43,9 @@ public class View {
 		
 		System.out.println("Add Title: ");
 		String title = input.nextLine();
-		item = Item.Builder.build().title(title).get();
 		
 		System.out.println("Add Author: ");
 		String author = input.nextLine();
-		item = Item.Builder.build().author(author).get();
 		
 		System.out.println("Add Release Date (m/d/y): ");
 		String dateInput = input.nextLine();
@@ -56,11 +55,18 @@ public class View {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		item = Item.Builder.build().releaseDate(date).get();
 		
 		System.out.println("Add Length: ");
 		double length = input.nextDouble();
-		item = Item.Builder.build().lenght(length).get();
+		
+		item = Item.Builder
+				.build()
+				.title(title)
+				.author(author)
+				.releaseDate(date)
+				.lenght(length)
+				.get
+				.get();
 		
 		System.out.println(item.toString());
 	}
@@ -101,10 +107,13 @@ public class View {
 		controller.selectActionMenu(selected);
 	}
 	
-	public ItemType itemSelected(int selectedMenu) {
-		return ItemType.values()[selectedMenu];
+	public void setItemType(int selectedMenu) {
+		itemType = ItemType.values()[selectedMenu];
 	}
 	
+	public ItemType getItemType() {
+		return itemType;
+	}
 
 	public void displayInitialMenu() {
 		int counter = 1;
