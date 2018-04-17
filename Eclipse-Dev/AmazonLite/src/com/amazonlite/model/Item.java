@@ -12,45 +12,56 @@ public final class Item implements ItemActions {
 	private Date releaseDate;
 	private ItemType itemType;
 	
+	// Hide c-tor from user
 	private Item() { }
 	
-	public static class Builder {
-		private Item itemToBuild;
+	public static final class Builder {
+		private Item item;
 		
-		Builder() {
-			itemToBuild = new Item();
+		// Initialize state
+		private Builder(final Item item) {
+			this.item = item;
 		}
 		
-		Item build() {
-			Item builtItem = itemToBuild;
-			itemToBuild = new Item();
-			
-			return builtItem;
+		// Start building an item
+		public static Builder build() {
+			return new Builder(new Item());
 		}
 		
-		public Builder setTitle(String title) {
-			this.itemToBuild.title = title;
+		public Builder title(final String title) {
+			this.item.title = title;
 			return this;
 		}
 		
-		public Builder setAuthor(String author) {
-			this.itemToBuild.author = author;
+		public Builder author(final String author) {
+			this.item.author = author;
 			return this;
 		}
 		
-		public Builder setLenght(double length) {
-			this.itemToBuild.length = length;
+		public Builder lenght(final double length) {
+			this.item.length = length;
 			return this;
 		}
 		
-		public Builder setReleaseDate(Date releaseDate) {
-			this.itemToBuild.releaseDate = releaseDate;
+		public Builder releaseDate(final Date releaseDate) {
+			this.item.releaseDate = releaseDate;
 			return this;
 		}
 		
-		public Builder setItemType(ItemType itemType) {
-			this.itemToBuild.itemType = itemType;
+		public Builder itemType(final ItemType itemType) {
+			this.item.itemType = itemType;
 			return this;
+		}
+		
+		// End construction & return unique item obj
+		public Item get() {
+			final Item iget = new Item();
+			iget.author = item.author;
+			iget.title = item.title;
+			iget.length = item.length;
+			iget.releaseDate = item.releaseDate;
+			iget.itemType = item.itemType;
+			return iget;
 		}
 	}
 
@@ -76,7 +87,7 @@ public final class Item implements ItemActions {
 	
 	@Override
 	public String toString() {
-		return String.format("Title: %s%nAuthor: %s%nLength: %2d%nRelease Date: %tD%nItem Type: %s%n", 
+		return String.format("Title: %s%nAuthor: %s%nLength: %2f%nRelease Date: %tD%nItem Type: %s%n", 
 				title, author, length, releaseDate, itemType);
 	}
 

@@ -30,7 +30,7 @@ public class Props {
 	}
 	
 	/**
-	 * Read properties
+	 * Display properties
 	 */
 	public void displayProperties(Properties prop) {
 		Map<String, String> propMap = new HashMap<String, String>();
@@ -105,7 +105,7 @@ public class Props {
 	 */
 	
 	/**
-	 * Display property
+	 * Find property
 	 */
 	
 }
