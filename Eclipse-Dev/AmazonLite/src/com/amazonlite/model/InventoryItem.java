@@ -9,7 +9,7 @@ public class InventoryItem {
 	private double length;
 	private Date releaseDate;
 	private ItemType itemType;
-
+	
 	public InventoryItem(String title, String author, double length, Date releaseDate, ItemType itemType) {
 		super();
 		this.title = title;
@@ -18,6 +18,8 @@ public class InventoryItem {
 		this.releaseDate = releaseDate;
 		this.itemType = itemType;
 	}
+	
+	public InventoryItem() { }
 
 	public String getTitle() {
 		return title;

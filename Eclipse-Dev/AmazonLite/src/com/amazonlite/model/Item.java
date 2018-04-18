@@ -4,7 +4,7 @@ import java.util.Date;
 
 import com.amazonlite.interfaces.ItemActions;
 
-public final class Item implements ItemActions {
+public class Item implements ItemActions {
 	
 	private String title;
 	private String author;
