@@ -16,12 +16,8 @@ public class Controller  {
 		this.view = view;
 	}
 	
-	public ItemType getSelectedItemType(ItemType selectedItemType) {
-		return selectedItemType;
-	}
-	
-	public void setSelectedItem(ItemType itemType) {
-		this.itemType = itemType;
+	public void setSelectedItem(int selectedItem) {
+		view.setItemType(selectedItem);
 	}
 	
 	public void startMenu() {
@@ -49,5 +45,21 @@ public class Controller  {
 		default:
 			break;
 		}
+	}
+	
+	public void addItem(Item item) {
+		
+	}
+	
+	public void updateItem(Item item) {
+		
+	}
+	
+	public void searchItem(Item item) {
+		
+	}
+	
+	public void displayInventory(ItemType itemType) {
+		
 	}
 }
