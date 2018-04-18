@@ -89,9 +89,9 @@ public class Props {
 	/**
 	 * Add property
 	 */
-	public void addItem(Item item, Properties property) {
-		property.setProperty(String.valueOf(property.size() + 1), String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
-				item.getTitle(), item.getAuthor(), item.getLength(), item.getReleaseDate(), item.getItemType()));
+	public void addItem(Item item) {
+		Properties property = new Properties();
+		property.setProperty(String.valueOf(property.size() + 5), item.toString());
 		saveProperties(property, item.getItemType());
 	}
 	

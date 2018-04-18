@@ -4,6 +4,7 @@ import com.amazonlite.model.Item;
 import com.amazonlite.model.ItemType;
 import com.amazonlite.View.View;
 import com.amazonlite.model.Model;
+import com.amazonlite.props.Props;
 
 public class Controller  {
 	
@@ -11,6 +12,7 @@ public class Controller  {
 	private ItemType itemType;
 	private Item item;
 	private Model model;
+	private Props props;
 	
 	public Controller(View view) {
 		this.view = view;
@@ -42,13 +44,16 @@ public class Controller  {
 			break;
 		case 3:
 			view.displaySearchMenu();
+		case 4:
+			view.displayInventory();
 		default:
 			break;
 		}
 	}
 	
 	public void addItem(Item item) {
-		
+		props = new Props();
+		props.addItem(item);
 	}
 	
 	public void updateItem(Item item) {
@@ -60,6 +65,7 @@ public class Controller  {
 	}
 	
 	public void displayInventory(ItemType itemType) {
-		
+		props = new Props();
+		props.displayProperties(props.loadProperties(itemType));
 	}
 }

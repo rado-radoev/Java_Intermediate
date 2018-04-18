@@ -56,6 +56,7 @@ public class View {
 		
 		System.out.println("Add Length: ");
 		double length = input.nextDouble();
+		input.close();
 		
 		item = Item.Builder
 				.build()
@@ -65,9 +66,8 @@ public class View {
 				.lenght(length)
 				.itemType(getItemType())
 				.get();
-		
-		System.out.println(item.toString());
-		input.close();
+	
+		controller.addItem(item);
 	}
 	
 	
@@ -83,6 +83,10 @@ public class View {
 		return 0;
 	}
 
+	public void displayInventory() {
+		controller.displayInventory(getItemType());
+	}
+	
 	
 	public void displaySearchMenu() {
 		int selected = 0;
@@ -107,7 +111,6 @@ public class View {
 			for (int i = 0; i < actionMenus.length; i++) {
 				System.out.printf("%d. %s%n", i + 1, actionMenus[i]);
 			}
-				
 			selected = input.nextInt();
 		}
 		
