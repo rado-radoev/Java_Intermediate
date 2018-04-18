@@ -11,7 +11,7 @@ public class Controller  {
 	private View view;
 	private ItemType itemType;
 	private Item item;
-	private Model model;
+	private Model model = new Model();
 	private Props props;
 	
 	public Controller(View view) {
@@ -52,8 +52,7 @@ public class Controller  {
 	}
 	
 	public void addItem(Item item) {
-		props = new Props();
-		props.addItem(item);
+		model.addItem(item);
 	}
 	
 	public void updateItem(Item item) {

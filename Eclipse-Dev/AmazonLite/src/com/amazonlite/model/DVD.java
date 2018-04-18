@@ -3,12 +3,20 @@ package com.amazonlite.model;
 public class DVD extends InventoryItem {
 	
 	private boolean bonusScenes;
+	private static int instance;
 
 	public DVD(boolean bonusScenes) {
 		this.bonusScenes = bonusScenes;
+		instance++;
 	}
 	
-	public DVD() { }
+	public DVD() {
+		instance++;
+	}
+	
+	public static int getInstance() {
+		return instance;
+	}
 
 	public Boolean getBonusScenes() {
 		return bonusScenes;

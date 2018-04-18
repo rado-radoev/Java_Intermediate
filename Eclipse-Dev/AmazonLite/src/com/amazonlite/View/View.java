@@ -19,6 +19,9 @@ public class View {
 		controller.startMenu();
 	}
 	
+	/**
+	 * Start method. Entry point for the application.
+	 */
 	public void start() {
 		System.out.println("Select an item type");
 		displayInitialMenu();
@@ -35,6 +38,9 @@ public class View {
 		input.close();
 	}
 	
+	/**
+	 * 
+	 */
 	public void displayAddMenu() {
 		Item item = null;
 		input = new Scanner(System.in);

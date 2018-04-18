@@ -91,7 +91,9 @@ public class Props {
 	 */
 	public void addItem(Item item) {
 		Properties property = new Properties();
-		property.setProperty(String.valueOf(property.size() + 5), item.toString());
+		property = loadProperties(item.getItemType());
+		
+		property.setProperty(String.valueOf(property.size() + 1), item.toString());
 		saveProperties(property, item.getItemType());
 	}
 	

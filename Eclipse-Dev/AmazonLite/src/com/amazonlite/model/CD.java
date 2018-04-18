@@ -3,13 +3,20 @@ package com.amazonlite.model;
 public class CD extends InventoryItem {
 	
 	private String hitSingle;
+	private static int instance;
 
 	public CD(String hitSingle) {
 		this.hitSingle = hitSingle;
+		instance++;
 	}
 	
-	public CD() { }
+	public CD() {
+		instance++;
+	}
 
+	public int getInstance() {
+		return instance;
+	}
 	
 	public String getHitSingle() {
 		return hitSingle;

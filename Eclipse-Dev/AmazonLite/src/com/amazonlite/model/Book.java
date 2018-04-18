@@ -3,11 +3,19 @@ package com.amazonlite.model;
 public class Book extends InventoryItem {
 	
 	private String publisher;
+	private static int instance;
 
-	public Book() { }
+	public Book() {
+		instance++;
+	}
 	
 	public Book(String publisher) {
 		this.publisher = publisher;
+		instance++;
+	}
+	
+	public int getInstance() {
+		return instance;
 	}
 
 	public String getPublisher() {
