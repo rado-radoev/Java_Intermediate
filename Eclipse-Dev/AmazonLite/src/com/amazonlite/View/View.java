@@ -82,10 +82,10 @@ public class View {
 		int selected = 0;
 
 		while (selected <= 0 || selected > 1) {
-			System.out.println("1. Find item to update");
-			selected = input.nextInt();
+			System.out.println("Find item to update");
+			String itemToUpdate = displaySearchMenu();
 		}
-		displaySearchMenu();
+		controller.updateItem();
 		return 0;
 	}
 
@@ -94,7 +94,7 @@ public class View {
 	}
 	
 	
-	public void displaySearchMenu() {
+	public String displaySearchMenu() {
 		int selected = 0;
 		String[] searchMenus = {"Author", "Title", "Release Date", "Length"};
 		input = new Scanner(System.in);
@@ -103,16 +103,19 @@ public class View {
 			for (int i = 0; i < searchMenus.length; i++) {
 				System.out.printf("%d. Search by: %s%n", i + 1, searchMenus[i]);
 			}
-			selected = input.nextInt();
-			input.nextLine();
-			String propertyToSearch = searchMenus[--selected];
-			
-			System.out.printf("%s: ", propertyToSearch);
-			String valueToSearch = input.nextLine();
-			
-			controller.searchItem(propertyToSearch, valueToSearch, getItemType());
+			selected = input.nextInt();		
 		}
+		
+		input.nextLine();
+		
+		String propertyToSearch = searchMenus[--selected];
+		
+		System.out.printf("%s: ", propertyToSearch);
+		String valueToSearch = input.nextLine();
+		
 		input.close();
+		
+		return controller.searchItem(propertyToSearch, valueToSearch, getItemType());
 	}
 	
 	public void displayActionMenu() {

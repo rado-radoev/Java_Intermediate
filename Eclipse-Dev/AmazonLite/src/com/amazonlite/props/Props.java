@@ -100,6 +100,29 @@ public class Props {
 	/**
 	 * Update property
 	 */
+	public void updateProperty(String propertyToUpdate, String oldValueToUpdate, String newValueToUpdate, ItemType itemType) {
+		String propertyValue = findProperty(propertyToUpdate, oldValueToUpdate, itemType);
+		
+		if (!propertyValue.equals("no match found")) {
+			
+			String key = propertyValue.substring(-1, 1);
+			String[] splittedValue = propertyValue.substring(4).split(",");
+			for (String string : splittedValue) {
+				if (string.startsWith(propertyToUpdate) && string.contains(oldValueToUpdate)) {
+					String beg = string.substring(-1, string.indexOf(": "));
+					String newSubs = String.join("", beg, newValueToUpdate);
+				}
+			}
+			
+			
+			//1 = Title: T.N.T,Author: AC/DC,Length: 41.55,Release Date: 12/01/75,Item Type: CD
+			
+			
+			
+			
+			
+		}
+	}
 	
 	
 	/**
@@ -109,7 +132,7 @@ public class Props {
 	/**
 	 * Find property
 	 */
-	public void findProperty(String propertyToFind, String valueToSearch ,ItemType itemType) {
+	public String findProperty(String propertyToFind, String valueToSearch ,ItemType itemType) {
 		Properties property = new Properties();
 		property = loadProperties(itemType);
 		
@@ -123,10 +146,12 @@ public class Props {
 			String[] splittedValue = prop.getValue().split(",");
 			for (String string : splittedValue) {
 				if (string.startsWith(propertyToFind) && string.contains(valueToSearch)) {
-					System.out.println(prop.getValue());
+//					System.out.println(prop.getValue());
+					return String.format("%s = %s", prop.getKey(), prop.getValue());
 				}
 			}
 		}
+		return String.format("%S", "no match found");
 	}
 }
 

@@ -44,8 +44,10 @@ public class Controller  {
 			break;
 		case 3:
 			view.displaySearchMenu();
+			break;
 		case 4:
 			view.displayInventory();
+			break;
 		default:
 			break;
 		}
@@ -55,12 +57,12 @@ public class Controller  {
 		model.addItem(item);
 	}
 	
-	public void updateItem(Item item) {
-		
+	public void updateItem() {
+		mode.updateItem();
 	}
 	
-	public void searchItem(String propertyToSearch, String valueToSearch, ItemType itemType) {
-		model.findProperty(propertyToSearch, valueToSearch ,view.getItemType());
+	public String searchItem(String propertyToSearch, String valueToSearch, ItemType itemType) {
+		return model.findProperty(propertyToSearch, valueToSearch ,view.getItemType());
 	}
 	
 	public void displayInventory(ItemType itemType) {

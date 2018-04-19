@@ -19,7 +19,11 @@ public class Model {
 		props.addItem(item);
 	}
 	
-	public void findProperty(String propertyToFind, String valueToSearch ,ItemType itemType) {
-		props.findProperty(propertyToFind, valueToSearch, itemType);
+	public void updateProperty() {
+		props.updateProperty(propertyToUpdate, oldValueToUpdate, newValueToUpdate, itemType);
+	}
+	
+	public String findProperty(String propertyToFind, String valueToSearch ,ItemType itemType) {
+		return props.findProperty(propertyToFind, valueToSearch, itemType);
 	}
 }
