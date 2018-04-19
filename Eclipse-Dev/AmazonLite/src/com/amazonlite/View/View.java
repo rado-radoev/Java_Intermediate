@@ -1,5 +1,6 @@
 package com.amazonlite.View;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,7 +36,6 @@ public class View {
 		
 		controller.setSelectedItem(Integer.valueOf(selected - 1));
 		controller.displayActionMenu();
-		input.close();
 	}
 	
 	/**
@@ -62,7 +62,6 @@ public class View {
 		
 		System.out.println("Add Length: ");
 		double length = input.nextDouble();
-		input.close();
 		
 		item = Item.Builder
 				.build()
@@ -81,21 +80,24 @@ public class View {
 	public void displayUpdateMenu() {
 		
 		System.out.println("Find item to update");
-		String itemToUpdate = displaySearchMenu();
+		ArrayList<String> itemToUpdate = displaySearchMenu();
 
-		Scanner in = new Scanner(System.in);
+		input = new Scanner(System.in);
 		
 		System.out.printf("%s: %n", "Property to modify");
-		String propertyToUpdate = "Author" /*in.nextLine();*/;
+		String propertyToUpdate = input.nextLine();
 		
 		System.out.printf("%s: %n", "Old value to update");
-		String oldValueToUpdate = "Bon Jovi" /*in.nextLine();*/;
+		String oldValueToUpdate = input.nextLine();
 		
 		System.out.printf("%s: %n", "New value to update");
-		String newValueToUpdate = "Paul McCarthy"/*in.nextLine();*/;
+		String newValueToUpdate = input.nextLine();
 		
+		for (String str : itemToUpdate) {
+			System.out.println(str);
+			controller.updateItem(str, propertyToUpdate, oldValueToUpdate, newValueToUpdate);
+		}
 		
-		controller.updateItem(itemToUpdate, propertyToUpdate, oldValueToUpdate, newValueToUpdate);
 	}
 	
 
@@ -104,7 +106,7 @@ public class View {
 	}
 	
 	
-	public String displaySearchMenu() {
+	public ArrayList<String> displaySearchMenu() {
 		int selected = 0;
 		String[] searchMenus = {"Author", "Title", "Release Date", "Length"};
 		input = new Scanner(System.in);
@@ -122,11 +124,13 @@ public class View {
 		
 		System.out.printf("%s: ", propertyToSearch);
 		String valueToSearch = input.nextLine();
+
 		
-		input.close();
+		ArrayList<String> res = controller.searchItem(propertyToSearch, valueToSearch, getItemType());
+		for (String str : res) {
+			System.out.println(str);
+		}
 		
-		String res = controller.searchItem(propertyToSearch, valueToSearch, getItemType());
-		System.out.println(res);
 		return res;
 	}
 	
@@ -143,7 +147,6 @@ public class View {
 		}
 		
 		controller.selectActionMenu(selected);
-		input.close();
 	}
 	
 	public void setItemType(int selectedMenu) {

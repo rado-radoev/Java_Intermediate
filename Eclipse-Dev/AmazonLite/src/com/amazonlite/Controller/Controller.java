@@ -6,6 +6,8 @@ import com.amazonlite.View.View;
 import com.amazonlite.model.Model;
 import com.amazonlite.props.Props;
 
+import java.util.ArrayList;
+
 public class Controller  {
 	
 	private View view;
@@ -61,7 +63,7 @@ public class Controller  {
 		model.updateProperty(propertyToModify, attributeToModify, oldValueToUpdate, newValueToUpdate);
 	}
 	
-	public String searchItem(String propertyToSearch, String valueToSearch, ItemType itemType) {
+	public ArrayList<String> searchItem(String propertyToSearch, String valueToSearch, ItemType itemType) {
 		return model.findProperty(propertyToSearch, valueToSearch ,view.getItemType());
 	}
 	

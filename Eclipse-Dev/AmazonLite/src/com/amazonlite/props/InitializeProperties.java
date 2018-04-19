@@ -22,6 +22,8 @@ public class InitializeProperties {
 		
 		InitializeProperties initProps = new InitializeProperties();
 		initProps.initializeDefaultProperites(ItemType.CD);
+		initProps.initializeDefaultProperites(ItemType.DVD);
+		initProps.initializeDefaultProperites(ItemType.BOOK);
 	}
 
 	private void initializeDefaultProperites(ItemType itemType) {
@@ -76,13 +78,13 @@ public class InitializeProperties {
 			else if (itemType == ItemType.BOOK) {
 				prop.setProperty("1", 
 						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
-								"The Philosopher's Stone", "J. K. Rowling", 329, Date.parse("09/01/1997"), itemType.name()));
+								"The Philosopher's Stone", "J. K. Rowling", 329D, Date.parse("09/01/1997"), itemType.name()));
 				prop.setProperty("2", 
 						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
-								"The Chamber of Secrets", "J. K. Rowling", 341, Date.parse("06/02/1998"), itemType.name()));
+								"The Chamber of Secrets", "J. K. Rowling", 341D, Date.parse("06/02/1998"), itemType.name()));
 				prop.setProperty("3", 
 						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
-								"The Prisoner of Azkaban", "J. K. Rowling", 435, Date.parse("09/08/1999"), itemType.name()));
+								"The Prisoner of Azkaban", "J. K. Rowling", 435D, Date.parse("09/08/1999"), itemType.name()));
 			}
 			
 			prop.store(output, null);

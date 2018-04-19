@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.Savepoint;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Properties;
@@ -104,14 +105,14 @@ public class Props {
 		
 		ItemType itemType = ItemType.valueOf(propertyToModify.substring(propertyToModify.indexOf("Type: ") + 6));
 		String key = propertyToModify.substring(0, propertyToModify.indexOf(" = "));
-		String newPropValue1 = propertyToModify.substring(propertyToModify.indexOf("Title: "), propertyToModify.indexOf(attributeToModify) + attributeToModify.length() + 2);
+		String newPropValue1 = propertyToModify.substring(0, propertyToModify.indexOf(attributeToModify) + attributeToModify.length() + 2);
 		String newPropValue2 = propertyToModify.substring(newPropValue1.length() + oldValueToUpdate.length());
 		String newPropValueFull = newPropValue1 + newValueToUpdate + newPropValue2;
 		
 		Properties property = new Properties();
 		property = loadProperties(itemType);
 		
-		property.setProperty(key, newPropValueFull);
+		property.setProperty(key, newPropValueFull.substring(newPropValueFull.indexOf("Title: ")));
 		saveProperties(property, itemType);
 		
 			
@@ -127,9 +128,12 @@ public class Props {
 	/**
 	 * Find property
 	 */
-	public String findProperty(String propertyToFind, String valueToSearch ,ItemType itemType) {
+	public ArrayList<String> findProperty(String propertyToFind, String valueToSearch ,ItemType itemType) {
+
 		Properties property = new Properties();
 		property = loadProperties(itemType);
+
+		ArrayList<String> res = new ArrayList<String>();
 		
 		Map<String, String> propMap = new HashMap<String, String>();
 		propMap.putAll(property.entrySet().stream()
@@ -142,11 +146,18 @@ public class Props {
 			for (String string : splittedValue) {
 				if (string.startsWith(propertyToFind) && string.contains(valueToSearch)) {
 //					System.out.println(prop.getValue());
-					return String.format("%s = %s", prop.getKey(), prop.getValue());
+					res.add(String.format("%s = %s", prop.getKey(), prop.getValue()));
 				}
 			}
 		}
-		return String.format("%S", "no match found");
+		
+		
+		if (res.isEmpty()) {
+			res.add(String.format("%S", "no match found"));
+		}
+
+		return res;
+		
 	}
 		
 }

@@ -1,6 +1,7 @@
 package com.amazonlite.model;
 
 import com.amazonlite.props.Props;
+import java.util.ArrayList;
 
 public class Model {
 	
@@ -23,7 +24,7 @@ public class Model {
 		props.updateProperty(propertyToModify, attributeToModify, oldValueToUpdate, newValueToUpdate);
 	}
 	
-	public String findProperty(String propertyToFind, String valueToSearch ,ItemType itemType) {
+	public ArrayList<String> findProperty(String propertyToFind, String valueToSearch ,ItemType itemType) {
 		return props.findProperty(propertyToFind, valueToSearch, itemType);
 	}
 }
