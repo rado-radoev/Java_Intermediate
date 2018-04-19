@@ -71,7 +71,7 @@ public class Props {
 	/**
 	 * Save Properties
 	 */
-	public boolean saveProperties(Properties properties, ItemType itemType) {
+	private boolean saveProperties(Properties properties, ItemType itemType) {
 		String fileName = itemType.name() + ".properties";
 		
 		try (OutputStream output = new FileOutputStream(fileName)) {
@@ -92,7 +92,7 @@ public class Props {
 	public void addItem(Item item) {
 		Properties property = new Properties();
 		property = loadProperties(item.getItemType());
-		
+
 		property.setProperty(String.valueOf(property.size() + 1), item.toString());
 		saveProperties(property, item.getItemType());
 	}
@@ -100,28 +100,23 @@ public class Props {
 	/**
 	 * Update property
 	 */
-	public void updateProperty(String propertyToUpdate, String oldValueToUpdate, String newValueToUpdate, ItemType itemType) {
-		String propertyValue = findProperty(propertyToUpdate, oldValueToUpdate, itemType);
+	public void updateProperty(String propertyToModify, String attributeToModify ,String oldValueToUpdate, String newValueToUpdate) {
 		
-		if (!propertyValue.equals("no match found")) {
+		ItemType itemType = ItemType.valueOf(propertyToModify.substring(propertyToModify.indexOf("Type: ") + 6));
+		String key = propertyToModify.substring(0, propertyToModify.indexOf(" = "));
+		String newPropValue1 = propertyToModify.substring(propertyToModify.indexOf("Title: "), propertyToModify.indexOf(attributeToModify) + attributeToModify.length() + 2);
+		String newPropValue2 = propertyToModify.substring(newPropValue1.length() + oldValueToUpdate.length());
+		String newPropValueFull = newPropValue1 + newValueToUpdate + newPropValue2;
+		
+		Properties property = new Properties();
+		property = loadProperties(itemType);
+		
+		property.setProperty(key, newPropValueFull);
+		saveProperties(property, itemType);
+		
 			
-			String key = propertyValue.substring(-1, 1);
-			String[] splittedValue = propertyValue.substring(4).split(",");
-			for (String string : splittedValue) {
-				if (string.startsWith(propertyToUpdate) && string.contains(oldValueToUpdate)) {
-					String beg = string.substring(-1, string.indexOf(": "));
-					String newSubs = String.join("", beg, newValueToUpdate);
-				}
-			}
-			
-			
-			//1 = Title: T.N.T,Author: AC/DC,Length: 41.55,Release Date: 12/01/75,Item Type: CD
-			
-			
-			
-			
-			
-		}
+		//1 = Title: T.N.T,Author: AC/DC,Length: 41.55,Release Date: 12/01/75,Item Type: CD
+
 	}
 	
 	
@@ -153,6 +148,7 @@ public class Props {
 		}
 		return String.format("%S", "no match found");
 	}
+		
 }
 
 

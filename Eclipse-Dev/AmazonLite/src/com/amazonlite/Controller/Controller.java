@@ -57,8 +57,8 @@ public class Controller  {
 		model.addItem(item);
 	}
 	
-	public void updateItem() {
-		mode.updateItem();
+	public void updateItem(String propertyToModify, String attributeToModify ,String oldValueToUpdate, String newValueToUpdate) {
+		model.updateProperty(propertyToModify, attributeToModify, oldValueToUpdate, newValueToUpdate);
 	}
 	
 	public String searchItem(String propertyToSearch, String valueToSearch, ItemType itemType) {

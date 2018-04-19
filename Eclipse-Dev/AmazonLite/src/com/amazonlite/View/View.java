@@ -78,16 +78,26 @@ public class View {
 	
 	
 	
-	public int displayUpdateMenu() {
-		int selected = 0;
+	public void displayUpdateMenu() {
+		
+		System.out.println("Find item to update");
+		String itemToUpdate = displaySearchMenu();
 
-		while (selected <= 0 || selected > 1) {
-			System.out.println("Find item to update");
-			String itemToUpdate = displaySearchMenu();
-		}
-		controller.updateItem();
-		return 0;
+		Scanner in = new Scanner(System.in);
+		
+		System.out.printf("%s: %n", "Property to modify");
+		String propertyToUpdate = "Author" /*in.nextLine();*/;
+		
+		System.out.printf("%s: %n", "Old value to update");
+		String oldValueToUpdate = "Bon Jovi" /*in.nextLine();*/;
+		
+		System.out.printf("%s: %n", "New value to update");
+		String newValueToUpdate = "Paul McCarthy"/*in.nextLine();*/;
+		
+		
+		controller.updateItem(itemToUpdate, propertyToUpdate, oldValueToUpdate, newValueToUpdate);
 	}
+	
 
 	public void displayInventory() {
 		controller.displayInventory(getItemType());
@@ -115,7 +125,9 @@ public class View {
 		
 		input.close();
 		
-		return controller.searchItem(propertyToSearch, valueToSearch, getItemType());
+		String res = controller.searchItem(propertyToSearch, valueToSearch, getItemType());
+		System.out.println(res);
+		return res;
 	}
 	
 	public void displayActionMenu() {

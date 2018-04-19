@@ -19,8 +19,8 @@ public class Model {
 		props.addItem(item);
 	}
 	
-	public void updateProperty() {
-		props.updateProperty(propertyToUpdate, oldValueToUpdate, newValueToUpdate, itemType);
+	public void updateProperty(String propertyToModify, String attributeToModify ,String oldValueToUpdate, String newValueToUpdate) {
+		props.updateProperty(propertyToModify, attributeToModify, oldValueToUpdate, newValueToUpdate);
 	}
 	
 	public String findProperty(String propertyToFind, String valueToSearch ,ItemType itemType) {
