@@ -104,6 +104,13 @@ public class View {
 				System.out.printf("%d. Search by: %s%n", i + 1, searchMenus[i]);
 			}
 			selected = input.nextInt();
+			input.nextLine();
+			String propertyToSearch = searchMenus[--selected];
+			
+			System.out.printf("%s: ", propertyToSearch);
+			String valueToSearch = input.nextLine();
+			
+			controller.searchItem(propertyToSearch, valueToSearch, getItemType());
 		}
 		input.close();
 	}
@@ -129,7 +136,7 @@ public class View {
 	}
 	
 	public ItemType getItemType() {
-		return itemType;
+ 		return itemType;
 	}
 
 	public void displayInitialMenu() {

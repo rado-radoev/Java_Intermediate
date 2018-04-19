@@ -59,8 +59,8 @@ public class Controller  {
 		
 	}
 	
-	public void searchItem(Item item) {
-		
+	public void searchItem(String propertyToSearch, String valueToSearch, ItemType itemType) {
+		model.findProperty(propertyToSearch, valueToSearch ,view.getItemType());
 	}
 	
 	public void displayInventory(ItemType itemType) {

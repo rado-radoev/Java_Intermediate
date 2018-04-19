@@ -18,4 +18,8 @@ public class Model {
 	public void addItem( Item item ) {
 		props.addItem(item);
 	}
+	
+	public void findProperty(String propertyToFind, String valueToSearch ,ItemType itemType) {
+		props.findProperty(propertyToFind, valueToSearch, itemType);
+	}
 }

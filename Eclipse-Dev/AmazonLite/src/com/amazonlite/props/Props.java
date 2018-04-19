@@ -109,7 +109,25 @@ public class Props {
 	/**
 	 * Find property
 	 */
-	
+	public void findProperty(String propertyToFind, String valueToSearch ,ItemType itemType) {
+		Properties property = new Properties();
+		property = loadProperties(itemType);
+		
+		Map<String, String> propMap = new HashMap<String, String>();
+		propMap.putAll(property.entrySet().stream()
+				.collect(Collectors.toMap(e -> e.getKey().toString(), e -> e.getValue().toString())));
+		
+		Iterator<Entry<String, String>> propMapIterator = propMap.entrySet().iterator();
+		while (propMapIterator.hasNext()) {
+			Map.Entry<String, String> prop = (Map.Entry<String, String>) propMapIterator.next();
+			String[] splittedValue = prop.getValue().split(",");
+			for (String string : splittedValue) {
+				if (string.startsWith(propertyToFind) && string.contains(valueToSearch)) {
+					System.out.println(prop.getValue());
+				}
+			}
+		}
+	}
 }
 
 

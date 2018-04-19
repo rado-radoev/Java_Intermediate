@@ -87,8 +87,8 @@ public class Item implements ItemActions {
 	
 	@Override
 	public String toString() {
-		return String.format("Title: %s%nAuthor: %s%nLength: %2f%nRelease Date: %tD%nItem Type: %s%n", 
-				title, author, length, releaseDate, itemType);
+		return String.format("Title: %s,Author: %s,Length: %1f,Release Date: %tD,Item Type: %s", 
+				getTitle(), getAuthor(), getLength(), getReleaseDate(), getItemType());
 	}
 
 	@Override

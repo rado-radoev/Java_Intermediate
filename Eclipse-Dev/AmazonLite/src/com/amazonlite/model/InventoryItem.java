@@ -63,7 +63,7 @@ public class InventoryItem {
 
 	@Override
 	public String toString() {
-		return String.format("Title: %s%nAuthor: %s%nLength: %2d%nRelease Date: %tD%nItem Type: %s%n", 
+		return String.format("Title: %s,Author: %s,Length: %1f,Release Date: %tD,Item Type: %s", 
 				getTitle(), getAuthor(), getLength(), getReleaseDate(), getItemType());
 	}
 }
