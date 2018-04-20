@@ -9,12 +9,14 @@ import java.util.Scanner;
 import com.amazonlite.model.ItemType;
 import com.amazonlite.model.Item;
 import com.amazonlite.Controller.Controller;
+import com.amazonlite.model.Model;
 
-public class View {
+public class View implements Observer {
 	
 	private static Controller controller = new Controller(new View());
 	private static ItemType itemType;
 	private Scanner input;
+	private Model model = new Model();
 	
 	public static void main(String[] args) {
 		controller.startMenu();

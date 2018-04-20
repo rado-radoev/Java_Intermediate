@@ -1,5 +1,6 @@
 package com.amazonlite.model;
 
+import com.amazonlite.View.View;
 import com.amazonlite.props.InitializeProperties;
 import com.amazonlite.props.Props;
 
@@ -17,20 +18,27 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
+import java.util.Observable;
+import java.util.Observer;
 
-public class Model {
+
+public class Model extends Observable {
 	
 	private ItemType itemType;
 	private Item item;
 	private Props props = new Props();
-	private static InitializeProperties initProps = new InitializeProperties();; 
+	private static InitializeProperties initProps = new InitializeProperties();
+	private View view = new View();
 	
 	public Model(Item item) {
 		this.item = item;
 		this.itemType = item.getItemType();
+		addObserver(view);
 	}
 
-	public Model() { }
+	public Model() {
+		addObserver(view);
+	}
 	
 	/**
 	 * Display properties
@@ -173,6 +181,10 @@ public class Model {
 		else return false;
 	}
 	
+	// ADDING OBSERVERS: 
+	// https://www.javaworld.com/article/2077258/learn-java/observer-and-observable.html
+	// https://stackoverflow.com/questions/9981171/notifying-the-presenter-that-the-model-has-changed
+
 	
 //	public void addItem( Item item ) {
 //		props.addItem(item);
