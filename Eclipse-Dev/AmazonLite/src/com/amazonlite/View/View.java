@@ -9,7 +9,8 @@ import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
 import com.amazonlite.model.ItemType;
-import com.amazonlite.model.Item;
+import com.amazonlite.model.CD;
+import com.amazonlite.model.InventoryItem;
 import com.amazonlite.Controller.Controller;
 import com.amazonlite.model.Model;
 
@@ -17,11 +18,21 @@ public class View implements Observer {
 	
 	private Controller controller;
 	private ItemType itemType;
+	private InventoryItem item;
 	private Model model;
 	private Scanner input;
 	
+	public View () { }
 	
 	public View (Controller controller) {
+		this.controller = controller;
+	}
+	
+	public Controller getController() {
+		return controller;
+	}
+
+	public void setController(Controller controller) {
 		this.controller = controller;
 	}
 	
@@ -33,6 +44,11 @@ public class View implements Observer {
 		this.model = model;
 	}
 
+	private void createNewInventoryItem(InventoryItem item) {
+		item = new CD();
+		
+		item.getClass().getName().equals(ItemType.CD.toString());
+	}
 
 	/**
 	 * Start method. Entry point for the application.
@@ -55,7 +71,8 @@ public class View implements Observer {
 	}
 	
 	/**
-	 * 
+	 * Item add menu. This method prompts the user for values
+	 * needed to create an object
 	 */
 	public void displayAddMenu() {
 		Item item = null;
@@ -173,6 +190,10 @@ public class View implements Observer {
  		return itemType;
 	}
 
+	/**
+	 * Displays initial menu with inventory items available to select
+	 * Reads the values of an Enum
+	 */
 	public void displayInitialMenu() {
 		int counter = 1;
 		for (ItemType it : ItemType.values()) {

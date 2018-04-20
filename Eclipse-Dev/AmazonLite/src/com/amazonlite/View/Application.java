@@ -9,9 +9,11 @@ public class Application {
 	public static void main(String[] args) {
 		Model model = new Model();
 		Controller controller = new Controller();
-		View view = new View(controller);
-		view.setModel(model);		
+		View view = new View();
 		
+		view.setController(controller);
+		view.setModel(model);		
+		controller.setView(view);
 		model.setView(view);
 		
 		view.start();
