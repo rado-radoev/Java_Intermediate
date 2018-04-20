@@ -13,7 +13,7 @@ public class Controller  {
 	private View view;
 	private ItemType itemType;
 	private Item item;
-	private Model model = new Model();
+	private Model model = new Model(view);
 	private Props props;
 	
 	public Controller(View view) {
@@ -25,6 +25,7 @@ public class Controller  {
 	}
 	
 	public void startMenu() {
+		model.initializeDefaultProperties();
 		view.start();
 	}
 	

@@ -2,7 +2,6 @@ package com.amazonlite.model;
 
 import com.amazonlite.View.View;
 import com.amazonlite.props.InitializeProperties;
-import com.amazonlite.props.Props;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,33 +11,30 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
-import java.util.Observable;
 
-
-
-public class Model extends Observable {
+public class Model{
 	
 	private ItemType itemType;
 	private Item item;
-	private Props props = new Props();
-	private View view = new View();
+	private View view;
 	
-	public Model() {
-		InitializeProperties.init();
-		//addObserver(view);
-	}
+	public Model() { }
+	
+	public Model(View view) {
+		this.view = view;
+	}	
+	
 	
 	public Model(Item item) {
 		this.item = item;
 		this.itemType = item.getItemType();
-		InitializeProperties.init();
-		//addObserver(view);
 	}
 
 	/**
@@ -127,11 +123,6 @@ public class Model extends Observable {
 		saveProperties(property, itemType);
 	}
 	
-	
-	/**
-	 * Delete property
-	 */
-	
 	/**
 	 * Find property
 	 */
@@ -157,17 +148,72 @@ public class Model extends Observable {
 				}
 			}
 		}
-		
-		
+
 		if (res.isEmpty()) {
 			res.add(String.format("%S", "no match found"));
-			notifyObservers();
+			//notifyObservers();
 		}
-
 		return res;
-		
 	}
 	
+	public void initializeDefaultProperties() {
+		InitializeProperties.init();
+	}
+	
+	/**
+	 * Method to create a properties file with dummy data
+	 * @param itemType
+	 */
+	// Replace deprecated Date.parse method
+	@SuppressWarnings("deprecation")
+	public void createDummyProperties(ItemType itemType) {
+		Properties prop = new Properties();
+		
+		String fileName = itemType.name() + ".properties";
+		
+		try (OutputStream output = new FileOutputStream(fileName)) {
+			if (itemType == ItemType.CD) {
+				prop.setProperty("1", 
+						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
+								"T.N.T", "AC/DC", 41.55D, Date.parse("12/01/1975"), itemType.name()));
+				prop.setProperty("2", 
+						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
+								"Let There Be Rock", "AC/DC", 40.19D, Date.parse("03/21/1977"), itemType.name()));
+				prop.setProperty("3", 
+						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
+								"Black Ice", "AC/DC", 55.38D, Date.parse("10/17/2008"), itemType.name()));
+			}
+			else if (itemType == ItemType.DVD) {
+				prop.setProperty("1", 
+						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
+								"The Fellowship of the Ring", "Peter Jackson", 3.28D, Date.parse("12/19/2001"), itemType.name()));
+				prop.setProperty("2", 
+						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
+								"The Two Towers", "Peter Jackson", 3.43D, Date.parse("12/18/2002"), itemType.name()));
+				prop.setProperty("3", 
+						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
+								"The Return of the King", "Peter Jackson", 4.12D, Date.parse("12/17/2003"), itemType.name()));
+			}
+			else if (itemType == ItemType.BOOK) {
+				prop.setProperty("1", 
+						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
+								"The Philosopher's Stone", "J. K. Rowling", 329D, Date.parse("09/01/1997"), itemType.name()));
+				prop.setProperty("2", 
+						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
+								"The Chamber of Secrets", "J. K. Rowling", 341D, Date.parse("06/02/1998"), itemType.name()));
+				prop.setProperty("3", 
+						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
+								"The Prisoner of Azkaban", "J. K. Rowling", 435D, Date.parse("09/08/1999"), itemType.name()));
+			}
+			
+			prop.store(output, null);
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	
 	/**
