@@ -1,49 +1,35 @@
 package com.amazonlite.props;
 
-import java.io.File;
-import java.io.FileInputStream;
+
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.Properties;
-import java.util.stream.Collectors;
 import java.io.OutputStream;
 
 import com.amazonlite.model.ItemType;
+import com.amazonlite.model.Model;
 
 public class InitializeProperties {
 	
-	public static void main(String[] args) {
+	private Model model;
+	
+	public InitializeProperties() {
+		model = new Model();
 		
 		InitializeProperties initProps = new InitializeProperties();
-		initProps.initializeDefaultProperites(ItemType.CD);
-		initProps.initializeDefaultProperites(ItemType.DVD);
-		initProps.initializeDefaultProperites(ItemType.BOOK);
+		for (ItemType itemType : ItemType.values()) {
+			initProps.initializeDefaultProperites(itemType);
+		}	
 	}
 
 	private void initializeDefaultProperites(ItemType itemType) {
-		if (checkPropertiesFileExists(itemType)) { 
-			readProperties(loadProperties(itemType));
+		if (model.checkPropertiesFileExists(itemType)) { 
+			model.displayProperties(model.loadProperties(itemType));
 		}
 		else {
 			createDummyProperties(itemType);
-		}
-	}
-	
-	private void readProperties(Properties prop) {
-		Map<String, String> map = new HashMap();
-		map.putAll(prop.entrySet().stream()
-                .collect(Collectors.toMap(e -> e.getKey().toString(), e -> e.getValue().toString())));
-		
-		Iterator mapIterator = map.entrySet().iterator();
-		while (mapIterator.hasNext()) {
-			Map.Entry pair = (Map.Entry) mapIterator.next();
-			System.out.println(pair.getKey() + " = " + pair.getValue());
 		}
 	}
 	
@@ -94,42 +80,5 @@ public class InitializeProperties {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	/**
-	 * Method to return list of properties
-	 * @param itemType the property type to load
-	 * @return the Properties in the file or null
-	 */
-	private Properties loadProperties(ItemType itemType) {
-		String fileName = itemType.name() + ".properties";
-		
-		Properties prop = new Properties();
-		
-		try (InputStream input = new FileInputStream(fileName)) {
-			
-			// load properties file
-			prop.load(input);
-			
-			return prop;
-			
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		
-		return null;
-	}
-
-	/**
-	 * Method to check if properties file exists
-	 * @param itemType the item type to check for
-	 * @return boolean if file exists or not
-	 */
-	private boolean checkPropertiesFileExists(ItemType itemType) {
-		if (new File(itemType.name() + ".properties").exists()) return true;
-		else return false;
 	}
 }
