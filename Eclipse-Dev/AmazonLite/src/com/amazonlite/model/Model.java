@@ -19,7 +19,7 @@ import java.util.Properties;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.Observable;
-import java.util.Observer;
+
 
 
 public class Model extends Observable {
@@ -27,19 +27,20 @@ public class Model extends Observable {
 	private ItemType itemType;
 	private Item item;
 	private Props props = new Props();
-	private static InitializeProperties initProps = new InitializeProperties();
 	private View view = new View();
+	
+	public Model() {
+		InitializeProperties.init();
+		//addObserver(view);
+	}
 	
 	public Model(Item item) {
 		this.item = item;
 		this.itemType = item.getItemType();
-		addObserver(view);
+		InitializeProperties.init();
+		//addObserver(view);
 	}
 
-	public Model() {
-		addObserver(view);
-	}
-	
 	/**
 	 * Display properties
 	 */
@@ -124,10 +125,6 @@ public class Model extends Observable {
 		
 		property.setProperty(key, newPropValueFull.substring(newPropValueFull.indexOf("Title: ")));
 		saveProperties(property, itemType);
-		
-			
-		//1 = Title: T.N.T,Author: AC/DC,Length: 41.55,Release Date: 12/01/75,Item Type: CD
-
 	}
 	
 	
@@ -164,12 +161,14 @@ public class Model extends Observable {
 		
 		if (res.isEmpty()) {
 			res.add(String.format("%S", "no match found"));
+			notifyObservers();
 		}
 
 		return res;
 		
 	}
 	
+
 	
 	/**
 	 * Method to check if properties file exists
@@ -184,6 +183,7 @@ public class Model extends Observable {
 	// ADDING OBSERVERS: 
 	// https://www.javaworld.com/article/2077258/learn-java/observer-and-observable.html
 	// https://stackoverflow.com/questions/9981171/notifying-the-presenter-that-the-model-has-changed
+	// https://dzone.com/articles/observer-pattern-java
 
 	
 //	public void addItem( Item item ) {

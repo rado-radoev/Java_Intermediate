@@ -2,6 +2,8 @@ package com.amazonlite.View;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Observable;
+import java.util.Observer;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
@@ -166,5 +168,13 @@ public class View implements Observer {
 			counter++;
 		}
 		System.out.println();
+	}
+
+	@Override
+	public void update(Observable obs, Object obj) {
+		if (obs == model) {
+			//System.out.println("Observable get value: " + model.addItem(item););
+		}
+		
 	}
 }

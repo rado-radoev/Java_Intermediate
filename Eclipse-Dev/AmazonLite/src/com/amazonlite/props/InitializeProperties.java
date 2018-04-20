@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Properties;
 import java.io.OutputStream;
+import java.text.DateFormat;
 
 import com.amazonlite.model.ItemType;
 import com.amazonlite.model.Model;
@@ -17,13 +18,22 @@ public class InitializeProperties {
 	
 	public InitializeProperties() {
 		model = new Model();
-		
+	}
+
+	/**
+	 * Initialization method that creates default properties files if they are missing
+	 */
+	public static void init() {
 		InitializeProperties initProps = new InitializeProperties();
 		for (ItemType itemType : ItemType.values()) {
 			initProps.initializeDefaultProperites(itemType);
-		}	
+		}
 	}
 
+	/**
+	 * Method to initialize default property files if they are missing
+	 * @param itemType ItemType to be used when initializing properties files
+	 */
 	private void initializeDefaultProperites(ItemType itemType) {
 		if (model.checkPropertiesFileExists(itemType)) { 
 			model.displayProperties(model.loadProperties(itemType));
@@ -33,6 +43,12 @@ public class InitializeProperties {
 		}
 	}
 	
+	/**
+	 * Method to create a properties file with dummy data
+	 * @param itemType
+	 */
+	// Replace deprecated Date.parse method
+	@SuppressWarnings("deprecation")
 	private void createDummyProperties(ItemType itemType) {
 		Properties prop = new Properties();
 		
