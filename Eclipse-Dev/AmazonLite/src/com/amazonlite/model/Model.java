@@ -17,13 +17,16 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Map.Entry;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.stream.Collectors;
 
-public class Model{
+public class Model extends Observable {
 	
 	private ItemType itemType;
 	private Item item;
 	private View view;
+	private ArrayList<Observer> views = new ArrayList<Observer>();
 	
 	public Model() { }
 	
@@ -31,11 +34,24 @@ public class Model{
 		this.view = view;
 	}	
 	
-	
 	public Model(Item item) {
 		this.item = item;
 		this.itemType = item.getItemType();
 	}
+	
+	public View getView() {
+		return view;
+	}
+
+	public void setView(View view) {
+		this.view = view;
+	}
+
+	@Override
+	public synchronized void addObserver(Observer o) {
+		views.add(o);
+	}
+	
 
 	/**
 	 * Display properties
@@ -50,6 +66,9 @@ public class Model{
 			Map.Entry<String, String> property = (Map.Entry<String, String>) propMapIterator.next();
 			System.out.println(property.getKey() + " = " + property.getValue());
 		}
+		
+		setChanged();
+		notifyObservers(true);
 	}
 	
 	
@@ -103,6 +122,9 @@ public class Model{
 
 		property.setProperty(String.valueOf(property.size() + 1), item.toString());
 		saveProperties(property, item.getItemType());
+		
+		setChanged();
+		notifyObservers(true);
 	}
 	
 	/**
@@ -225,6 +247,7 @@ public class Model{
 		if (new File(itemType.name() + ".properties").exists()) return true;
 		else return false;
 	}
+	
 	
 	// ADDING OBSERVERS: 
 	// https://www.javaworld.com/article/2077258/learn-java/observer-and-observable.html

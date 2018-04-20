@@ -7,6 +7,7 @@ import com.amazonlite.model.Model;
 import com.amazonlite.props.Props;
 
 import java.util.ArrayList;
+import java.util.Observer;
 
 public class Controller  {
 	
@@ -16,8 +17,14 @@ public class Controller  {
 	private Model model = new Model(view);
 	private Props props;
 	
+	public Controller() { }
+	
 	public Controller(View view) {
 		this.view = view;
+	}
+	
+	public void addObserver() {
+		model.addObserver(view);
 	}
 	
 	public void setSelectedItem(int selectedItem) {
@@ -69,7 +76,6 @@ public class Controller  {
 	}
 	
 	public void displayInventory(ItemType itemType) {
-		props = new Props();
-		props.displayProperties(props.loadProperties(itemType));
+		model.displayProperties(model.loadProperties(itemType));
 	}
 }

@@ -4,7 +4,7 @@ import java.util.Date;
 
 import com.amazonlite.interfaces.ItemActions;
 
-public class Item implements ItemActions {
+public class Item {
 	
 	private String title;
 	private String author;
@@ -91,27 +91,4 @@ public class Item implements ItemActions {
 				getTitle(), getAuthor(), getLength(), getReleaseDate(), getItemType());
 	}
 
-	@Override
-	public boolean updateItem(Item item) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean addItem(Item item) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public Item searchItem(Item item) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void displayItem(Item item) {
-		// TODO Auto-generated method stub
-		
-	}
 }

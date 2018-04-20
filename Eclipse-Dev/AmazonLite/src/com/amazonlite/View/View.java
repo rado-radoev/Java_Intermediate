@@ -2,6 +2,7 @@ package com.amazonlite.View;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Observable;
 import java.util.Observer;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,24 +13,36 @@ import com.amazonlite.model.Item;
 import com.amazonlite.Controller.Controller;
 import com.amazonlite.model.Model;
 
-public class View {
+public class View implements Observer {
 	
-	private static Controller controller = new Controller(new View());
-	private static ItemType itemType;
+	private Controller controller;
+	private ItemType itemType;
+	private Model model;
 	private Scanner input;
-	private Model model = new Model(this);
 	
-	public static void main(String[] args) {
-		controller.startMenu();
+	
+	public View (Controller controller) {
+		this.controller = controller;
 	}
 	
+	public Model getModel() {
+		return model;
+	}
+
+	public void setModel(Model model) {
+		this.model = model;
+	}
+
+
 	/**
 	 * Start method. Entry point for the application.
+	 * Displays a menu with all product categories
 	 */
 	public void start() {
-		System.out.println("Select an item type");
-		displayInitialMenu();
 		int selected = 0;
+		System.out.println("Select an item type");
+
+		displayInitialMenu();
 		input = new Scanner(System.in);
 		
 		while (selected <= 0 || selected > ItemType.values().length) {
@@ -169,11 +182,12 @@ public class View {
 		System.out.println();
 	}
 
-//	@Override
-//	public void update(Observable obs, Object obj) {
-//		if (obs == model) {
-//			//System.out.println("Observable get value: " + model.addItem(item););
-//		}
-//		
-//	}
+	@Override
+	public void update(Observable obs, Object arg1) {
+		if (obs == model) {
+			System.out.println("Update called with Arguments: "+arg1);
+		}
+		
+	}
+
 }
