@@ -5,6 +5,7 @@ import com.amazonlite.model.ItemType;
 import com.amazonlite.View.View;
 import com.amazonlite.model.Model;
 import com.amazonlite.props.Props;
+import com.amazonlite.model.InventoryItem;
 
 import java.util.ArrayList;
 import java.util.Observer;
@@ -14,7 +15,7 @@ public class Controller  {
 	private View view;
 	private ItemType itemType;
 	private Item item;
-	private Model model = new Model(view);
+	private Model model;
 	private Props props;
 	
 	public Controller() { }
@@ -31,8 +32,20 @@ public class Controller  {
 		this.view = view;
 	}
 	
+	public Model getModel() {
+		return model;
+	}
+
+	public void setModel(Model model) {
+		this.model = model;
+	}
+
 	public void addObserver() {
 		model.addObserver(view);
+	}
+	
+	public void createNewInventoryItem(ItemType itemType) {
+		model.createNewInventoryItem(itemType);
 	}
 	
 	public void setSelectedItem(int selectedItem) {
@@ -71,7 +84,7 @@ public class Controller  {
 		}
 	}
 	
-	public void addItem(Item item) {
+	public void addItem(InventoryItem item) {
 		model.addItem(item);
 	}
 	

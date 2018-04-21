@@ -52,6 +52,21 @@ public class Model extends Observable {
 		views.add(o);
 	}
 	
+	/**
+	 * Method to create new Inventory Item object
+	 * based on the enum object selected
+	 * @param itemType the enum object selected
+	 */
+	public void createNewInventoryItem(ItemType itemType) {
+		if (itemType.name().equals("CD")) {
+			view.setInventoryItem(new CD());
+		} else if (itemType.name().equals("DVD")) {
+			view.setInventoryItem(new DVD());
+		} else {
+			view.setInventoryItem(new Book());
+		}
+	}
+	
 
 	/**
 	 * Display properties
@@ -116,7 +131,7 @@ public class Model extends Observable {
 	/**
 	 * Add property
 	 */
-	public void addItem(Item item) {
+	public void addItem(InventoryItem item) {
 		Properties property = new Properties();
 		property = loadProperties(item.getItemType());
 

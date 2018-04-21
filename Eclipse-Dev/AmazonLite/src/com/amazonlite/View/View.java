@@ -9,8 +9,11 @@ import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
 import com.amazonlite.model.ItemType;
+import com.amazonlite.model.Book;
 import com.amazonlite.model.CD;
+import com.amazonlite.model.DVD;
 import com.amazonlite.model.InventoryItem;
+import com.amazonlite.model.Item;
 import com.amazonlite.Controller.Controller;
 import com.amazonlite.model.Model;
 
@@ -44,11 +47,14 @@ public class View implements Observer {
 		this.model = model;
 	}
 
-	private void createNewInventoryItem(InventoryItem item) {
-		item = new CD();
-		
-		item.getClass().getName().equals(ItemType.CD.toString());
+	public InventoryItem getItem() {
+		return item;
 	}
+	
+	public void setInventoryItem(InventoryItem item) {
+		this.item = item;
+	}
+
 
 	/**
 	 * Start method. Entry point for the application.
@@ -66,7 +72,11 @@ public class View implements Observer {
 			selected = input.nextInt();
 		}
 		
+		// This gets the item type from the enum
 		controller.setSelectedItem(Integer.valueOf(selected - 1));
+		// This creates an object based on the selected enum
+		controller.createNewInventoryItem(getItemType());
+		// This displays the item action menu
 		controller.displayActionMenu();
 	}
 	
@@ -75,36 +85,54 @@ public class View implements Observer {
 	 * needed to create an object
 	 */
 	public void displayAddMenu() {
-		Item item = null;
+		InventoryItem item = getItem();
+		
 		input = new Scanner(System.in);
 		
 		System.out.println("Add Title: ");
 		String title = input.nextLine();
+		item.setTitle(title);
 		
 		System.out.println("Add Author: ");
 		String author = input.nextLine();
+		item.setAuthor(author);
 		
 		System.out.println("Add Release Date (mm/dd/yyyy): ");
 		String dateInput = input.nextLine();
 		Date date = null;
 		try {
 			date = new SimpleDateFormat("MM/dd/yyyy").parse(dateInput);
+			item.setReleaseDate(date);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 		
 		System.out.println("Add Length: ");
 		double length = input.nextDouble();
+		item.setLength(length);	
 		
-		item = Item.Builder
-				.build()
-				.title(title)
-				.author(author)
-				.releaseDate(date)
-				.lenght(length)
-				.itemType(getItemType())
-				.get();
-	
+		input.nextLine();
+		
+		// Add additional property depending on the type of item
+		if (item instanceof CD) {
+			System.out.println("Add hit single: ");
+			String hitSingle = input.nextLine();
+			((CD) item).setHitSingle(hitSingle);
+			item.setItemType(ItemType.CD);
+		} else if (item instanceof DVD) {
+			System.out.println("Add bonus scenes (yes/no): ");
+			String in = input.nextLine();
+			boolean bonusScenes = (in.toLowerCase() == "yes" ? true : false);
+			((DVD) item).setBonusScenes(bonusScenes);
+			item.setItemType(ItemType.DVD);
+		} else {
+			System.out.println("Add publisher: ");
+			String publisher = input.nextLine();
+			((Book) item).setPublisher(publisher);
+			item.setItemType(ItemType.BOOK);
+		}
+
+		// Add item to the properties file
 		controller.addItem(item);
 	}
 	

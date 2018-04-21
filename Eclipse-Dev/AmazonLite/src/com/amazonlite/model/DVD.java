@@ -18,17 +18,17 @@ public class DVD extends InventoryItem {
 		return instance;
 	}
 
-	public Boolean getBonusScenes() {
+	public boolean getBonusScenes() {
 		return bonusScenes;
 	}
 
-	public void setBonusScenes(Boolean bonusScenes) {
+	public void setBonusScenes(boolean bonusScenes) {
 		this.bonusScenes = bonusScenes;
 	}
 	
 	@Override
 	public String toString() {
-		return String.format("Title: %s, Author: %s, Length: %1f, Bonus Scenes: %s ,Release Date: %tD", 
+		return String.format("Title: %s, Author: %s, Length: %.1f, Bonus Scenes: %s ,Release Date: %tD", 
 				getTitle(),
 				getAuthor(),
 				getLength(),

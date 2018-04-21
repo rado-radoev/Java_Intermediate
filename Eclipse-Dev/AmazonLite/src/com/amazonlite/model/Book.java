@@ -28,7 +28,7 @@ public class Book extends InventoryItem {
 	
 	@Override
 	public String toString() {
-		return String.format("Title: %s, Author: %s, Length: %0f, Publisher: %s ,Release Date: %tD", 
+		return String.format("Title: %s, Author: %s, Length: %.0f, Publisher: %s ,Release Date: %tD", 
 				getTitle(),
 				getAuthor(),
 				getLength(),
