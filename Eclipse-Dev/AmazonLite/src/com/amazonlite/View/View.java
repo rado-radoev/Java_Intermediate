@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
+import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
@@ -136,8 +137,9 @@ public class View implements Observer {
 		controller.addItem(item);
 	}
 	
-	
-	
+	/**
+	 * Method that displays the update menu
+	 */
 	public void displayUpdateMenu() {
 		
 		System.out.println("Find item to update");
@@ -166,22 +168,38 @@ public class View implements Observer {
 		controller.displayInventory(getItemType());
 	}
 	
+	private ArrayList<String> showFields(Object o) {
+		   Class<?> clazz = o.getClass();
+		   ArrayList<String> fields = new ArrayList<String>();
+		   
+		   for(Field field : clazz.getDeclaredFields()) {
+			   if (!java.lang.reflect.Modifier.isStatic(field.getModifiers())) {
+				   fields.add(field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1));
+			   }
+		   }
+		   
+		   return fields;
+		}
 	
 	public ArrayList<String> displaySearchMenu() {
 		int selected = 0;
-		String[] searchMenus = {"Author", "Title", "Release Date", "Length"};
+	
+		ArrayList<String> searchMenus = new ArrayList<String>();
+		searchMenus.addAll(showFields(new InventoryItem()));
+		searchMenus.addAll(showFields(getItem()));
+		
 		input = new Scanner(System.in);
 		
-		while (selected <= 0 || selected > searchMenus.length) {
-			for (int i = 0; i < searchMenus.length; i++) {
-				System.out.printf("%d. Search by: %s%n", i + 1, searchMenus[i]);
+		while (selected <= 0 || selected > searchMenus.size()) {
+			for (int i = 0; i < searchMenus.size(); i++) {
+				System.out.printf("%d. Search by: %s%n", i + 1, searchMenus.get(i));
 			}
 			selected = input.nextInt();		
 		}
 		
 		input.nextLine();
 		
-		String propertyToSearch = searchMenus[--selected];
+		String propertyToSearch = searchMenus.get(--selected);
 		
 		System.out.printf("%s: ", propertyToSearch);
 		String valueToSearch = input.nextLine();
