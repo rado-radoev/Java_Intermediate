@@ -86,13 +86,7 @@ public class Model extends Observable {
 		notifyObservers(true);
 	}
 	
-	
-	/**
-	 * Load Properties
-	 */
-	public Properties loadProperties(ItemType itemType) {
-		String fileName = itemType.name() + ".properties";
-		
+	private Properties readProps(String fileName) {
 		Properties props = new Properties();
 		
 		try (InputStream input = new FileInputStream(fileName)) {
@@ -109,6 +103,21 @@ public class Model extends Observable {
 		return null;
 	}
 	
+	/**
+	 * Load Properties
+	 */
+	public Properties loadProperties(InventoryItem item) {
+		String fileName = item.getClass().getCanonicalName().substring(item.getClass().getCanonicalName().lastIndexOf(".") + 1) + ".properties";
+		
+		return readProps(fileName);
+	}
+	
+	
+	public Properties loadProperties(ItemType itemType) {
+		String fileName = itemType.name() + ".properties";
+		
+		return readProps(fileName);
+	}
 	
 	/**
 	 * Save Properties
@@ -133,7 +142,7 @@ public class Model extends Observable {
 	 */
 	public void addItem(InventoryItem item) {
 		Properties property = new Properties();
-		property = loadProperties(item.getItemType());
+		property = loadProperties(item);
 
 		property.setProperty(String.valueOf(property.size() + 1), item.toString());
 		saveProperties(property, item.getItemType());
@@ -179,7 +188,8 @@ public class Model extends Observable {
 			Map.Entry<String, String> prop = (Map.Entry<String, String>) propMapIterator.next();
 			String[] splittedValue = prop.getValue().split(",");
 			for (String string : splittedValue) {
-				if (string.startsWith(propertyToFind) && string.contains(valueToSearch)) {
+				if (string.toLowerCase().startsWith(propertyToFind.toLowerCase()) 
+						&& string.toLowerCase().contains(valueToSearch.toLowerCase())) {
 //					System.out.println(prop.getValue());
 					res.add(String.format("%s = %s", prop.getKey(), prop.getValue()));
 				}
@@ -268,17 +278,4 @@ public class Model extends Observable {
 	// https://www.javaworld.com/article/2077258/learn-java/observer-and-observable.html
 	// https://stackoverflow.com/questions/9981171/notifying-the-presenter-that-the-model-has-changed
 	// https://dzone.com/articles/observer-pattern-java
-
-	
-//	public void addItem( Item item ) {
-//		props.addItem(item);
-//	}
-//	
-//	public void updateProperty(String propertyToModify, String attributeToModify ,String oldValueToUpdate, String newValueToUpdate) {
-//		props.updateProperty(propertyToModify, attributeToModify, oldValueToUpdate, newValueToUpdate);
-//	}
-//	
-//	public ArrayList<String> findProperty(String propertyToFind, String valueToSearch ,ItemType itemType) {
-//		return props.findProperty(propertyToFind, valueToSearch, itemType);
-//	}
 }

@@ -96,7 +96,7 @@ public class Controller  {
 		return model.findProperty(propertyToSearch, valueToSearch, view.getItemType());
 	}
 	
-	public void displayInventory(ItemType itemType) {
-		model.displayProperties(model.loadProperties(itemType));
+	public void displayInventory(InventoryItem item) {
+		model.displayProperties(model.loadProperties(item));
 	}
 }

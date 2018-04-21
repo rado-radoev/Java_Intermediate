@@ -56,6 +56,13 @@ public class View implements Observer {
 		this.item = item;
 	}
 
+	public void setItemType(int selectedMenu) {
+		itemType = ItemType.values()[selectedMenu];
+	}
+	
+	public ItemType getItemType() {
+ 		return itemType;
+	}
 
 	/**
 	 * Start method. Entry point for the application.
@@ -163,27 +170,38 @@ public class View implements Observer {
 		
 	}
 	
-
+	/**
+	 * Method to display the inventory for specific item
+	 */
 	public void displayInventory() {
-		controller.displayInventory(getItemType());
+		controller.displayInventory(getItem());
 	}
 	
+	/**
+	 * Method to return list of object attributes
+	 * @param o the object which attributes to return
+	 * @return ArrayList<String> of attribute names
+	 */
 	private ArrayList<String> showFields(Object o) {
-		   Class<?> clazz = o.getClass();
-		   ArrayList<String> fields = new ArrayList<String>();
-		   
-		   for(Field field : clazz.getDeclaredFields()) {
-			   if (!java.lang.reflect.Modifier.isStatic(field.getModifiers())) {
-				   fields.add(field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1));
-			   }
+	   Class<?> clazz = o.getClass();
+	   ArrayList<String> fields = new ArrayList<String>();
+	   
+	   for(Field field : clazz.getDeclaredFields()) {
+		   if (!java.lang.reflect.Modifier.isStatic(field.getModifiers())) {
+			   fields.add(field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1));
 		   }
-		   
-		   return fields;
-		}
+	   }
+	   return fields;
+	}
 	
+	/**
+	 * Method to search property files for matching entries
+	 * @return ArrayList<String> of all search matches found
+	 */
 	public ArrayList<String> displaySearchMenu() {
 		int selected = 0;
 	
+		// Get all attributes of the current object and the superclass
 		ArrayList<String> searchMenus = new ArrayList<String>();
 		searchMenus.addAll(showFields(new InventoryItem()));
 		searchMenus.addAll(showFields(getItem()));
@@ -197,6 +215,7 @@ public class View implements Observer {
 			selected = input.nextInt();		
 		}
 		
+		// Dummy advance to next line
 		input.nextLine();
 		
 		String propertyToSearch = searchMenus.get(--selected);
@@ -204,15 +223,17 @@ public class View implements Observer {
 		System.out.printf("%s: ", propertyToSearch);
 		String valueToSearch = input.nextLine();
 
-		
+		// Search the properties file for matches and print to screen
 		ArrayList<String> res = controller.searchItem(propertyToSearch, valueToSearch, getItemType());
 		for (String str : res) {
 			System.out.println(str);
 		}
-		
 		return res;
 	}
 	
+	/**
+	 * Method that displays a menu with actions to perform on an item
+	 */
 	public void displayActionMenu() {
 		int selected = 0;
 		String[] actionMenus = {"Add", "Update", "Search", "Display"};
@@ -228,14 +249,6 @@ public class View implements Observer {
 		controller.selectActionMenu(selected);
 	}
 	
-	public void setItemType(int selectedMenu) {
-		itemType = ItemType.values()[selectedMenu];
-	}
-	
-	public ItemType getItemType() {
- 		return itemType;
-	}
-
 	/**
 	 * Displays initial menu with inventory items available to select
 	 * Reads the values of an Enum
