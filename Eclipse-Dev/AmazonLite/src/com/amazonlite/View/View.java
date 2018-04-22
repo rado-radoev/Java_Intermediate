@@ -121,7 +121,7 @@ public class View implements Observer {
 		
 		input.nextLine();
 		
-		// Add additional property depending on the type of item
+		// Add an additional property depending on the type of item
 		if (item instanceof CD) {
 			System.out.println("Add hit single: ");
 			String hitSingle = input.nextLine();

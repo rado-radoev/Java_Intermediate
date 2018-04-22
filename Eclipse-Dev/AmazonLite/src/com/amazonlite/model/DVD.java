@@ -26,6 +26,10 @@ public class DVD extends InventoryItem {
 		this.bonusScenes = bonusScenes;
 	}
 	
+	public void removeInstance() {
+		instance--;
+	}
+	
 	@Override
 	public String toString() {
 		return String.format("Title: %s, Author: %s, Length: %.1f, Bonus Scenes: %s ,Release Date: %tD", 

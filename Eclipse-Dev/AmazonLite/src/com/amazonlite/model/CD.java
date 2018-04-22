@@ -21,6 +21,10 @@ public class CD extends InventoryItem {
 	public String getHitSingle() {
 		return hitSingle;
 	}
+	
+	public void removeInstance() {
+		instance--;
+	}
 
 	public void setHitSingle(String hitSingle) {
 		this.hitSingle = hitSingle;

@@ -26,6 +26,10 @@ public class Book extends InventoryItem {
 		this.publisher = publisher;
 	}
 	
+	public void removeInstance() {
+		instance--;
+	}
+	
 	@Override
 	public String toString() {
 		return String.format("Title: %s, Author: %s, Length: %.0f, Publisher: %s ,Release Date: %tD", 

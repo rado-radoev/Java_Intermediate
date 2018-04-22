@@ -54,7 +54,7 @@ public class Model extends Observable {
 	
 	/**
 	 * Method to create new Inventory Item object
-	 * based on the enum object selected
+	 * based on the selected enum
 	 * @param itemType the enum object selected
 	 */
 	public void createNewInventoryItem(ItemType itemType) {
@@ -69,7 +69,9 @@ public class Model extends Observable {
 	
 
 	/**
-	 * Display properties
+	 * Method to read a Properites argument and display all 
+	 * properties in the comamnd line
+	 * @param prop the properties to display
 	 */
 	public void displayProperties(Properties prop) {
 		Map<String, String> propMap = new HashMap<String, String>();
@@ -86,25 +88,30 @@ public class Model extends Observable {
 		notifyObservers(true);
 	}
 	
+	/**
+	 * Helper method that reads all properties from a properties file
+	 * @param fileName the name of the properties file to read
+	 * @return Properties object or null if no properties are loaded or file is missing
+	 */
 	private Properties readProps(String fileName) {
 		Properties props = new Properties();
 		
 		try (InputStream input = new FileInputStream(fileName)) {
 			// load properties file
 			props.load(input);
-			
 			return props;
 		} catch (FileNotFoundException fnfe) {
 			fnfe.printStackTrace();
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
-		
 		return null;
 	}
 	
 	/**
-	 * Load Properties
+	 * Method that loads properties
+	 * @param item InventoryItem object to load properties from file
+	 * @return Properties object containing all properties from InventoryItem's properties file
 	 */
 	public Properties loadProperties(InventoryItem item) {
 		String fileName = item.getClass().getCanonicalName().substring(item.getClass().getCanonicalName().lastIndexOf(".") + 1) + ".properties";
@@ -112,7 +119,11 @@ public class Model extends Observable {
 		return readProps(fileName);
 	}
 	
-	
+	/**
+	 * Method that loads properties
+	 * @param itemType ItemType Enum to load properties from file
+	 * @return Properties object containing all properties from InventoryItem's properties file
+	 */
 	public Properties loadProperties(ItemType itemType) {
 		String fileName = itemType.name() + ".properties";
 		
@@ -120,7 +131,10 @@ public class Model extends Observable {
 	}
 	
 	/**
-	 * Save Properties
+	 * Method that saves Properties to file
+	 * @param properties Properties object to save
+	 * @param itemType Type of item to save properties for
+	 * @return true if file is saved successfully and false if file save was unsuccessful
 	 */
 	private boolean saveProperties(Properties properties, ItemType itemType) {
 		String fileName = itemType.name() + ".properties";
@@ -138,7 +152,8 @@ public class Model extends Observable {
 	}
 	
 	/**
-	 * Add property
+	 * Method to add item to properties file
+	 * @param item item to add
 	 */
 	public void addItem(InventoryItem item) {
 		Properties property = new Properties();
@@ -150,9 +165,13 @@ public class Model extends Observable {
 		setChanged();
 		notifyObservers(true);
 	}
-	
+
 	/**
-	 * Update property
+	 * Method to update property value
+	 * @param propertyToModify Id of the property to modify
+	 * @param attributeToModify Name of attribute to modify
+	 * @param oldValueToUpdate old value to be modified
+	 * @param newValueToUpdate new value to replace old value
 	 */
 	public void updateProperty(String propertyToModify, String attributeToModify ,String oldValueToUpdate, String newValueToUpdate) {
 		
@@ -170,7 +189,11 @@ public class Model extends Observable {
 	}
 	
 	/**
-	 * Find property
+	 * Method to find a property
+	 * @param propertyToFind Name of property to find
+	 * @param valueToSearch value to search for in property
+	 * @param itemType type of item to search for
+	 * @return ArrayList of Strings represeinting every property that matches the search
 	 */
 	public ArrayList<String> findProperty(String propertyToFind, String valueToSearch ,ItemType itemType) {
 
@@ -203,13 +226,16 @@ public class Model extends Observable {
 		return res;
 	}
 	
+	/**
+	 * Method to initialize default properties if none are existing
+	 */
 	public void initializeDefaultProperties() {
 		InitializeProperties.init();
 	}
 	
 	/**
 	 * Method to create a properties file with dummy data
-	 * @param itemType
+	 * @param itemType type of item to generate property for
 	 */
 	// Replace deprecated Date.parse method
 	@SuppressWarnings("deprecation")
