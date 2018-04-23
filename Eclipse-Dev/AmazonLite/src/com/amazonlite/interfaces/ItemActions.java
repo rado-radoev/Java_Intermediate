@@ -1,11 +1,15 @@
 package com.amazonlite.interfaces;
 
-import com.amazonlite.model.Item;
+import java.util.ArrayList;
+import java.util.Properties;
+
+import com.amazonlite.model.InventoryItem;
+import com.amazonlite.model.ItemType;
 
 public interface ItemActions {
 
-	public boolean updateItem(Item item);
-	public boolean addItem(Item item);
-	public Item searchItem(Item item);
-	public void displayItem(Item item);
+	public void updateProperty(String propertyToModify, String attributeToModify ,String oldValueToUpdate, String newValueToUpdate);
+	public void addItem(InventoryItem item);
+	public ArrayList<String> findProperty(String propertyToFind, String valueToSearch ,ItemType itemType);
+	public void displayProperties(Properties prop);
 }

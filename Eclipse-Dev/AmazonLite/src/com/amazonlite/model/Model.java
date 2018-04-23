@@ -1,6 +1,7 @@
 package com.amazonlite.model;
 
 import com.amazonlite.View.View;
+import com.amazonlite.interfaces.ItemActions;
 import com.amazonlite.props.InitializeProperties;
 
 import java.io.File;
@@ -21,7 +22,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.stream.Collectors;
 
-public class Model extends Observable {
+public class Model extends Observable implements ItemActions {
 	
 	private ItemType itemType;
 	private Item item;
