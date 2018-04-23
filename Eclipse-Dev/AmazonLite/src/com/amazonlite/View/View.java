@@ -63,6 +63,16 @@ public class View implements Observer {
 	public ItemType getItemType() {
  		return itemType;
 	}
+	
+	public void displayOnScreen(String str) {
+		System.out.println(str);
+	}
+	
+	public void displayOnScreen(ArrayList<String> objToDisplay) {
+		for (String str : objToDisplay) {
+			displayOnScreen(str);
+		}
+	}
 
 	/**
 	 * Start method. Entry point for the application.

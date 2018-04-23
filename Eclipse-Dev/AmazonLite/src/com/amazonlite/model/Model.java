@@ -82,7 +82,8 @@ public class Model extends Observable implements ItemActions {
 		Iterator<Entry<String, String>> propMapIterator = propMap.entrySet().iterator();
 		while (propMapIterator.hasNext()) {
 			Map.Entry<String, String> property = (Map.Entry<String, String>) propMapIterator.next();
-			System.out.println(property.getKey() + " = " + property.getValue());
+			view.displayOnScreen(property.getKey() + " = " + property.getValue());
+			//System.out.println(property.getKey() + " = " + property.getValue());
 		}
 		
 		setChanged();
