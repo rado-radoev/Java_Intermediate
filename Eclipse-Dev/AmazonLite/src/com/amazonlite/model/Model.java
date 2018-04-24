@@ -2,6 +2,7 @@ package com.amazonlite.model;
 
 import com.amazonlite.View.View;
 import com.amazonlite.interfaces.ItemActions;
+import com.amazonlite.interfaces.Observable;
 import com.amazonlite.props.InitializeProperties;
 
 import java.io.File;
@@ -18,11 +19,10 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Map.Entry;
-import java.util.Observable;
 import java.util.Observer;
 import java.util.stream.Collectors;
 
-public class Model extends Observable implements ItemActions {
+public class Model implements ItemActions, Observable {
 	
 	private ItemType itemType;
 	private Item item;
@@ -48,11 +48,6 @@ public class Model extends Observable implements ItemActions {
 		this.view = view;
 	}
 
-	@Override
-	public synchronized void addObserver(Observer o) {
-		views.add(o);
-	}
-	
 	/**
 	 * Method to create new Inventory Item object
 	 * based on the selected enum
@@ -85,9 +80,6 @@ public class Model extends Observable implements ItemActions {
 			view.displayOnScreen(property.getKey() + " = " + property.getValue());
 			//System.out.println(property.getKey() + " = " + property.getValue());
 		}
-		
-		setChanged();
-		notifyObservers(true);
 	}
 	
 	/**
@@ -163,9 +155,6 @@ public class Model extends Observable implements ItemActions {
 
 		property.setProperty(String.valueOf(property.size() + 1), item.toString());
 		saveProperties(property, item.getItemType());
-		
-		setChanged();
-		notifyObservers(true);
 	}
 
 	/**
@@ -299,6 +288,24 @@ public class Model extends Observable implements ItemActions {
 	public boolean checkPropertiesFileExists(ItemType itemType) {
 		if (new File(itemType.name() + ".properties").exists()) return true;
 		else return false;
+	}
+
+	@Override
+	public void addObserver(com.amazonlite.interfaces.Observer o) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeObserver(com.amazonlite.interfaces.Observer o) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void notifyObserver() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

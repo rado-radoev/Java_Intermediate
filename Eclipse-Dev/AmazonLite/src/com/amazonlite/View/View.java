@@ -2,12 +2,11 @@ package com.amazonlite.View;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.Scanner;
+
 import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Scanner;
 
 import com.amazonlite.model.ItemType;
 import com.amazonlite.model.Book;
@@ -16,6 +15,7 @@ import com.amazonlite.model.DVD;
 import com.amazonlite.model.InventoryItem;
 import com.amazonlite.Controller.Controller;
 import com.amazonlite.model.Model;
+import com.amazonlite.interfaces.Observer;
 
 public class View implements Observer {
 	
@@ -271,14 +271,6 @@ public class View implements Observer {
 			counter++;
 		}
 		System.out.println();
-	}
-
-	@Override
-	public void update(Observable obs, Object arg1) {
-		if (obs == model) {
-			System.out.println("Update called with Arguments: "+arg1);
-		}
-		
 	}
 
 }
