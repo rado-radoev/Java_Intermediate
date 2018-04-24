@@ -97,6 +97,7 @@ public class View implements Observer {
 		// This displays the item action menu
 		controller.displayActionMenu();
 	}
+
 	
 	/**
 	 * Item add menu. This method prompts the user for values
@@ -104,6 +105,7 @@ public class View implements Observer {
 	 */
 	public void displayAddMenu() {
 		InventoryItem item = getItem();
+		item.setItemType(getItemType());
 		
 		input = new Scanner(System.in);
 		
@@ -127,20 +129,20 @@ public class View implements Observer {
 		
 		System.out.println("Add Length: ");
 		double length = input.nextDouble();
-		item.setLength(length);	
-		
+		item.setLength(length);
+
 		input.nextLine();
 		
 		// Add an additional property depending on the type of item
-		if (item instanceof CD) {
+		if (item.getItemType().name() == "CD") {
 			System.out.println("Add hit single: ");
 			String hitSingle = input.nextLine();
 			((CD) item).setHitSingle(hitSingle);
 			item.setItemType(ItemType.CD);
-		} else if (item instanceof DVD) {
+		} else if (item.getItemType().name() == "DVD") {
 			System.out.println("Add bonus scenes (yes/no): ");
 			String in = input.nextLine();
-			boolean bonusScenes = (in.toLowerCase() == "yes" ? true : false);
+			boolean bonusScenes = in.toLowerCase() == "yes" ? true : false;
 			((DVD) item).setBonusScenes(bonusScenes);
 			item.setItemType(ItemType.DVD);
 		} else {
