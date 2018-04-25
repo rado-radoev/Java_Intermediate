@@ -20,6 +20,7 @@ public class Application {
 		controller.setModel(model);
 		model.setView(view);
 		
+
 		view.start();
 
 	}

@@ -86,9 +86,12 @@ public class View implements Observer {
 		displayInitialMenu();
 		input = new Scanner(System.in);
 		
-		while (selected <= 0 || selected > ItemType.values().length) {
+		while (selected <= 0 || selected > ItemType.values().length + 1) {
 			displayOnScreen("Please select an item from the list: ");
 			selected = input.nextInt();
+			
+			if (selected == 4) controller.closeApp();
+			return;
 		}
 		
 		// This gets the item type from the enum
@@ -272,7 +275,12 @@ public class View implements Observer {
 			displayOnScreen(String.format("%d. %s", counter, it));
 			counter++;
 		}
+		displayOnScreen(String.format("%d. %s", counter, "EXIT"));
 		System.out.println();
+	}
+	
+	public void closeApp() {
+		displayOnScreen("Exiting application ... Goodbye!");
 	}
 
 	@Override

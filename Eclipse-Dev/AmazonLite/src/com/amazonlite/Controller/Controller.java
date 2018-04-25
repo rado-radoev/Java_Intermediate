@@ -64,6 +64,10 @@ public class Controller  {
 	public void displayActionMenu() {
 		view.displayActionMenu();
 	}
+	
+	public void closeApp() {
+		view.closeApp();
+	}
 
 	public void selectActionMenu(int menuIndex) {
 		switch (menuIndex) {
