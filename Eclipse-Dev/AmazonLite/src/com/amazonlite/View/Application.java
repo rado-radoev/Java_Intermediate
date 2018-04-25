@@ -1,7 +1,5 @@
 package com.amazonlite.View;
 
-import java.lang.reflect.Field;
-
 import com.amazonlite.Controller.Controller;
 import com.amazonlite.model.Model;
 import com.amazonlite.View.View;
