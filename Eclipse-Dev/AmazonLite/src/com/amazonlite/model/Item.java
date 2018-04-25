@@ -2,7 +2,7 @@ package com.amazonlite.model;
 
 import java.util.Date;
 
-import com.amazonlite.interfaces.ItemActions;
+import com.amazonlite.interfaces.Actionable;
 
 public class Item {
 	

@@ -1,8 +1,9 @@
 package com.amazonlite.model;
 
 import com.amazonlite.View.View;
-import com.amazonlite.interfaces.ItemActions;
+import com.amazonlite.interfaces.Actionable;
 import com.amazonlite.interfaces.Observable;
+import com.amazonlite.interfaces.Observer;
 import com.amazonlite.props.InitializeProperties;
 
 import java.io.File;
@@ -19,10 +20,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Map.Entry;
-import java.util.Observer;
 import java.util.stream.Collectors;
 
-public class Model implements ItemActions, Observable {
+public class Model implements Actionable, Observable {
 	
 	private ItemType itemType;
 	private Item item;
@@ -77,7 +77,9 @@ public class Model implements ItemActions, Observable {
 		Iterator<Entry<String, String>> propMapIterator = propMap.entrySet().iterator();
 		while (propMapIterator.hasNext()) {
 			Map.Entry<String, String> property = (Map.Entry<String, String>) propMapIterator.next();
-			view.displayOnScreen(property.getKey() + " = " + property.getValue());
+			notifyObserver(view, property.getKey() + " = " + property.getValue());
+			//view.displayOnScreen(property.getKey() + " = " + property.getValue());
+			
 			//System.out.println(property.getKey() + " = " + property.getValue());
 		}
 	}
@@ -289,23 +291,33 @@ public class Model implements ItemActions, Observable {
 		if (new File(itemType.name() + ".properties").exists()) return true;
 		else return false;
 	}
+	
 
-	@Override
-	public void addObserver(com.amazonlite.interfaces.Observer o) {
-		// TODO Auto-generated method stub
-		
+	
+	public ArrayList<String> outputToView() {
+		return null;
 	}
 
 	@Override
-	public void removeObserver(com.amazonlite.interfaces.Observer o) {
-		// TODO Auto-generated method stub
-		
+	public void addObserver(Observer o) {
+		views.add(o);
+	}
+
+	@Override
+	public void removeObserver(Observer o) {
+		views.remove(o);
 	}
 
 	@Override
 	public void notifyObserver() {
-		// TODO Auto-generated method stub
-		
+		for (Observer view : views) {
+			view.update();
+		}
+	}
+	
+	@Override
+	public void notifyObserver(Observer o, String message) {
+		o.update(message);
 	}
 	
 	

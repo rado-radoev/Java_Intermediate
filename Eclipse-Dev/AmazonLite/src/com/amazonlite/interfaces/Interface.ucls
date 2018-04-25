@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.2.2" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
-  <interface id="1" language="java" name="com.amazonlite.interfaces.ItemActions" project="AmazonLite" 
-    file="/AmazonLite/src/com/amazonlite/interfaces/ItemActions.java" binary="false" corner="BOTTOM_RIGHT">    
+  <interface id="1" language="java" name="com.amazonlite.interfaces.Actionable" project="AmazonLite" 
+    file="/AmazonLite/src/com/amazonlite/interfaces/Actionable.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="137" width="314" x="180" y="195"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      

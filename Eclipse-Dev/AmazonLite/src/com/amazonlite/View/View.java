@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Scanner;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -63,14 +64,15 @@ public class View implements Observer {
  		return itemType;
 	}
 	
-	public void displayOnScreen(String str) {
-		System.out.println(str);
-	}
 	
 	public void displayOnScreen(ArrayList<String> objToDisplay) {
 		for (String str : objToDisplay) {
 			displayOnScreen(str);
 		}
+	}
+	
+	public void displayOnScreen(String message) {
+		System.out.println(message);
 	}
 
 	/**
@@ -85,7 +87,7 @@ public class View implements Observer {
 		input = new Scanner(System.in);
 		
 		while (selected <= 0 || selected > ItemType.values().length) {
-			System.out.print("Please select an item from the list: ");
+			displayOnScreen("Please select an item from the list: ");
 			selected = input.nextInt();
 		}
 		
@@ -108,15 +110,15 @@ public class View implements Observer {
 		
 		input = new Scanner(System.in);
 		
-		System.out.println("Add Title: ");
+		displayOnScreen("Add Title: ");
 		String title = input.nextLine();
 		item.setTitle(title);
 		
-		System.out.println("Add Author: ");
+		displayOnScreen("Add Author: ");
 		String author = input.nextLine();
 		item.setAuthor(author);
 		
-		System.out.println("Add Release Date (mm/dd/yyyy): ");
+		displayOnScreen("Add Release Date (mm/dd/yyyy): ");
 		String dateInput = input.nextLine();
 		Date date = null;
 		try {
@@ -126,7 +128,7 @@ public class View implements Observer {
 			e.printStackTrace();
 		}
 		
-		System.out.println("Add Length: ");
+		displayOnScreen("Add Length: ");
 		double length = input.nextDouble();
 		item.setLength(length);
 
@@ -134,18 +136,18 @@ public class View implements Observer {
 		
 		// Add an additional property depending on the type of item
 		if (item.getItemType().name() == "CD") {
-			System.out.println("Add hit single: ");
+			displayOnScreen("Add hit single: ");
 			String hitSingle = input.nextLine();
 			((CD) item).setHitSingle(hitSingle);
 			item.setItemType(ItemType.CD);
 		} else if (item.getItemType().name() == "DVD") {
-			System.out.println("Add bonus scenes (yes/no): ");
+			displayOnScreen("Add bonus scenes (yes/no): ");
 			String in = input.nextLine();
 			boolean bonusScenes = in.toLowerCase() == "yes" ? true : false;
 			((DVD) item).setBonusScenes(bonusScenes);
 			item.setItemType(ItemType.DVD);
 		} else {
-			System.out.println("Add publisher: ");
+			displayOnScreen("Add publisher: ");
 			String publisher = input.nextLine();
 			((Book) item).setPublisher(publisher);
 			item.setItemType(ItemType.BOOK);
@@ -162,20 +164,22 @@ public class View implements Observer {
 		
 		System.out.println("Find item to update");
 		ArrayList<String> itemToUpdate = displaySearchMenu();
+		
+		if (itemToUpdate.get(0).equals("NO MATCH FOUND")) return;
 
 		input = new Scanner(System.in);
 		
-		System.out.printf("%s: %n", "Property to modify");
+		displayOnScreen("Property to modify: ");
 		String propertyToUpdate = input.nextLine();
 		
-		System.out.printf("%s: %n", "Old value to update");
+		displayOnScreen("Old value to update: ");
 		String oldValueToUpdate = input.nextLine();
 		
-		System.out.printf("%s: %n", "New value to update");
+		displayOnScreen("New value to update: ");
 		String newValueToUpdate = input.nextLine();
 		
 		for (String str : itemToUpdate) {
-			System.out.println(str);
+			displayOnScreen(propertyToUpdate + " UPDATED");
 			controller.updateItem(str, propertyToUpdate, oldValueToUpdate, newValueToUpdate);
 		}
 		
@@ -198,7 +202,7 @@ public class View implements Observer {
 	   ArrayList<String> fields = new ArrayList<String>();
 	   
 	   for(Field field : clazz.getDeclaredFields()) {
-		   if (!java.lang.reflect.Modifier.isStatic(field.getModifiers())) {
+		   if (!Modifier.isStatic(field.getModifiers())) {
 			   fields.add(field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1));
 		   }
 	   }
@@ -236,9 +240,7 @@ public class View implements Observer {
 
 		// Search the properties file for matches and print to screen
 		ArrayList<String> res = controller.searchItem(propertyToSearch, valueToSearch, getItemType());
-		for (String str : res) {
-			System.out.println(str);
-		}
+		displayOnScreen(res);
 		return res;
 	}
 	
@@ -267,10 +269,20 @@ public class View implements Observer {
 	public void displayInitialMenu() {
 		int counter = 1;
 		for (ItemType it : ItemType.values()) {
-			System.out.println(String.format("%d. %s", counter, it));
+			displayOnScreen(String.format("%d. %s", counter, it));
 			counter++;
 		}
 		System.out.println();
+	}
+
+	@Override
+	public void update() {
+		displayOnScreen(model.outputToView());
+	}
+	
+	@Override
+	public void update(String message) {
+		displayOnScreen(message);
 	}
 
 }
