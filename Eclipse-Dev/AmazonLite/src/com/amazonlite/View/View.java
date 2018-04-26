@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -64,13 +65,20 @@ public class View implements Observer {
  		return itemType;
 	}
 	
-	
+	/**
+	 * Method to parse through ArrayList of Strings and dispaly content on screen
+	 * @param objToDisplay ArrayList<String> to parse
+	 */
 	public void displayOnScreen(ArrayList<String> objToDisplay) {
 		for (String str : objToDisplay) {
 			displayOnScreen(str);
 		}
 	}
 	
+	/**
+	 * Method to display a message to the console
+	 * @param message the String to display
+	 */
 	public void displayOnScreen(String message) {
 		System.out.println(message);
 	}
@@ -90,8 +98,11 @@ public class View implements Observer {
 			displayOnScreen("Please select an item from the list: ");
 			selected = input.nextInt();
 			
-			if (selected == 4) controller.closeApp();
-			return;
+			if (selected == 4) {
+				controller.closeApp();
+				return;
+			}
+			
 		}
 		
 		// This gets the item type from the enum
@@ -279,6 +290,9 @@ public class View implements Observer {
 		System.out.println();
 	}
 	
+	/**
+	 * Method that terminates the app
+	 */
 	public void closeApp() {
 		displayOnScreen("Exiting application ... Goodbye!");
 	}

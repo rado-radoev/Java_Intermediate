@@ -13,8 +13,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -78,9 +79,6 @@ public class Model implements Actionable, Observable {
 		while (propMapIterator.hasNext()) {
 			Map.Entry<String, String> property = (Map.Entry<String, String>) propMapIterator.next();
 			notifyObserver(view, property.getKey() + " = " + property.getValue());
-			//view.displayOnScreen(property.getKey() + " = " + property.getValue());
-			
-			//System.out.println(property.getKey() + " = " + property.getValue());
 		}
 	}
 	
@@ -93,7 +91,6 @@ public class Model implements Actionable, Observable {
 		Properties props = new Properties();
 		
 		try (InputStream input = new FileInputStream(fileName)) {
-			// load properties file
 			props.load(input);
 			return props;
 		} catch (FileNotFoundException fnfe) {
@@ -206,7 +203,6 @@ public class Model implements Actionable, Observable {
 			for (String string : splittedValue) {
 				if (string.toLowerCase().startsWith(propertyToFind.toLowerCase()) 
 						&& string.toLowerCase().contains(valueToSearch.toLowerCase())) {
-//					System.out.println(prop.getValue());
 					res.add(String.format("%s = %s", prop.getKey(), prop.getValue()));
 				}
 			}
@@ -214,7 +210,6 @@ public class Model implements Actionable, Observable {
 
 		if (res.isEmpty()) {
 			res.add(String.format("%S", "no match found"));
-			//notifyObservers();
 		}
 		return res;
 	}
@@ -230,10 +225,9 @@ public class Model implements Actionable, Observable {
 	 * Method to create a properties file with dummy data
 	 * @param itemType type of item to generate property for
 	 */
-	// Replace deprecated Date.parse method
-	@SuppressWarnings("deprecation")
 	public void createDummyProperties(ItemType itemType) {
 		Properties prop = new Properties();
+		SimpleDateFormat sdfmt = new SimpleDateFormat("mm/dd/yyyy");
 		
 		String fileName = itemType.name() + ".properties";
 		
@@ -241,35 +235,35 @@ public class Model implements Actionable, Observable {
 			if (itemType == ItemType.CD) {
 				prop.setProperty("1", 
 						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
-								"T.N.T", "AC/DC", 41.55D, Date.parse("12/01/1975"), itemType.name()));
+								"T.N.T", "AC/DC", 41.55D, sdfmt.parse("12/01/1975"), itemType.name()));
 				prop.setProperty("2", 
 						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
-								"Let There Be Rock", "AC/DC", 40.19D, Date.parse("03/21/1977"), itemType.name()));
+								"Let There Be Rock", "AC/DC", 40.19D, sdfmt.parse("03/21/1977"), itemType.name()));
 				prop.setProperty("3", 
 						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
-								"Black Ice", "AC/DC", 55.38D, Date.parse("10/17/2008"), itemType.name()));
+								"Black Ice", "AC/DC", 55.38D, sdfmt.parse("10/17/2008"), itemType.name()));
 			}
 			else if (itemType == ItemType.DVD) {
 				prop.setProperty("1", 
 						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
-								"The Fellowship of the Ring", "Peter Jackson", 3.28D, Date.parse("12/19/2001"), itemType.name()));
+								"The Fellowship of the Ring", "Peter Jackson", 3.28D, sdfmt.parse("12/19/2001"), itemType.name()));
 				prop.setProperty("2", 
 						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
-								"The Two Towers", "Peter Jackson", 3.43D, Date.parse("12/18/2002"), itemType.name()));
+								"The Two Towers", "Peter Jackson", 3.43D, sdfmt.parse("12/18/2002"), itemType.name()));
 				prop.setProperty("3", 
 						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
-								"The Return of the King", "Peter Jackson", 4.12D, Date.parse("12/17/2003"), itemType.name()));
+								"The Return of the King", "Peter Jackson", 4.12D, sdfmt.parse("12/17/2003"), itemType.name()));
 			}
 			else if (itemType == ItemType.BOOK) {
 				prop.setProperty("1", 
 						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
-								"The Philosopher's Stone", "J. K. Rowling", 329D, Date.parse("09/01/1997"), itemType.name()));
+								"The Philosopher's Stone", "J. K. Rowling", 329D, sdfmt.parse("09/01/1997"), itemType.name()));
 				prop.setProperty("2", 
 						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
-								"The Chamber of Secrets", "J. K. Rowling", 341D, Date.parse("06/02/1998"), itemType.name()));
+								"The Chamber of Secrets", "J. K. Rowling", 341D, sdfmt.parse("06/02/1998"), itemType.name()));
 				prop.setProperty("3", 
 						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
-								"The Prisoner of Azkaban", "J. K. Rowling", 435D, Date.parse("09/08/1999"), itemType.name()));
+								"The Prisoner of Azkaban", "J. K. Rowling", 435D, sdfmt.parse("09/08/1999"), itemType.name()));
 			}
 			
 			prop.store(output, null);
@@ -277,6 +271,8 @@ public class Model implements Actionable, Observable {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 	}
@@ -292,7 +288,6 @@ public class Model implements Actionable, Observable {
 		else return false;
 	}
 	
-
 	
 	public ArrayList<String> outputToView() {
 		return null;
@@ -319,10 +314,5 @@ public class Model implements Actionable, Observable {
 	public void notifyObserver(Observer o, String message) {
 		o.update(message);
 	}
-	
-	
-	// ADDING OBSERVERS: 
-	// https://www.javaworld.com/article/2077258/learn-java/observer-and-observable.html
-	// https://stackoverflow.com/questions/9981171/notifying-the-presenter-that-the-model-has-changed
-	// https://dzone.com/articles/observer-pattern-java
+
 }
