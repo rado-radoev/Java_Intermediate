@@ -165,7 +165,7 @@ public class Model implements Actionable, Observable {
 	 */
 	public void updateProperty(String propertyToModify, String attributeToModify ,String oldValueToUpdate, String newValueToUpdate) {
 		
-		ItemType itemType = ItemType.valueOf(propertyToModify.substring(propertyToModify.indexOf("Type: ") + 6));
+		ItemType itemType = ItemType.valueOf(propertyToModify.substring(propertyToModify.indexOf("Type:") + 6));
 		String key = propertyToModify.substring(0, propertyToModify.indexOf(" = "));
 		String newPropValue1 = propertyToModify.substring(0, propertyToModify.indexOf(attributeToModify) + attributeToModify.length() + 2);
 		String newPropValue2 = propertyToModify.substring(newPropValue1.length() + oldValueToUpdate.length());
@@ -183,7 +183,7 @@ public class Model implements Actionable, Observable {
 	 * @param propertyToFind Name of property to find
 	 * @param valueToSearch value to search for in property
 	 * @param itemType type of item to search for
-	 * @return ArrayList of Strings represeinting every property that matches the search
+	 * @return ArrayList of Strings representing every property that matches the search
 	 */
 	public ArrayList<String> findProperty(String propertyToFind, String valueToSearch ,ItemType itemType) {
 
