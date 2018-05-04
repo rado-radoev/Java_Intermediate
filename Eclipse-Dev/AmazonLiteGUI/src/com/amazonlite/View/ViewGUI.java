@@ -7,6 +7,8 @@ import oracle.jrockit.jfr.JFR;
 
 import javax.swing.JPanel;
 import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.GroupLayout.Group;
 import javax.swing.JFrame;
 
 import java.awt.event.ActionEvent;
@@ -88,19 +90,26 @@ public class ViewGUI extends JFrame {
 		groupLayout.setAutoCreateGaps(true);
 		
 		groupLayout.setHorizontalGroup(
-				groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+			groupLayout.createSequentialGroup()
+			.addGroup(createParallelGroup(GroupLayout.Alignment.LEADING))
 				.addComponent(itemTypeJPanel)
-				.addGroup(groupLayout.creteap)
-				//.addComponent(actionsJPanel));
+				.addComponent(actionsJPanel));
 		
-		groupLayout.setVerticalGroup(groupLayout.createSequentialGroup()
-				.addComponent(itemTypeJPanel));
-//				.addComponent(actionsJPanel));
-		
+		groupLayout.setVerticalGroup(
+				groupLayout.createSequentialGroup()
+				.addGroup(createParallelGroup(GroupLayout.Alignment.BASELINE))
+					.addComponent(itemTypeJPanel)
+					.addComponent(actionsJPanel));
+				
 		add(mainJPanel);
 		
 	}
  	
+	private Group createParallelGroup(Alignment leading) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	public static void main(String[] args) {
 		ViewGUI vg = new ViewGUI();
 		vg.setVisible(true);
