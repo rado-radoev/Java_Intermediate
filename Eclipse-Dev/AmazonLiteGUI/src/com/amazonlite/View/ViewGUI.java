@@ -2,14 +2,17 @@ package com.amazonlite.View;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JRadioButton;
+
+import oracle.jrockit.jfr.JFR;
+
 import javax.swing.JPanel;
 import javax.swing.GroupLayout;
+import javax.swing.JFrame;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
-public class ViewGUI {
+public class ViewGUI extends JFrame {
 
 	private final JRadioButton cdRadioBtn;
 	private final JRadioButton dvdRadioBtn;
@@ -17,22 +20,22 @@ public class ViewGUI {
 	private final ButtonGroup itemTypeBtnGroup;
 	private final JPanel itemTypeJPanel;
 	
-	
 	private final JRadioButton addRadioBtn;
 	private final JRadioButton updateRadioBtn;
 	private final JRadioButton searchRadioBtn;
 	private final JRadioButton displayRadioBtn;
+	private final ButtonGroup actionBtnGroup;
 	private final JPanel actionsJPanel;
 	
 	private final JPanel mainJPanel;
 	
 	private GroupLayout groupLayout;
 	
-	
-	
 	public ViewGUI() {
+	
+		mainJPanel = new JPanel();
 		
-		// Setup the radio buttons
+		// Setup the item type radio buttons
 		cdRadioBtn = new JRadioButton("CD");
 		dvdRadioBtn = new JRadioButton("DVD");
 		bookRadioBtn = new JRadioButton("Book");
@@ -49,26 +52,60 @@ public class ViewGUI {
 		itemTypeJPanel.add(dvdRadioBtn);
 		itemTypeJPanel.add(bookRadioBtn);
 		
+		mainJPanel.add(itemTypeJPanel);
+		
+
+		// Setup action radio buttons
+		addRadioBtn = new JRadioButton("Add item");
+		updateRadioBtn = new JRadioButton("Update item");
+		searchRadioBtn = new JRadioButton("Search item");
+		displayRadioBtn = new JRadioButton("Display item(s)");
+		
+		// Create action group and add all actions
+		actionBtnGroup = new ButtonGroup();
+		actionBtnGroup.add(addRadioBtn);
+		actionBtnGroup.add(updateRadioBtn);
+		actionBtnGroup.add(searchRadioBtn);
+		actionBtnGroup.add(displayRadioBtn);
+		
+		// Create Actions JPanel
+		actionsJPanel = new JPanel();
+		
+		actionsJPanel.add(addRadioBtn);
+		actionsJPanel.add(updateRadioBtn);
+		actionsJPanel.add(searchRadioBtn);
+		actionsJPanel.add(displayRadioBtn);
+		
+		mainJPanel.add(actionsJPanel);
+		
+		
 		// setting the JPanel layout
-		groupLayout = new GroupLayout(itemTypeJPanel);
-		itemTypeJPanel.setLayout(groupLayout);
+		groupLayout = new GroupLayout(mainJPanel);
+		mainJPanel.setLayout(groupLayout);
 		
 		// automatic gap insertion
 		groupLayout.setAutoCreateContainerGaps(true);
 		groupLayout.setAutoCreateGaps(true);
 		
 		groupLayout.setHorizontalGroup(
-				groupLayout.createSequentialGroup()
-				.addComponent(cdRadioBtn)
-				.addComponent(dvdRadioBtn)
-				.addComponent(bookRadioBtn));
+				groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+				.addComponent(itemTypeJPanel)
+				.addGroup(groupLayout.creteap)
+				//.addComponent(actionsJPanel));
 		
 		groupLayout.setVerticalGroup(groupLayout.createSequentialGroup()
-				.addComponent(cdRadioBtn)
-				.addComponent(dvdRadioBtn)
-				.addComponent(bookRadioBtn));
+				.addComponent(itemTypeJPanel));
+//				.addComponent(actionsJPanel));
+		
+		add(mainJPanel);
 		
 	}
  	
+	public static void main(String[] args) {
+		ViewGUI vg = new ViewGUI();
+		vg.setVisible(true);
+		vg.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		vg.setSize(200,300);
+	}
 	
 }
