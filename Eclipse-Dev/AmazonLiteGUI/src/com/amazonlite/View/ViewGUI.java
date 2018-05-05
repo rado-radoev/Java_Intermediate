@@ -160,12 +160,23 @@ public class ViewGUI extends JFrame {
 		return list.toArray(new Component[list.size()]);
 	}
 	
-	
  	
 	public static void main(String[] args) {
 		ViewGUI vg = new ViewGUI();
 		vg.setVisible(true);
 		vg.setSize(200,300);
+	}
+	
+	private class RadioBtnActionListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO 
+			// Add buttons to array and loop through 
+			// all and check is .isSelected()  and do somehting
+			
+		}
+		
 	}
 	
 }
