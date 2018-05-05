@@ -67,6 +67,9 @@ public class ViewGUI extends JFrame {
 		itemTypeBtnGroup.add(dvdRadioBtn);
 		itemTypeBtnGroup.add(bookRadioBtn);
 		
+		// set default selection
+		cdRadioBtn.setSelected(false);
+		
 		// add all items to JPannel
 		itemTypeJPanel = new JPanel();
 		itemTypeJPanel.add(cdRadioBtn);
@@ -99,6 +102,9 @@ public class ViewGUI extends JFrame {
 		actionBtnGroup.add(updateRadioBtn);
 		actionBtnGroup.add(searchRadioBtn);
 		actionBtnGroup.add(displayRadioBtn);
+		
+		// default selection
+		addRadioBtn.setSelected(true);
 		
 		// Create Actions JPanel
 		actionsJPanel = new JPanel();
@@ -153,6 +159,8 @@ public class ViewGUI extends JFrame {
 		
 		return list.toArray(new Component[list.size()]);
 	}
+	
+	
  	
 	public static void main(String[] args) {
 		ViewGUI vg = new ViewGUI();
