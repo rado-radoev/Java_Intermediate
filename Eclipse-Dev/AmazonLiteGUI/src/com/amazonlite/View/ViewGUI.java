@@ -1,5 +1,6 @@
 package com.amazonlite.View;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -29,6 +30,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Enumeration;
 
 public class ViewGUI extends JFrame {
 
@@ -51,15 +53,21 @@ public class ViewGUI extends JFrame {
 	
 	public ViewGUI() {
 	
-		setTitle("Inventory");
+		setTitle("AmazonLite");
 		layout = new BorderLayout();
 		
 		mainJPanel = new JPanel(layout);
 		
+		// JRadioButton actionListener
+		itemTypeRadioBtnListener rbal = new itemTypeRadioBtnListener();
+		
 		// Setup the item type radio buttons
 		cdRadioBtn = new JRadioButton("CD");
+		cdRadioBtn.addActionListener(rbal);
 		dvdRadioBtn = new JRadioButton("DVD");
+		dvdRadioBtn.addActionListener(rbal);
 		bookRadioBtn = new JRadioButton("Book");
+		bookRadioBtn.addActionListener(rbal);
 		
 		// Create a button group and add all buttons
 		itemTypeBtnGroup = new ButtonGroup();
@@ -126,8 +134,9 @@ public class ViewGUI extends JFrame {
 		
 		// Disable all actions until an Item has been selected
 		actionsJPanel.setEnabled(false);
-		for (Component component : getComponents(actionsJPanel))
-			component.setEnabled(false);
+		componentsEnable(false, getComponents(actionsJPanel));
+//		for (Component component : getComponents(actionsJPanel))
+//			component.setEnabled(false);
 		
 		mainJPanel.add(actionsJPanel, layout.CENTER);
 		
@@ -160,6 +169,17 @@ public class ViewGUI extends JFrame {
 		return list.toArray(new Component[list.size()]);
 	}
 	
+	/**
+	 * Method to enable or disable components in a container
+	 * @param enabled boolean parameter to enable (true) or disable (false) the components
+	 * @param components the Components array to loop through and disable
+	 */
+	private void componentsEnable(boolean enabled, Component[] components) {
+		for (Component component: components) {
+			component.setEnabled(enabled);
+		}
+	}
+	
  	
 	public static void main(String[] args) {
 		ViewGUI vg = new ViewGUI();
@@ -167,16 +187,22 @@ public class ViewGUI extends JFrame {
 		vg.setSize(200,300);
 	}
 	
-	private class RadioBtnActionListener implements ActionListener {
+	/**
+	 * Inner class for JButton ActionListener
+	 * @author Radoslav Radoev
+	 */
+	private class itemTypeRadioBtnListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO 
-			// Add buttons to array and loop through 
-			// all and check is .isSelected()  and do somehting
-			
+			for (Enumeration<AbstractButton> buttons = itemTypeBtnGroup.getElements(); buttons.hasMoreElements();) {
+				AbstractButton button = buttons.nextElement();
+				
+				if (button.isSelected()) {
+					componentsEnable(true, getComponents(actionsJPanel));
+				}
+			}
 		}
-		
-	}
+	} // End of ActionListener
 	
 }
