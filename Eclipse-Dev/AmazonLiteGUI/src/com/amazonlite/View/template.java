@@ -95,6 +95,26 @@ public abstract class template extends JFrame {
 		
 	}
 	
+	public JTextField getTitleTextField() {
+		return titleTextField;
+	}
+
+	public JTextField getAuthorTextField() {
+		return authorTextField;
+	}
+	
+	public JTextField getReleaseDateTextField() {
+		return releaseDateTextField;
+	}
+
+	public JTextField getLengthTextField() {
+		return lengthTextField;
+	}
+
+	public JTextField getSpecialFieldTextField() {
+		return specialFieldTextField;
+	}
+
 	private class TextFieldsActionListener implements ActionListener {
 
 		@Override
