@@ -189,7 +189,6 @@ public class ViewGUI extends JFrame {
 	
 	/**
 	 * Inner class for JButton ActionListener
-	 * @author Radoslav Radoev
 	 */
 	private class itemTypeRadioBtnListener implements ActionListener {
 
