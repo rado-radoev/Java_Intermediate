@@ -93,6 +93,10 @@ public abstract class template extends JFrame {
 		
 		add(mainJPanel);
 		
+		setVisible(true);
+		setSize(350, 250);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
 	}
 	
 	public JTextField getTitleTextField() {

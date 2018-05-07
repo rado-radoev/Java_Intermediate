@@ -98,11 +98,18 @@ public class ViewGUI extends JFrame {
 		// add the item Jpanel to the main JPanel		
 		mainJPanel.add(itemTypeJPanel, layout.PAGE_START);
 		
+		// Actions Radio Button ActionListener
+		ActionsRadioBtnListener arbl = new ActionsRadioBtnListener();
+		
 		// Setup action radio buttons
 		addRadioBtn = new JRadioButton("Add item");
+		addRadioBtn.addActionListener(arbl);
 		updateRadioBtn = new JRadioButton("Update item");
+		updateRadioBtn.addActionListener(arbl);
 		searchRadioBtn = new JRadioButton("Search item");
+		searchRadioBtn.addActionListener(arbl);
 		displayRadioBtn = new JRadioButton("Display item(s)");
+		displayRadioBtn.addActionListener(arbl);
 		
 		// Create action group and add all actions
 		actionBtnGroup = new ButtonGroup();
@@ -180,13 +187,6 @@ public class ViewGUI extends JFrame {
 		}
 	}
 	
- 	
-	public static void main(String[] args) {
-		ViewGUI vg = new ViewGUI();
-		vg.setVisible(true);
-		vg.setSize(200,300);
-	}
-	
 	/**
 	 * Inner class for JButton ActionListener
 	 */
@@ -204,4 +204,32 @@ public class ViewGUI extends JFrame {
 		}
 	} // End of ActionListener
 	
+	private class ActionsRadioBtnListener implements ActionListener {
+		@Override
+	 	public void actionPerformed(ActionEvent e) {
+			if (e.getSource().equals(addRadioBtn)) {
+				System.out.println("Add selected");
+				new AddGUI();
+			}
+			else if (e.getSource().equals(updateRadioBtn)) {
+				System.out.println("Update selected");
+				new UpdateGUI().setSize(350, 300);;
+			}
+			else if (e.getSource().equals(searchRadioBtn)) {
+				System.out.println("Search selected");
+				new SearchGUI();
+			}
+			else if (e.getSource().equals(displayRadioBtn)) {
+				System.out.println("Display selected");
+				new DisplayGUI();
+			}
+		}
+	} 
+	
+ 	
+	public static void main(String[] args) {
+		ViewGUI vg = new ViewGUI();
+		vg.setVisible(true);
+		vg.setSize(200,300);
+	}
 }
