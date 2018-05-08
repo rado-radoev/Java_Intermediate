@@ -158,17 +158,17 @@ public class Model implements Actionable, Observable {
 
 	/**
 	 * Method to update property value
-	 * @param propertyToModify Id of the property to modify
+	 * @param recrdIdToMofiy Id of the property to modify
 	 * @param attributeToModify Name of attribute to modify
 	 * @param oldValueToUpdate old value to be modified
 	 * @param newValueToUpdate new value to replace old value
 	 */
-	public void updateProperty(String propertyToModify, String attributeToModify ,String oldValueToUpdate, String newValueToUpdate) {
+	public void updateRecord(String recrdIdToMofiy, String attributeToModify ,String oldValueToUpdate, String newValueToUpdate) {
 		
-		ItemType itemType = ItemType.valueOf(propertyToModify.substring(propertyToModify.indexOf("Type:") + 6));
-		String key = propertyToModify.substring(0, propertyToModify.indexOf(" = "));
-		String newPropValue1 = propertyToModify.substring(0, propertyToModify.indexOf(attributeToModify) + attributeToModify.length() + 2);
-		String newPropValue2 = propertyToModify.substring(newPropValue1.length() + oldValueToUpdate.length());
+		ItemType itemType = ItemType.valueOf(recrdIdToMofiy.substring(recrdIdToMofiy.indexOf("Type:") + 6));
+		String key = recrdIdToMofiy.substring(0, recrdIdToMofiy.indexOf(" = "));
+		String newPropValue1 = recrdIdToMofiy.substring(0, recrdIdToMofiy.indexOf(attributeToModify) + attributeToModify.length() + 2);
+		String newPropValue2 = recrdIdToMofiy.substring(newPropValue1.length() + oldValueToUpdate.length());
 		String newPropValueFull = newPropValue1 + newValueToUpdate + newPropValue2;
 		
 		Properties property = new Properties();
@@ -180,12 +180,12 @@ public class Model implements Actionable, Observable {
 	
 	/**
 	 * Method to find a property
-	 * @param propertyToFind Name of property to find
+	 * @param attributeToFind Name of item record to find
 	 * @param valueToSearch value to search for in property
 	 * @param itemType type of item to search for
 	 * @return ArrayList of Strings representing every property that matches the search
 	 */
-	public ArrayList<String> findProperty(String propertyToFind, String valueToSearch ,ItemType itemType) {
+	public ArrayList<String> findRecord(String attributeToFind, String valueToSearch ,ItemType itemType) {
 
 		Properties property = new Properties();
 		property = loadProperties(itemType);
@@ -201,7 +201,7 @@ public class Model implements Actionable, Observable {
 			Map.Entry<String, String> prop = (Map.Entry<String, String>) propMapIterator.next();
 			String[] splittedValue = prop.getValue().split(",");
 			for (String string : splittedValue) {
-				if (string.toLowerCase().startsWith(propertyToFind.toLowerCase()) 
+				if (string.toLowerCase().startsWith(attributeToFind.toLowerCase()) 
 						&& string.toLowerCase().contains(valueToSearch.toLowerCase())) {
 					res.add(String.format("%s = %s", prop.getKey(), prop.getValue()));
 				}
@@ -217,73 +217,17 @@ public class Model implements Actionable, Observable {
 	/**
 	 * Method to initialize default properties if none are existing
 	 */
-	public void initializeDefaultProperties() {
+	public void initializeDefault() {
 		InitializeProperties.init();
 	}
 	
-	/**
-	 * Method to create a properties file with dummy data
-	 * @param itemType type of item to generate property for
-	 */
-	public void createDummyProperties(ItemType itemType) {
-		Properties prop = new Properties();
-		SimpleDateFormat sdfmt = new SimpleDateFormat("mm/dd/yyyy");
 		
-		String fileName = itemType.name() + ".properties";
-		
-		try (OutputStream output = new FileOutputStream(fileName)) {
-			if (itemType == ItemType.CD) {
-				prop.setProperty("1", 
-						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
-								"T.N.T", "AC/DC", 41.55D, sdfmt.parse("12/01/1975"), itemType.name()));
-				prop.setProperty("2", 
-						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
-								"Let There Be Rock", "AC/DC", 40.19D, sdfmt.parse("03/21/1977"), itemType.name()));
-				prop.setProperty("3", 
-						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
-								"Black Ice", "AC/DC", 55.38D, sdfmt.parse("10/17/2008"), itemType.name()));
-			}
-			else if (itemType == ItemType.DVD) {
-				prop.setProperty("1", 
-						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
-								"The Fellowship of the Ring", "Peter Jackson", 3.28D, sdfmt.parse("12/19/2001"), itemType.name()));
-				prop.setProperty("2", 
-						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
-								"The Two Towers", "Peter Jackson", 3.43D, sdfmt.parse("12/18/2002"), itemType.name()));
-				prop.setProperty("3", 
-						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
-								"The Return of the King", "Peter Jackson", 4.12D, sdfmt.parse("12/17/2003"), itemType.name()));
-			}
-			else if (itemType == ItemType.BOOK) {
-				prop.setProperty("1", 
-						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
-								"The Philosopher's Stone", "J. K. Rowling", 329D, sdfmt.parse("09/01/1997"), itemType.name()));
-				prop.setProperty("2", 
-						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
-								"The Chamber of Secrets", "J. K. Rowling", 341D, sdfmt.parse("06/02/1998"), itemType.name()));
-				prop.setProperty("3", 
-						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
-								"The Prisoner of Azkaban", "J. K. Rowling", 435D, sdfmt.parse("09/08/1999"), itemType.name()));
-			}
-			
-			prop.store(output, null);
-			
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-	}
-
-	
 	/**
 	 * Method to check if properties file exists
 	 * @param itemType the item type to check for
 	 * @return boolean if file exists or not
 	 */
-	public boolean checkPropertiesFileExists(ItemType itemType) {
+	public boolean checkInventoryFilesExist(ItemType itemType) {
 		if (new File(itemType.name() + ".properties").exists()) return true;
 		else return false;
 	}

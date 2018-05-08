@@ -53,7 +53,7 @@ public class Controller  {
 	}
 	
 	public void startMenu() {
-		model.initializeDefaultProperties();
+		model.initializeDefault();
 		view.start();
 	}
 	
@@ -92,12 +92,12 @@ public class Controller  {
 		model.addItem(item);
 	}
 	
-	public void updateItem(String propertyToModify, String attributeToModify, String oldValueToUpdate, String newValueToUpdate) {
-		model.updateProperty(propertyToModify, attributeToModify, oldValueToUpdate, newValueToUpdate);
+	public void updateItem(String recrdIdToMofiy, String attributeToModify, String oldValueToUpdate, String newValueToUpdate) {
+		model.updateRecord(recrdIdToMofiy, attributeToModify, oldValueToUpdate, newValueToUpdate);
 	}
 	
-	public ArrayList<String> searchItem(String propertyToSearch, String valueToSearch, ItemType itemType) {
-		return model.findProperty(propertyToSearch, valueToSearch, view.getItemType());
+	public ArrayList<String> searchItem(String attributeToFind, String valueToSearch, ItemType itemType) {
+		return model.findRecord(attributeToFind, valueToSearch, view.getItemType());
 	}
 	
 	public void displayInventory(InventoryItem item) {
