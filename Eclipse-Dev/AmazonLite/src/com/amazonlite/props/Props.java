@@ -23,13 +23,7 @@ import java.util.Map.Entry;
 
 public class Props {
 
-	public static void main(String[] args) {
-		Props props = new Props();
-		
-		props.saveProperties(props.loadProperties(ItemType.CD), ItemType.CD);
-		props.displayProperties(props.loadProperties(ItemType.CD));
-	}
-	
+
 	/**
 	 * Display properties
 	 */
