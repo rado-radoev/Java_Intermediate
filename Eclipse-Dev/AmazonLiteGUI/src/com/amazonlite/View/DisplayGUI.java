@@ -3,7 +3,7 @@ package com.amazonlite.View;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
-public class DisplayGUI extends template{
+public class DisplayGUI extends ActionsVewTemplate{
 
 	public DisplayGUI() {
 		super.getTitleTextField().setEditable(false);

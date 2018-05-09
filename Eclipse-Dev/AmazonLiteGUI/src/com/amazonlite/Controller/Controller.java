@@ -3,6 +3,7 @@ package com.amazonlite.Controller;
 import com.amazonlite.model.Item;
 import com.amazonlite.model.ItemType;
 import com.amazonlite.View.View;
+import com.amazonlite.View.View;
 import com.amazonlite.model.Model;
 import com.amazonlite.props.Props;
 import com.amazonlite.model.InventoryItem;
@@ -28,8 +29,8 @@ public class Controller  {
 		return view;
 	}
 	
-	public void setView(View view) {
-		this.view = view;
+	public void setView(View view2) {
+		this.view = view2;
 	}
 	
 	public Model getModel() {

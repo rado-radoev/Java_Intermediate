@@ -2,7 +2,7 @@ package com.amazonlite.View;
 
 import javax.swing.JFrame;
 
-public class SearchGUI extends template {
+public class SearchGUI extends ActionsVewTemplate {
 
 	public static void main(String[] args) {
 		SearchGUI sg = new SearchGUI();

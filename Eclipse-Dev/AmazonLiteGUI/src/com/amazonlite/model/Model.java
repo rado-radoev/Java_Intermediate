@@ -45,8 +45,8 @@ public class Model implements Actionable, Observable {
 		return view;
 	}
 
-	public void setView(View view) {
-		this.view = view;
+	public void setView(View view2) {
+		this.view = view2;
 	}
 
 	/**
@@ -221,62 +221,7 @@ public class Model implements Actionable, Observable {
 		InitializeProperties.init();
 	}
 	
-	/**
-	 * Method to create a properties file with dummy data
-	 * @param itemType type of item to generate property for
-	 */
-	public void createDummyProperties(ItemType itemType) {
-		Properties prop = new Properties();
-		SimpleDateFormat sdfmt = new SimpleDateFormat("mm/dd/yyyy");
-		
-		String fileName = itemType.name() + ".properties";
-		
-		try (OutputStream output = new FileOutputStream(fileName)) {
-			if (itemType == ItemType.CD) {
-				prop.setProperty("1", 
-						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
-								"T.N.T", "AC/DC", 41.55D, sdfmt.parse("12/01/1975"), itemType.name()));
-				prop.setProperty("2", 
-						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
-								"Let There Be Rock", "AC/DC", 40.19D, sdfmt.parse("03/21/1977"), itemType.name()));
-				prop.setProperty("3", 
-						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
-								"Black Ice", "AC/DC", 55.38D, sdfmt.parse("10/17/2008"), itemType.name()));
-			}
-			else if (itemType == ItemType.DVD) {
-				prop.setProperty("1", 
-						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
-								"The Fellowship of the Ring", "Peter Jackson", 3.28D, sdfmt.parse("12/19/2001"), itemType.name()));
-				prop.setProperty("2", 
-						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
-								"The Two Towers", "Peter Jackson", 3.43D, sdfmt.parse("12/18/2002"), itemType.name()));
-				prop.setProperty("3", 
-						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
-								"The Return of the King", "Peter Jackson", 4.12D, sdfmt.parse("12/17/2003"), itemType.name()));
-			}
-			else if (itemType == ItemType.BOOK) {
-				prop.setProperty("1", 
-						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
-								"The Philosopher's Stone", "J. K. Rowling", 329D, sdfmt.parse("09/01/1997"), itemType.name()));
-				prop.setProperty("2", 
-						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
-								"The Chamber of Secrets", "J. K. Rowling", 341D, sdfmt.parse("06/02/1998"), itemType.name()));
-				prop.setProperty("3", 
-						String.format("Title: %s,Author: %s,Length: %.2f,Release Date: %tD,Item Type: %s", 
-								"The Prisoner of Azkaban", "J. K. Rowling", 435D, sdfmt.parse("09/08/1999"), itemType.name()));
-			}
-			
-			prop.store(output, null);
-			
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-	}
-
+	
 	
 	/**
 	 * Method to check if properties file exists
@@ -293,10 +238,6 @@ public class Model implements Actionable, Observable {
 		return null;
 	}
 
-	@Override
-	public void addObserver(Observer o) {
-		views.add(o);
-	}
 
 	@Override
 	public void removeObserver(Observer o) {
@@ -313,6 +254,12 @@ public class Model implements Actionable, Observable {
 	@Override
 	public void notifyObserver(Observer o, String message) {
 		o.update(message);
+	}
+
+	@Override
+	public void addObserver(Observer o) {
+		views.add(o);
+		
 	}
 
 }

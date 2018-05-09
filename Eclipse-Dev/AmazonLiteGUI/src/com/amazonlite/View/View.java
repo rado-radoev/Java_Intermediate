@@ -1,54 +1,172 @@
 package com.amazonlite.View;
 
+import javax.swing.AbstractButton;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.JRadioButton;
+import javax.swing.border.TitledBorder;
+import javax.swing.JPanel;
+import javax.swing.JFrame;
+
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Scanner;
+import java.util.Arrays;
+import java.util.Enumeration;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-
-import com.amazonlite.model.ItemType;
-import com.amazonlite.model.Book;
-import com.amazonlite.model.CD;
-import com.amazonlite.model.DVD;
-import com.amazonlite.model.InventoryItem;
 import com.amazonlite.Controller.Controller;
+import com.amazonlite.model.InventoryItem;
+import com.amazonlite.model.ItemType;
 import com.amazonlite.model.Model;
 import com.amazonlite.interfaces.Observer;
 
-public class View implements Observer {
+public class View extends JFrame implements Observer {
+
+	private final JRadioButton cdRadioBtn;
+	private final JRadioButton dvdRadioBtn;
+	private final JRadioButton bookRadioBtn;
+	private final ButtonGroup itemTypeBtnGroup;
+	private final JPanel itemTypeJPanel;
 	
+	private final JRadioButton addRadioBtn;
+	private final JRadioButton updateRadioBtn;
+	private final JRadioButton searchRadioBtn;
+	private final JRadioButton displayRadioBtn;
+	private final ButtonGroup actionBtnGroup;
+	private final JPanel actionsJPanel;
+	
+	private final JPanel mainJPanel;
+	
+	private BorderLayout layout;
+	
+	private Model model;
 	private Controller controller;
 	private ItemType itemType;
 	private InventoryItem item;
-	private Model model;
-	private Scanner input;
 	
-	public View () { }
+	public View() {
+		
+		super("AmazonLite");
+
+		layout = new BorderLayout();
+		
+		mainJPanel = new JPanel(layout);
+		
+		// JRadioButton actionListener
+		itemTypeRadioBtnListener rbal = new itemTypeRadioBtnListener();
+		
+		// Setup the item type radio buttons
+		cdRadioBtn = new JRadioButton("CD");
+		cdRadioBtn.addActionListener(rbal);
+		dvdRadioBtn = new JRadioButton("DVD");
+		dvdRadioBtn.addActionListener(rbal);
+		bookRadioBtn = new JRadioButton("Book");
+		bookRadioBtn.addActionListener(rbal);
+		
+		// Create a button group and add all buttons
+		itemTypeBtnGroup = new ButtonGroup();
+		itemTypeBtnGroup.add(cdRadioBtn);
+		itemTypeBtnGroup.add(dvdRadioBtn);
+		itemTypeBtnGroup.add(bookRadioBtn);
+		
+		// set default selection
+		cdRadioBtn.setSelected(false);
+		
+		// add all items to JPannel
+		itemTypeJPanel = new JPanel();
+		itemTypeJPanel.add(cdRadioBtn);
+		itemTypeJPanel.add(dvdRadioBtn);
+		itemTypeJPanel.add(bookRadioBtn);
+		
+		// Set up items JPanel layout
+		itemTypeJPanel.setLayout(new BoxLayout(itemTypeJPanel, BoxLayout.PAGE_AXIS));
+		itemTypeJPanel.add(Box.createVerticalGlue());
+		itemTypeJPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+		
+		// Set title and border on the items JPanel
+		TitledBorder itemsTitle;
+		itemsTitle = BorderFactory.createTitledBorder("Items");
+		itemsTitle.setTitleJustification(TitledBorder.CENTER);
+		itemTypeJPanel.setBorder(itemsTitle);
+		
+		// add the item Jpanel to the main JPanel		
+		mainJPanel.add(itemTypeJPanel, layout.PAGE_START);
+		
+		// Actions Radio Button ActionListener
+		ActionsRadioBtnListener arbl = new ActionsRadioBtnListener();
+		
+		// Setup action radio buttons
+		addRadioBtn = new JRadioButton("Add item");
+		addRadioBtn.addActionListener(arbl);
+		updateRadioBtn = new JRadioButton("Update item");
+		updateRadioBtn.addActionListener(arbl);
+		searchRadioBtn = new JRadioButton("Search item");
+		searchRadioBtn.addActionListener(arbl);
+		displayRadioBtn = new JRadioButton("Display item(s)");
+		displayRadioBtn.addActionListener(arbl);
+		
+		// Create action group and add all actions
+		actionBtnGroup = new ButtonGroup();
+		actionBtnGroup.add(addRadioBtn);
+		actionBtnGroup.add(updateRadioBtn);
+		actionBtnGroup.add(searchRadioBtn);
+		actionBtnGroup.add(displayRadioBtn);
+		
+		// default selection
+		addRadioBtn.setSelected(true);
+		
+		// Create Actions JPanel
+		actionsJPanel = new JPanel();
+		
+		actionsJPanel.add(addRadioBtn);
+		actionsJPanel.add(updateRadioBtn);
+		actionsJPanel.add(searchRadioBtn);
+		actionsJPanel.add(displayRadioBtn);
+
+		// Set actions JPanel layout
+		actionsJPanel.setLayout(new BoxLayout(actionsJPanel, BoxLayout.PAGE_AXIS));
+		actionsJPanel.add(Box.createVerticalGlue());
+		
+		// Set title and border on the actions JPanel
+		TitledBorder actionsTitle;
+		actionsTitle = BorderFactory.createTitledBorder("Actions");
+		actionsTitle.setTitleJustification(TitledBorder.CENTER);
+		actionsJPanel.setBorder(actionsTitle);
+		
+		// Disable all actions until an Item has been selected
+		actionsJPanel.setEnabled(false);
+		componentsEnable(false, getComponents(actionsJPanel));
+		
+		mainJPanel.add(actionsJPanel, layout.CENTER);
+		
+		pack();
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		add(mainJPanel);
+	}
 	
-	public View (Controller controller) {
-		this.controller = controller;
+	/* Getters and Setters */
+	public Model getModel() { 
+		return model;
+	}
+	
+	public final void setModel(Model model) {
+		this.model = model;
 	}
 	
 	public Controller getController() {
 		return controller;
 	}
-
-	public void setController(Controller controller) {
+	
+	public final void setController(Controller controller) {
 		this.controller = controller;
 	}
 	
-	public Model getModel() {
-		return model;
-	}
-
-	public void setModel(Model model) {
-		this.model = model;
-	}
-
 	public InventoryItem getItem() {
 		return item;
 	}
@@ -64,247 +182,97 @@ public class View implements Observer {
 	public ItemType getItemType() {
  		return itemType;
 	}
-	
+		
 	/**
-	 * Method to parse through ArrayList of Strings and dispaly content on screen
-	 * @param objToDisplay ArrayList<String> to parse
+	 * Method that all components in a specific container
+	 * @param container container to check for and return components
+	 * @return Component(s) contained in the container
 	 */
-	public void displayOnScreen(ArrayList<String> objToDisplay) {
-		for (String str : objToDisplay) {
-			displayOnScreen(str);
-		}
-	}
-	
-	/**
-	 * Method to display a message to the console
-	 * @param message the String to display
-	 */
-	public void displayOnScreen(String message) {
-		System.out.println(message);
-	}
-
-	/**
-	 * Start method. Entry point for the application.
-	 * Displays a menu with all product categories
-	 */
-	public void start() {
-		int selected = 0;
-		System.out.println("Select an item type");
-
-		displayInitialMenu();
-		input = new Scanner(System.in);
+	private Component[]	getComponents(Component container) {
+		ArrayList<Component> list = null;
 		
-		while (selected <= 0 || selected > ItemType.values().length + 1) {
-			displayOnScreen("Please select an item from the list: ");
-			selected = input.nextInt();
-			
-			if (selected == 4) {
-				controller.closeApp();
-				return;
-			}
-			
-		}
-		
-		// This gets the item type from the enum
-		controller.setSelectedItem(Integer.valueOf(selected - 1));
-		// This creates an object based on the selected enum
-		controller.createNewInventoryItem(getItemType());
-		// This displays the item action menu
-		controller.displayActionMenu();
-	}
-
-	
-	/**
-	 * Item add menu. This method prompts the user for values
-	 * needed to create an object
-	 */
-	public void displayAddMenu() {
-		InventoryItem item = getItem();
-		item.setItemType(getItemType());
-		
-		input = new Scanner(System.in);
-		
-		displayOnScreen("Add Title: ");
-		String title = input.nextLine();
-		item.setTitle(title);
-		
-		displayOnScreen("Add Author: ");
-		String author = input.nextLine();
-		item.setAuthor(author);
-		
-		displayOnScreen("Add Release Date (mm/dd/yyyy): ");
-		String dateInput = input.nextLine();
-		Date date = null;
+		// Get every component in the container and add it to the array
 		try {
-			date = new SimpleDateFormat("MM/dd/yyyy").parse(dateInput);
-			item.setReleaseDate(date);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		
-		displayOnScreen("Add Length: ");
-		double length = input.nextDouble();
-		item.setLength(length);
-
-		input.nextLine();
-		
-		// Add an additional property depending on the type of item
-		if (item.getItemType().name() == "CD") {
-			displayOnScreen("Add hit single: ");
-			String hitSingle = input.nextLine();
-			((CD) item).setHitSingle(hitSingle);
-			item.setItemType(ItemType.CD);
-		} else if (item.getItemType().name() == "DVD") {
-			displayOnScreen("Add bonus scenes (yes/no): ");
-			String in = input.nextLine();
-			boolean bonusScenes = in.toLowerCase() == "yes" ? true : false;
-			((DVD) item).setBonusScenes(bonusScenes);
-			item.setItemType(ItemType.DVD);
-		} else {
-			displayOnScreen("Add publisher: ");
-			String publisher = input.nextLine();
-			((Book) item).setPublisher(publisher);
-			item.setItemType(ItemType.BOOK);
-		}
-
-		// Add item to the properties file
-		controller.addItem(item);
-	}
-	
-	/**
-	 * Method that displays the update menu
-	 */
-	public void displayUpdateMenu() {
-		
-		System.out.println("Find item to update");
-		ArrayList<String> itemToUpdate = displaySearchMenu();
-		
-		if (itemToUpdate.get(0).equals("NO MATCH FOUND")) return;
-
-		input = new Scanner(System.in);
-		
-		displayOnScreen("Property to modify: ");
-		String propertyToUpdate = input.nextLine();
-		
-		displayOnScreen("Old value to update: ");
-		String oldValueToUpdate = input.nextLine();
-		
-		displayOnScreen("New value to update: ");
-		String newValueToUpdate = input.nextLine();
-		
-		for (String str : itemToUpdate) {
-			displayOnScreen(propertyToUpdate + " UPDATED");
-			controller.updateItem(str, propertyToUpdate, oldValueToUpdate, newValueToUpdate);
-		}
-		
-	}
-	
-	/**
-	 * Method to display the inventory for specific item
-	 */
-	public void displayInventory() {
-		controller.displayInventory(getItem());
-	}
-	
-	/**
-	 * Method to return list of object attributes
-	 * @param o the object which attributes to return
-	 * @return ArrayList<String> of attribute names
-	 */
-	private ArrayList<String> showFields(Object o) {
-	   Class<?> clazz = o.getClass();
-	   ArrayList<String> fields = new ArrayList<String>();
-	   
-	   for(Field field : clazz.getDeclaredFields()) {
-		   if (!Modifier.isStatic(field.getModifiers())) {
-			   fields.add(field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1));
-		   }
-	   }
-	   return fields;
-	}
-	
-	/**
-	 * Method to search property files for matching entries
-	 * @return ArrayList<String> of all search matches found
-	 */
-	public ArrayList<String> displaySearchMenu() {
-		int selected = 0;
-	
-		// Get all attributes of the current object and the superclass
-		ArrayList<String> searchMenus = new ArrayList<String>();
-		searchMenus.addAll(showFields(new InventoryItem()));
-		searchMenus.addAll(showFields(getItem()));
-		
-		input = new Scanner(System.in);
-		
-		while (selected <= 0 || selected > searchMenus.size()) {
-			for (int i = 0; i < searchMenus.size(); i++) {
-				System.out.printf("%d. Search by: %s%n", i + 1, searchMenus.get(i));
+			list = new ArrayList<Component>(Arrays.asList(
+					((Container)container).getComponents()));
+			for (int index = 0; index < list.size(); index++) {
+				for (Component currentComponent : getComponents(list.get(index))) {
+					list.add(currentComponent);
+				}
 			}
-			selected = input.nextInt();		
+		} catch (ClassCastException e) {
+			list = new ArrayList<Component>();
 		}
 		
-		// Dummy advance to next line
-		input.nextLine();
-		
-		String propertyToSearch = searchMenus.get(--selected);
-		
-		System.out.printf("%s: ", propertyToSearch);
-		String valueToSearch = input.nextLine();
+		return list.toArray(new Component[list.size()]);
+	}
+	
+	/**
+	 * Method to enable or disable components in a container
+	 * @param enabled boolean parameter to enable (true) or disable (false) the components
+	 * @param components the Components array to loop through and disable
+	 */
+	private void componentsEnable(boolean enabled, Component[] components) {
+		for (Component component: components) {
+			component.setEnabled(enabled);
+		}
+	}
+	
+	/**
+	 * Inner class for Items Radio Btn ActionListener
+	 */
+	private class itemTypeRadioBtnListener implements ActionListener {
 
-		// Search the properties file for matches and print to screen
-		ArrayList<String> res = controller.searchItem(propertyToSearch, valueToSearch, getItemType());
-		displayOnScreen(res);
-		return res;
-	}
-	
-	/**
-	 * Method that displays a menu with actions to perform on an item
-	 */
-	public void displayActionMenu() {
-		int selected = 0;
-		String[] actionMenus = {"Add", "Update", "Search", "Display"};
-		input = new Scanner(System.in);
-		
-		while (selected <= 0 || selected > actionMenus.length) {
-			for (int i = 0; i < actionMenus.length; i++) {
-				System.out.printf("%d. %s%n", i + 1, actionMenus[i]);
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			for (Enumeration<AbstractButton> buttons = itemTypeBtnGroup.getElements(); buttons.hasMoreElements();) {
+				AbstractButton button = buttons.nextElement();
+				
+				if (button.isSelected()) {
+					componentsEnable(true, getComponents(actionsJPanel));
+				}
 			}
-			selected = input.nextInt();
 		}
-		
-		controller.selectActionMenu(selected);
-	}
+	} // End of JButton ActionListener
 	
 	/**
-	 * Displays initial menu with inventory items available to select
-	 * Reads the values of an Enum
+	 * Inner class for Actions Radio Btn ActionListener
 	 */
-	public void displayInitialMenu() {
-		int counter = 1;
-		for (ItemType it : ItemType.values()) {
-			displayOnScreen(String.format("%d. %s", counter, it));
-			counter++;
+	private class ActionsRadioBtnListener implements ActionListener {
+		@Override
+	 	public void actionPerformed(ActionEvent e) {
+			if (e.getSource().equals(addRadioBtn)) {
+//				System.out.println("Add selected");
+				View.this.dispose();
+				new AddGUI();
+			}
+			else if (e.getSource().equals(updateRadioBtn)) {
+//				System.out.println("Update selected");
+				View.this.dispose();
+				new UpdateGUI().setSize(350, 300);
+			}
+			else if (e.getSource().equals(searchRadioBtn)) {
+//				System.out.println("Search selected");
+				View.this.dispose();
+				new SearchGUI();
+			}
+			else if (e.getSource().equals(displayRadioBtn)) {
+//				System.out.println("Display selected");
+				View.this.dispose();
+				new DisplayGUI();
+			}
 		}
-		displayOnScreen(String.format("%d. %s", counter, "EXIT"));
-		System.out.println();
-	}
-	
-	/**
-	 * Method that terminates the app
-	 */
-	public void closeApp() {
-		displayOnScreen("Exiting application ... Goodbye!");
-	}
+	}  // End of Actions ActionListener
 
 	@Override
 	public void update() {
-		displayOnScreen(model.outputToView());
-	}
-	
-	@Override
-	public void update(String message) {
-		displayOnScreen(message);
+		// TODO Auto-generated method stub
+		
 	}
 
+	@Override
+	public void update(String message) {
+		// TODO Auto-generated method stub
+		
+	}
 }

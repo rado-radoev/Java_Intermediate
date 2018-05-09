@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.GroupLayout.Alignment;
 
-public class UpdateGUI extends template {
+public class UpdateGUI extends ActionsVewTemplate {
 	
 	private final JPanel mainJPanel;
 	private final GroupLayout layout;

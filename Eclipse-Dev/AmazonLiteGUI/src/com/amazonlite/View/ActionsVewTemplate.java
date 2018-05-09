@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 
 import java.util.Date;
 
-public abstract class template extends JFrame {
+public abstract class ActionsVewTemplate extends JFrame {
 	
 	private final JPanel mainJPanel;
 	private final GroupLayout layout;
@@ -29,7 +29,7 @@ public abstract class template extends JFrame {
 	private final JTextField lengthTextField;
 	private final JTextField specialFieldTextField;
 	
-	public template() {
+	public ActionsVewTemplate() {
 			
 		mainJPanel = new JPanel();
 		layout = new GroupLayout(mainJPanel);
