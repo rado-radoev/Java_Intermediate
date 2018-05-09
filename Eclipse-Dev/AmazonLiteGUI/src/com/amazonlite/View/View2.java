@@ -9,7 +9,6 @@ import javax.swing.JRadioButton;
 import javax.swing.border.TitledBorder;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
-import javax.swing.JTabbedPane;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -19,19 +18,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Enumeration;
 
 import com.amazonlite.Controller.Controller;
-import com.amazonlite.model.Book;
-import com.amazonlite.model.CD;
-import com.amazonlite.model.DVD;
 import com.amazonlite.model.InventoryItem;
 import com.amazonlite.model.ItemType;
 import com.amazonlite.model.Model;
 import com.amazonlite.interfaces.Observer;
 
-public class View extends JFrame implements Observer {
-	
-	private final JTabbedPane tabbedPane;
+public class View2 extends JFrame implements Observer {
 
 	private final JRadioButton cdRadioBtn;
 	private final JRadioButton dvdRadioBtn;
@@ -39,36 +34,29 @@ public class View extends JFrame implements Observer {
 	private final ButtonGroup itemTypeBtnGroup;
 	private final JPanel itemTypeJPanel;
 	
+	private final JRadioButton addRadioBtn;
+	private final JRadioButton updateRadioBtn;
+	private final JRadioButton searchRadioBtn;
+	private final JRadioButton displayRadioBtn;
+	private final ButtonGroup actionBtnGroup;
+	private final JPanel actionsJPanel;
+	
 	private final JPanel mainJPanel;
 	
 	private BorderLayout layout;
-	
-	private String specialFieldLabel;
 	
 	private Model model;
 	private Controller controller;
 	private ItemType itemType;
 	private InventoryItem item;
 	
-	private static View instance = null;
-	
-	public static View getInstance() {
-		if (instance == null) {
-			instance = new View();
-		}
-		
-		return instance;
-	}
-	
-	protected View() {
+	public View2() {
 		
 		super("AmazonLite");
 
 		layout = new BorderLayout();
 		
 		mainJPanel = new JPanel(layout);
-		
-		tabbedPane = new JTabbedPane();
 		
 		// JRadioButton actionListener
 		itemTypeRadioBtnListener rbal = new itemTypeRadioBtnListener();
@@ -88,7 +76,7 @@ public class View extends JFrame implements Observer {
 		itemTypeBtnGroup.add(bookRadioBtn);
 		
 		// set default selection
-		cdRadioBtn.setSelected(true);
+		cdRadioBtn.setSelected(false);
 		
 		// add all items to JPannel
 		itemTypeJPanel = new JPanel();
@@ -107,24 +95,59 @@ public class View extends JFrame implements Observer {
 		itemsTitle.setTitleJustification(TitledBorder.CENTER);
 		itemTypeJPanel.setBorder(itemsTitle);
 		
-		// Add JPanels as tabs
-		AddGUI addGUI = new AddGUI();
-		addGUI.setSpecialFieldLabel(specialFieldLabel);
+		// add the item Jpanel to the main JPanel		
+		mainJPanel.add(itemTypeJPanel, layout.PAGE_START);
 		
-		SearchGUI searchGUI = new SearchGUI();
-		searchGUI.setSpecialFieldLabel(specialFieldLabel);
+		// Actions Radio Button ActionListener
+		ActionsRadioBtnListener arbl = new ActionsRadioBtnListener();
 		
-		UpdateGUI updateGUI = new UpdateGUI();
+		// Setup action radio buttons
+		addRadioBtn = new JRadioButton("Add item");
+		addRadioBtn.addActionListener(arbl);
+		updateRadioBtn = new JRadioButton("Update item");
+		updateRadioBtn.addActionListener(arbl);
+		searchRadioBtn = new JRadioButton("Search item");
+		searchRadioBtn.addActionListener(arbl);
+		displayRadioBtn = new JRadioButton("Display item(s)");
+		displayRadioBtn.addActionListener(arbl);
 		
-		DisplayGUI displayGUI = new DisplayGUI();
-				
-		tabbedPane.add("Inventory", itemTypeJPanel);
-		tabbedPane.add("Add", addGUI);
-		tabbedPane.add("Search", searchGUI);
-		tabbedPane.add("Update", updateGUI);
-		tabbedPane.add("Display", displayGUI);
-	
-		add(tabbedPane);
+		// Create action group and add all actions
+		actionBtnGroup = new ButtonGroup();
+		actionBtnGroup.add(addRadioBtn);
+		actionBtnGroup.add(updateRadioBtn);
+		actionBtnGroup.add(searchRadioBtn);
+		actionBtnGroup.add(displayRadioBtn);
+		
+		// default selection
+		addRadioBtn.setSelected(true);
+		
+		// Create Actions JPanel
+		actionsJPanel = new JPanel();
+		
+		actionsJPanel.add(addRadioBtn);
+		actionsJPanel.add(updateRadioBtn);
+		actionsJPanel.add(searchRadioBtn);
+		actionsJPanel.add(displayRadioBtn);
+
+		// Set actions JPanel layout
+		actionsJPanel.setLayout(new BoxLayout(actionsJPanel, BoxLayout.PAGE_AXIS));
+		actionsJPanel.add(Box.createVerticalGlue());
+		
+		// Set title and border on the actions JPanel
+		TitledBorder actionsTitle;
+		actionsTitle = BorderFactory.createTitledBorder("Actions");
+		actionsTitle.setTitleJustification(TitledBorder.CENTER);
+		actionsJPanel.setBorder(actionsTitle);
+		
+		// Disable all actions until an Item has been selected
+		actionsJPanel.setEnabled(false);
+		componentsEnable(false, getComponents(actionsJPanel));
+		
+		mainJPanel.add(actionsJPanel, layout.CENTER);
+		
+		pack();
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		add(mainJPanel);
 	}
 	
 	/* Getters and Setters */
@@ -202,27 +225,40 @@ public class View extends JFrame implements Observer {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (e.getSource() == cdRadioBtn) {
-				// This gets the item type from the enum
-				controller.setSelectedItem(ItemType.valueOf(cdRadioBtn.getText()).ordinal());
-				specialFieldLabel = CD.getSpecialField();
+			for (Enumeration<AbstractButton> buttons = itemTypeBtnGroup.getElements(); buttons.hasMoreElements();) {
+				AbstractButton button = buttons.nextElement();
+				
+				if (button.isSelected()) {
+					componentsEnable(true, getComponents(actionsJPanel));
+				}
 			}
-			else if (e.getSource() == dvdRadioBtn) {
-				// This gets the item type from the enum
-				controller.setSelectedItem(ItemType.valueOf(dvdRadioBtn.getText()).ordinal());
-				specialFieldLabel = DVD.getSpecialField();
-			}
-			else if (e.getSource() == bookRadioBtn) {
-				// This gets the item type from the enum
-				controller.setSelectedItem(ItemType.valueOf(bookRadioBtn.getText()).ordinal());
-				specialFieldLabel = Book.getSpecialField();
-			}
-			
-			// This creates an object based on the selected enum
-			controller.createNewInventoryItem(getItemType());	
- 		}
+		}
 	} // End of JButton ActionListener
 	
+	/**
+	 * Inner class for Actions Radio Btn ActionListener
+	 */
+	private class ActionsRadioBtnListener implements ActionListener {
+		@Override
+	 	public void actionPerformed(ActionEvent e) {
+			if (e.getSource().equals(addRadioBtn)) {
+				View2.this.dispose();
+				new AddGUI();
+			}
+			else if (e.getSource().equals(updateRadioBtn)) {
+				View2.this.dispose();
+				new UpdateGUI().setSize(350, 300);
+			}
+			else if (e.getSource().equals(searchRadioBtn)) {
+				View2.this.dispose();
+				new SearchGUI();
+			}
+			else if (e.getSource().equals(displayRadioBtn)) {
+				View2.this.dispose();
+				new DisplayGUI();
+			}
+		}
+	}  // End of Actions ActionListener
 
 	@Override
 	public void update() {
@@ -232,12 +268,5 @@ public class View extends JFrame implements Observer {
 	@Override
 	public void update(String message) {
 		// TODO Auto-generated method stub
-	}	
-	
-	public static void main(String[] args) {
-		View v = new View();
-		v.setVisible(true);
-		v.setSize(400,500);
-		v.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }

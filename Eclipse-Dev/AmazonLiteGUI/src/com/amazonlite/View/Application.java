@@ -9,7 +9,7 @@ public class Application {
 	
 	public static void main (String[] args) {
 		Model model = new Model();
-		View view = new View();
+		View view = View.getInstance();
 		Controller controller = new Controller();
 		
 		
@@ -21,7 +21,6 @@ public class Application {
 		controller.setView(view);
 		controller.setModel(model);
 		model.setView(view);
-
 		}		
 	}
 

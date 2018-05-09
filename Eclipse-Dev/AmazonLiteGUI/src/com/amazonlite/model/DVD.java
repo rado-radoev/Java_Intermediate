@@ -30,6 +30,10 @@ public class DVD extends InventoryItem {
 		instance--;
 	}
 	
+	public static String getSpecialField() {
+		return "Bonus Scenes";
+	}
+	
 	@Override
 	public String toString() {
 		return String.format("Title: %s, Author: %s, Length: %.1f, Bonus Scenes: %s ,Release Date: %tD", 

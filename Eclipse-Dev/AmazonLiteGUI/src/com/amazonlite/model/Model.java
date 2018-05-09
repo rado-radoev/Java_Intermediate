@@ -52,6 +52,7 @@ public class Model implements Actionable, Observable {
 	 * based on the selected enum
 	 * @param itemType the enum object selected
 	 */
+	@Override
 	public void createNewInventoryItem(ItemType itemType) {
 		if (itemType.name().equals("CD")) {
 			view.setInventoryItem(new CD());
@@ -68,7 +69,8 @@ public class Model implements Actionable, Observable {
 	 * properties in the comamnd line
 	 * @param prop the properties to display
 	 */
-	public void displayProperties(Properties prop) {
+	@Override
+	public void displayRecords(Properties prop) {
 		Map<String, String> propMap = new HashMap<String, String>();
 		propMap.putAll(prop.entrySet().stream()
 				.collect(Collectors.toMap(e -> e.getKey().toString(), e -> e.getValue().toString())));
@@ -104,7 +106,7 @@ public class Model implements Actionable, Observable {
 	 * @param item InventoryItem object to load properties from file
 	 * @return Properties object containing all properties from InventoryItem's properties file
 	 */
-	public Properties loadProperties(InventoryItem item) {
+	public Properties loadRecords(InventoryItem item) {
 		String fileName = item.getClass().getCanonicalName().substring(item.getClass().getCanonicalName().lastIndexOf(".") + 1) + ".properties";
 		
 		return readProps(fileName);
@@ -115,7 +117,7 @@ public class Model implements Actionable, Observable {
 	 * @param itemType ItemType Enum to load properties from file
 	 * @return Properties object containing all properties from InventoryItem's properties file
 	 */
-	public Properties loadProperties(ItemType itemType) {
+	public Properties loadRecords(ItemType itemType) {
 		String fileName = itemType.name() + ".properties";
 		
 		return readProps(fileName);
@@ -146,9 +148,10 @@ public class Model implements Actionable, Observable {
 	 * Method to add item to properties file
 	 * @param item item to add
 	 */
+	@Override
 	public void addItem(InventoryItem item) {
 		Properties property = new Properties();
-		property = loadProperties(item);
+		property = loadRecords(item);
 
 		property.setProperty(String.valueOf(property.size() + 1), item.toString());
 		saveProperties(property, item.getItemType());
@@ -161,7 +164,8 @@ public class Model implements Actionable, Observable {
 	 * @param oldValueToUpdate old value to be modified
 	 * @param newValueToUpdate new value to replace old value
 	 */
-	public void updateProperty(String propertyToModify, String attributeToModify ,String oldValueToUpdate, String newValueToUpdate) {
+	@Override
+	public void updateRecord(String propertyToModify, String attributeToModify ,String oldValueToUpdate, String newValueToUpdate) {
 		
 		ItemType itemType = ItemType.valueOf(propertyToModify.substring(propertyToModify.indexOf("Type: ") + 6));
 		String key = propertyToModify.substring(0, propertyToModify.indexOf(" = "));
@@ -170,23 +174,24 @@ public class Model implements Actionable, Observable {
 		String newPropValueFull = newPropValue1 + newValueToUpdate + newPropValue2;
 		
 		Properties property = new Properties();
-		property = loadProperties(itemType);
+		property = loadRecords(itemType);
 		
 		property.setProperty(key, newPropValueFull.substring(newPropValueFull.indexOf("Title: ")));
 		saveProperties(property, itemType);
 	}
 	
 	/**
-	 * Method to find a property
+	 * Method to find an item record
 	 * @param propertyToFind Name of property to find
 	 * @param valueToSearch value to search for in property
 	 * @param itemType type of item to search for
 	 * @return ArrayList of Strings represeinting every property that matches the search
 	 */
-	public ArrayList<String> findProperty(String propertyToFind, String valueToSearch ,ItemType itemType) {
+	@Override
+	public ArrayList<String> findRecord(String propertyToFind, String valueToSearch ,ItemType itemType) {
 
 		Properties property = new Properties();
-		property = loadProperties(itemType);
+		property = loadRecords(itemType);
 
 		ArrayList<String> res = new ArrayList<String>();
 		
@@ -226,7 +231,7 @@ public class Model implements Actionable, Observable {
 	 * @param itemType the item type to check for
 	 * @return boolean if file exists or not
 	 */
-	public boolean checkPropertiesFileExists(ItemType itemType) {
+	public boolean checkInventoryExists(ItemType itemType) {
 		if (new File(itemType.name() + ".properties").exists()) return true;
 		else return false;
 	}

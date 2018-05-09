@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.GroupLayout.Alignment;
 
-public class UpdateGUI extends ActionsVewTemplate {
+public class UpdateGUI extends JPanel {
 	
 	private final JPanel mainJPanel;
 	private final GroupLayout layout;
@@ -21,7 +21,6 @@ public class UpdateGUI extends ActionsVewTemplate {
 	private final JLabel lengthLabel;
 	private final JLabel specialFieldLabel;
 
-	
 	private final JTextField propToModifyTextField;
 	private final JTextField oldValueTextField;
 	private final JTextField newValueTextField;
@@ -32,8 +31,7 @@ public class UpdateGUI extends ActionsVewTemplate {
 	private final JTextField specialFieldTextField;
 	
 	public UpdateGUI() {
-		setTitle("Update GUI");
-		
+	
 		mainJPanel = new JPanel();
 		layout = new GroupLayout(mainJPanel);
 		mainJPanel.setLayout(layout);
@@ -115,13 +113,5 @@ public class UpdateGUI extends ActionsVewTemplate {
 		layout.setVerticalGroup(vGroup);
 		
 		add(mainJPanel);
-	}
-	
-	
-	public static void main(String[] args) {
-		UpdateGUI ug = new UpdateGUI();
-		ug.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		ug.setVisible(true);
-		ug.setSize(300, 200);
 	}
 }

@@ -3,6 +3,7 @@ package com.amazonlite.Controller;
 import com.amazonlite.model.Item;
 import com.amazonlite.model.ItemType;
 import com.amazonlite.View.View;
+import com.amazonlite.interfaces.Actionable;
 import com.amazonlite.View.View;
 import com.amazonlite.model.Model;
 import com.amazonlite.props.Props;
@@ -10,8 +11,9 @@ import com.amazonlite.model.InventoryItem;
 
 import java.util.ArrayList;
 import java.util.Observer;
+import java.util.Properties;
 
-public class Controller  {
+public class Controller implements Actionable  {
 	
 	private View view;
 	private ItemType itemType;
@@ -88,19 +90,39 @@ public class Controller  {
 		}
 	}
 	
+	@Override
 	public void addItem(InventoryItem item) {
 		model.addItem(item);
 	}
 	
 	public void updateItem(String propertyToModify, String attributeToModify, String oldValueToUpdate, String newValueToUpdate) {
-		model.updateProperty(propertyToModify, attributeToModify, oldValueToUpdate, newValueToUpdate);
+		model.updateRecord(propertyToModify, attributeToModify, oldValueToUpdate, newValueToUpdate);
 	}
 	
 	public ArrayList<String> searchItem(String propertyToSearch, String valueToSearch, ItemType itemType) {
-		return model.findProperty(propertyToSearch, valueToSearch, view.getItemType());
+		return model.findRecord(propertyToSearch, valueToSearch, view.getItemType());
 	}
 	
-	public void displayInventory(InventoryItem item) {
-		model.displayProperties(model.loadProperties(item));
+	public void displayInventory(ItemType item) {
+		model.displayRecords(model.loadRecords(item));
+	}
+
+	@Override
+	public void displayRecords(Properties prop) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateRecord(String propertyToModify, String attributeToModify, String oldValueToUpdate,
+			String newValueToUpdate) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public ArrayList<String> findRecord(String propertyToFind, String valueToSearch, ItemType itemType) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

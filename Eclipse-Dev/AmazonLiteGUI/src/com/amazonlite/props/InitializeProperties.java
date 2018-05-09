@@ -30,7 +30,7 @@ public class InitializeProperties {
 	 * @param itemType ItemType to be used when initializing properties files
 	 */
 	private static void initializeDefaultProperites(ItemType itemType) {
-		if (!model.checkPropertiesFileExists(itemType)) { 
+		if (!model.checkInventoryExists(itemType)) { 
 			createDummyProperties(itemType);
 		}
 	}

@@ -6,11 +6,10 @@ import java.util.Properties;
 import com.amazonlite.model.InventoryItem;
 import com.amazonlite.model.ItemType;
 
-public interface Actionable {
-	
-	public void createNewInventoryItem(ItemType itemType);
-	public void displayRecords(Properties prop);
-	public void addItem(InventoryItem item);
+public interface Actionable2 {
+
 	public void updateRecord(String propertyToModify, String attributeToModify ,String oldValueToUpdate, String newValueToUpdate);
+	public void addItem(InventoryItem item);
 	public ArrayList<String> findRecord(String propertyToFind, String valueToSearch ,ItemType itemType);
+	public void displayRecords(Properties prop);
 }

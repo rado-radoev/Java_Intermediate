@@ -30,6 +30,10 @@ public class Book extends InventoryItem {
 		instance--;
 	}
 	
+	public static String getSpecialField() {
+		return "Publisher";
+	}
+	
 	@Override
 	public String toString() {
 		return String.format("Title: %s, Author: %s, Length: %.0f, Publisher: %s ,Release Date: %tD", 

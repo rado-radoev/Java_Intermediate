@@ -7,12 +7,15 @@ import javax.swing.JPanel;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.Date;
 
-public abstract class ActionsVewTemplate extends JFrame {
+public abstract class ActionsVewTemplate extends JPanel {
 	
 	private final JPanel mainJPanel;
 	private final GroupLayout layout;
@@ -29,6 +32,8 @@ public abstract class ActionsVewTemplate extends JFrame {
 	private final JTextField lengthTextField;
 	private final JTextField specialFieldTextField;
 	
+	private final String DATEFORMAT = "MM/DD/YYYY";
+	
 	public ActionsVewTemplate() {
 			
 		mainJPanel = new JPanel();
@@ -44,6 +49,28 @@ public abstract class ActionsVewTemplate extends JFrame {
 		titleTextField = new JTextField(20);
 		authorTextField = new JTextField(20);
 		releaseDateTextField = new JTextField(20);
+		releaseDateTextField.setForeground(Color.GRAY);
+		releaseDateTextField.setText(DATEFORMAT);
+		releaseDateTextField.addFocusListener(new FocusListener() {
+			
+			@Override
+			public void focusLost(FocusEvent e) {
+				if (releaseDateTextField.getText().isEmpty()) {
+					releaseDateTextField.setForeground(Color.GRAY);
+					releaseDateTextField.setText(DATEFORMAT);
+				}
+				
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				if (releaseDateTextField.getText().equals(DATEFORMAT)) {
+					releaseDateTextField.setText("");
+					releaseDateTextField.setForeground(Color.BLACK);
+				}
+			}
+		});
+		
 		lengthTextField = new JTextField(20);
 		specialFieldTextField = new JTextField(20);
 		
@@ -92,15 +119,22 @@ public abstract class ActionsVewTemplate extends JFrame {
 		layout.setVerticalGroup(vGroup);
 		
 		add(mainJPanel);
-		
-		setVisible(true);
-		setSize(350, 250);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		
+	}
+	
+	public void setSpecialFieldLabel (String specialFieldLabel) {
+		this.specialFieldLabel.setText(specialFieldLabel);
+	}
+	
+	public GroupLayout getLayout() {
+		return layout;
 	}
 	
 	public JTextField getTitleTextField() {
 		return titleTextField;
+	}
+	
+	public void setTextFieldText(JTextField textField, String text) {
+		textField.setText(text);
 	}
 
 	public JTextField getAuthorTextField() {

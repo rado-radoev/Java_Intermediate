@@ -29,6 +29,10 @@ public class CD extends InventoryItem {
 	public void setHitSingle(String hitSingle) {
 		this.hitSingle = hitSingle;
 	}
+	
+	public static String getSpecialField() {
+		return "Hit Single";
+	}
 
 	@Override
 	public String toString() {
