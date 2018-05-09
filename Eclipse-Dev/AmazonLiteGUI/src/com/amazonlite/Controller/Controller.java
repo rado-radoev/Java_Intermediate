@@ -55,7 +55,6 @@ public class Controller  {
 	
 	public void startMenu() {
 		model.initializeDefaultProperties();
-		view.start();
 	}
 	
 	public void displayMenu() {

@@ -242,22 +242,18 @@ public class View extends JFrame implements Observer {
 		@Override
 	 	public void actionPerformed(ActionEvent e) {
 			if (e.getSource().equals(addRadioBtn)) {
-//				System.out.println("Add selected");
 				View.this.dispose();
 				new AddGUI();
 			}
 			else if (e.getSource().equals(updateRadioBtn)) {
-//				System.out.println("Update selected");
 				View.this.dispose();
 				new UpdateGUI().setSize(350, 300);
 			}
 			else if (e.getSource().equals(searchRadioBtn)) {
-//				System.out.println("Search selected");
 				View.this.dispose();
 				new SearchGUI();
 			}
 			else if (e.getSource().equals(displayRadioBtn)) {
-//				System.out.println("Display selected");
 				View.this.dispose();
 				new DisplayGUI();
 			}
@@ -267,12 +263,10 @@ public class View extends JFrame implements Observer {
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void update(String message) {
 		// TODO Auto-generated method stub
-		
 	}
 }
