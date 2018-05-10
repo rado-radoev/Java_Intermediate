@@ -10,7 +10,7 @@ public interface Actionable {
 	
 	public void createNewInventoryItem(ItemType itemType);
 	public void displayRecords(Properties prop);
-	public void addItem(InventoryItem item);
+	public boolean addItem(InventoryItem item);
 	public void updateRecord(String propertyToModify, String attributeToModify ,String oldValueToUpdate, String newValueToUpdate);
 	public ArrayList<String> findRecord(String propertyToFind, String valueToSearch ,ItemType itemType);
 }

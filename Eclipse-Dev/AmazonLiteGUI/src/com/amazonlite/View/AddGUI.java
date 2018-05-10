@@ -9,7 +9,6 @@ import java.util.Date;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
-import com.amazonlite.Controller.Controller;
 import com.amazonlite.model.Book;
 import com.amazonlite.model.CD;
 import com.amazonlite.model.DVD;
@@ -17,7 +16,7 @@ import com.amazonlite.model.InventoryItem;
 import com.amazonlite.model.ItemType;
 
 public class AddGUI extends ActionsVewTemplate {
-	
+
 	private final JButton addRecord;
 	private final JButton cancel;
 	
@@ -75,7 +74,11 @@ public class AddGUI extends ActionsVewTemplate {
 				}
 
 				// Add item to the properties file
-				View.getInstance().getController().addItem(item);
+				boolean itemAddSuccessful = View.getInstance().getController().addItem(item);
+				JOptionPane.showMessageDialog(AddGUI.this, 
+						"Item Add " + (itemAddSuccessful ? "successfull" : "not successfull"),
+						"Item Add",
+						itemAddSuccessful ? JOptionPane.INFORMATION_MESSAGE : JOptionPane.ERROR_MESSAGE);
 			}
 		});
 		

@@ -79,15 +79,16 @@ public class View extends JFrame implements Observer {
 		tabbedPane.addChangeListener(new ChangeListener() {
 			
 			private void changeSpecialLabel() {
-				if (getItemType().name() == "CD") {
+				System.out.println(getItemType().name());
+				if (getItemType().name().toUpperCase() == "CD") {
 					addGUI.setSpecialFieldLabel("Hit Single");
 					searchGUI.setSpecialFieldLabel("Hit Single");
 				}
-				else if (getItemType().name() == "DVD") { 
+				else if (getItemType().name().toUpperCase() == "DVD") { 
 					addGUI.setSpecialFieldLabel("Bonus Scenes"); 
 					searchGUI.setSpecialFieldLabel("Bonus Scenes");
 					}
-				else if (getItemType().name() == "Book") { 
+				else if (getItemType().name().toUpperCase() == "BOOK") { 
 					addGUI.setSpecialFieldLabel("Publisher");
 					searchGUI.setSpecialFieldLabel("Publisher");
 				}
@@ -122,15 +123,15 @@ public class View extends JFrame implements Observer {
 		itemTypeBtnGroup.add(cdRadioBtn);
 		itemTypeBtnGroup.add(dvdRadioBtn);
 		itemTypeBtnGroup.add(bookRadioBtn);
-		
-		// set default selection
-		cdRadioBtn.setSelected(true);
-		
+			
 		// add all items to JPannel
 		itemTypeJPanel = new JPanel();
 		itemTypeJPanel.add(cdRadioBtn);
 		itemTypeJPanel.add(dvdRadioBtn);
 		itemTypeJPanel.add(bookRadioBtn);
+		
+		// set default selection
+		cdRadioBtn.setSelected(true);
 		
 		// Set up items JPanel layout
 		itemTypeJPanel.setLayout(new BoxLayout(itemTypeJPanel, BoxLayout.PAGE_AXIS));
@@ -192,30 +193,6 @@ public class View extends JFrame implements Observer {
 	}
 		
 	/**
-	 * Method that all components in a specific container
-	 * @param container container to check for and return components
-	 * @return Component(s) contained in the container
-	 */
-	private Component[]	getComponents(Component container) {
-		ArrayList<Component> list = null;
-		
-		// Get every component in the container and add it to the array
-		try {
-			list = new ArrayList<Component>(Arrays.asList(
-					((Container)container).getComponents()));
-			for (int index = 0; index < list.size(); index++) {
-				for (Component currentComponent : getComponents(list.get(index))) {
-					list.add(currentComponent);
-				}
-			}
-		} catch (ClassCastException e) {
-			list = new ArrayList<Component>();
-		}
-		
-		return list.toArray(new Component[list.size()]);
-	}
-	
-	/**
 	 * Method to enable or disable components in a container
 	 * @param enabled boolean parameter to enable (true) or disable (false) the components
 	 * @param components the Components array to loop through and disable
@@ -235,17 +212,17 @@ public class View extends JFrame implements Observer {
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == cdRadioBtn) {
 				// This gets the item type from the enum
-				controller.setSelectedItem(ItemType.valueOf(cdRadioBtn.getText()).ordinal());
+				controller.setSelectedItem(ItemType.valueOf(cdRadioBtn.getText().toUpperCase()).ordinal());
 				specialFieldLabel = CD.getSpecialField();
 			}
 			else if (e.getSource() == dvdRadioBtn) {
 				// This gets the item type from the enum
-				controller.setSelectedItem(ItemType.valueOf(dvdRadioBtn.getText()).ordinal());
+				controller.setSelectedItem(ItemType.valueOf(dvdRadioBtn.getText().toUpperCase()).ordinal());
 				specialFieldLabel = DVD.getSpecialField();
 			}
 			else if (e.getSource() == bookRadioBtn) {
 				// This gets the item type from the enum
-				controller.setSelectedItem(ItemType.valueOf(bookRadioBtn.getText()).ordinal());
+				controller.setSelectedItem(ItemType.valueOf(bookRadioBtn.getText().toUpperCase()).ordinal());
 				specialFieldLabel = Book.getSpecialField();
 			}
 			
@@ -264,11 +241,4 @@ public class View extends JFrame implements Observer {
 	public void update(String message) {
 		// TODO Auto-generated method stub
 	}	
-	
-	public static void main(String[] args) {
-		View v = new View();
-		v.setVisible(true);
-		v.setSize(400,500);
-		v.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}
 }

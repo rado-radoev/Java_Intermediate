@@ -149,12 +149,15 @@ public class Model implements Actionable, Observable {
 	 * @param item item to add
 	 */
 	@Override
-	public void addItem(InventoryItem item) {
+	public boolean addItem(InventoryItem item) {
 		Properties property = new Properties();
 		property = loadRecords(item);
 
 		property.setProperty(String.valueOf(property.size() + 1), item.toString());
-		saveProperties(property, item.getItemType());
+		if (saveProperties(property, item.getItemType()))
+			return true;
+		else
+			return false;
 	}
 
 	/**

@@ -9,18 +9,17 @@ public class Application {
 	
 	public static void main (String[] args) {
 		Model model = new Model();
-		View view = View.getInstance();
 		Controller controller = new Controller();
-		
-		
-		view.setVisible(true);
-		view.setSize(450,350);
+		View view = View.getInstance();
 		
 		view.setController(controller);
 		view.setModel(model);		
 		controller.setView(view);
 		controller.setModel(model);
 		model.setView(view);
+
+		view.setVisible(true);
+		view.setSize(450,350);
 		}		
 	}
 

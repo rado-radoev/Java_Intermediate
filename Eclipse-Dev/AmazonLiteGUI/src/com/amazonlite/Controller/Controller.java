@@ -59,40 +59,40 @@ public class Controller implements Actionable  {
 		model.initializeDefaultProperties();
 	}
 	
-	public void displayMenu() {
-		view.displayAddMenu();
-	}
-	
-	public void displayActionMenu() {
-		view.displayActionMenu();
-	}
-	
-	public void closeApp() {
-		view.closeApp();
-	}
-
-	public void selectActionMenu(int menuIndex) {
-		switch (menuIndex) {
-		case 1:
-			view.displayAddMenu();
-			break;
-		case 2:
-			view.displayUpdateMenu();
-			break;
-		case 3:
-			view.displaySearchMenu();
-			break;
-		case 4:
-			view.displayInventory();
-			break;
-		default:
-			break;
-		}
-	}
+//	public void displayMenu() {
+//		view.displayAddMenu();
+//	}
+//	
+//	public void displayActionMenu() {
+//		view.displayActionMenu();
+//	}
+//	
+//	public void closeApp() {
+//		view.closeApp();
+//	}
+//
+//	public void selectActionMenu(int menuIndex) {
+//		switch (menuIndex) {
+//		case 1:
+//			view.displayAddMenu();
+//			break;
+//		case 2:
+//			view.displayUpdateMenu();
+//			break;
+//		case 3:
+//			view.displaySearchMenu();
+//			break;
+//		case 4:
+//			view.displayInventory();
+//			break;
+//		default:
+//			break;
+//		}
+//	}
 	
 	@Override
-	public void addItem(InventoryItem item) {
-		model.addItem(item);
+	public boolean addItem(InventoryItem item) {
+		return model.addItem(item);
 	}
 	
 	public void updateItem(String propertyToModify, String attributeToModify, String oldValueToUpdate, String newValueToUpdate) {
