@@ -160,6 +160,15 @@ public class View extends JFrame implements Observer {
 	}
 	
 	/* Getters and Setters */
+	
+	public DisplayGUI getDisplayGUI() {
+		return displayGUI;
+	}
+ 	
+	public JTabbedPane getTabbedPane() {
+		return tabbedPane;
+	}
+	
 	public Model getModel() { 
 		return model;
 	}

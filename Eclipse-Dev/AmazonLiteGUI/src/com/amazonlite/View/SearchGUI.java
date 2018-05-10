@@ -12,22 +12,16 @@ import java.util.Date;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import com.amazonlite.model.Book;
-import com.amazonlite.model.CD;
-import com.amazonlite.model.DVD;
-import com.amazonlite.model.InventoryItem;
-import com.amazonlite.model.ItemType;
 
 public class SearchGUI extends ActionsVewTemplate {
 	private final JButton searchRecord;
 	private final JButton cancel;
-
+	private ArrayList<String> searchResults;
+	
 	public SearchGUI() {
 						
 		searchRecord = new JButton("Search");
@@ -35,8 +29,6 @@ public class SearchGUI extends ActionsVewTemplate {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				InventoryItem item = View.getInstance().getItem();
-				item.setItemType(View.getInstance().getItemType());
 				
 				String title = getTitleTextField().getText();
 				String author = getAuthorTextField().getText();
@@ -47,40 +39,37 @@ public class SearchGUI extends ActionsVewTemplate {
 				Date date = null;
 				try {
 					date = new SimpleDateFormat("MM/dd/yyyy").parse(releaseDate);
-					item.setReleaseDate(date);
 				} catch (ParseException e) {
-					JOptionPane.showMessageDialog(SearchGUI.this, 
-							"Date must be in the MM/DD/YYYY format",
-							"Date Format Error",
-							JOptionPane.ERROR_MESSAGE);
+					// Don't care if this is empty
 				}
 				
 			
 				try {
 					length = Double.valueOf(getLengthTextField().getText());
-					item.setLength(length);
 				} catch (NumberFormatException nfe) {
-					JOptionPane.showMessageDialog(SearchGUI.this, 
-							"Length not fomatted properly",
-							"Length Format Error",
-							JOptionPane.ERROR_MESSAGE);
+					// Don't care if this is empty
 				}
 				
-				item.setTitle(title);
-				item.setAuthor(author);		
 				
-				// Add an additional property depending on the type of item
-				if (item.getItemType().name() == "CD") {
-					((CD) item).setHitSingle(specialField);
-					item.setItemType(ItemType.CD);
-				} else if (item.getItemType().name() == "DVD") {
-					((DVD) item).setBonusScenes(specialField.isEmpty() ? false : true);
-					item.setItemType(ItemType.DVD);
-				} else {
-					((Book) item).setPublisher(specialField);
-					item.setItemType(ItemType.BOOK);
+				
+				if (!title.equals("")) {
+					searchResults = View.getInstance().getController().searchItem("Title", getTitleTextField().getText(), View.getInstance().getItemType());
 				}
-
+				else if (!author.equals("")) {
+					searchResults = View.getInstance().getController().searchItem("Author", getAuthorTextField().getText(), View.getInstance().getItemType());
+				}
+				else if (!releaseDate.equals("")) {
+					searchResults = View.getInstance().getController().searchItem("Release Date", getReleaseDateTextField().getText(), View.getInstance().getItemType());
+				}
+				else if (length > 0) {
+					searchResults = View.getInstance().getController().searchItem("Length", getLengthTextField().getText(), View.getInstance().getItemType());
+				}
+				else if (!specialField.equals("")) {
+					searchResults = View.getInstance().getController().searchItem("Special Field", getSpecialFieldTextField ().getText(), View.getInstance().getItemType());
+				}
+				
+				View.getInstance().getDisplayGUI().setTextArea(searchResults);
+				View.getInstance().getTabbedPane().setSelectedIndex(4);
 			}
 		});
 		
@@ -126,10 +115,6 @@ public class SearchGUI extends ActionsVewTemplate {
 					//Plain text components do not fire these events
 					
 				}
-				
-				private void disbleJTextFields(JTextField textField) {
-					
-				}
 			});
 		}
 		
@@ -158,7 +143,7 @@ public class SearchGUI extends ActionsVewTemplate {
 	}
 	
 	
-	public List<JTextField> getTextFields () {
+	private List<JTextField> getTextFields () {
 		List<JTextField> textFields = new ArrayList<JTextField>();
 		Component[] components = getComponents(this);
 	
