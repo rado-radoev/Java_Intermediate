@@ -14,7 +14,7 @@ public class Application {
 		
 		
 		view.setVisible(true);
-		view.setSize(200,300);
+		view.setSize(450,350);
 		
 		view.setController(controller);
 		view.setModel(model);		

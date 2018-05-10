@@ -20,20 +20,16 @@ public class AddGUI extends ActionsVewTemplate {
 	
 	private final JButton addRecord;
 	private final JButton cancel;
-	private final View view;
-	private final Controller controller;
 	
 	public AddGUI() {
-		view = View.getInstance();
-		controller = view.getController();
-		
+	
 		addRecord = new JButton("Add record");
 		addRecord.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				InventoryItem item = view.getItem();
-				item.setItemType(view.getItemType());
+				InventoryItem item = View.getInstance().getItem();
+				item.setItemType(View.getInstance().getItemType());
 				
 				String title = getTitleTextField().getText();
 				String author = getAuthorTextField().getText();
@@ -64,14 +60,7 @@ public class AddGUI extends ActionsVewTemplate {
 				}
 				
 				item.setTitle(title);
-				item.setAuthor(author);
-				
-//				System.out.println("Title" + title);
-//				System.out.println("Author" + author);
-//				System.out.println("Release Date" + releaseDate);
-//				System.out.println("Length" + length);
-//				System.out.println("SpecialField" + specialField);
-				
+				item.setAuthor(author);		
 				
 				// Add an additional property depending on the type of item
 				if (item.getItemType().name() == "CD") {
@@ -86,7 +75,7 @@ public class AddGUI extends ActionsVewTemplate {
 				}
 
 				// Add item to the properties file
-				controller.addItem(item);
+				View.getInstance().getController().addItem(item);
 			}
 		});
 		

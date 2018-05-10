@@ -7,6 +7,8 @@ import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JRadioButton;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
@@ -50,6 +52,11 @@ public class View extends JFrame implements Observer {
 	private ItemType itemType;
 	private InventoryItem item;
 	
+	private AddGUI addGUI;
+	private SearchGUI searchGUI;
+	private UpdateGUI updateGUI;
+	private DisplayGUI displayGUI;
+	
 	private static View instance = null;
 	
 	public static View getInstance() {
@@ -69,6 +76,35 @@ public class View extends JFrame implements Observer {
 		mainJPanel = new JPanel(layout);
 		
 		tabbedPane = new JTabbedPane();
+		tabbedPane.addChangeListener(new ChangeListener() {
+			
+			private void changeSpecialLabel() {
+				if (getItemType().name() == "CD") {
+					addGUI.setSpecialFieldLabel("Hit Single");
+					searchGUI.setSpecialFieldLabel("Hit Single");
+				}
+				else if (getItemType().name() == "DVD") { 
+					addGUI.setSpecialFieldLabel("Bonus Scenes"); 
+					searchGUI.setSpecialFieldLabel("Bonus Scenes");
+					}
+				else if (getItemType().name() == "Book") { 
+					addGUI.setSpecialFieldLabel("Publisher");
+					searchGUI.setSpecialFieldLabel("Publisher");
+				}
+			}
+			
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				
+				JTabbedPane sourceTabbedPane = (JTabbedPane) e.getSource();
+				int index = sourceTabbedPane.getSelectedIndex();
+				if (sourceTabbedPane.getTitleAt(index).equals("Add") || 
+						sourceTabbedPane.getTitleAt(index).equals("Update") ||
+						sourceTabbedPane.getTitleAt(index).equals("Search")) {
+					changeSpecialLabel();
+				}
+			}
+		});
 		
 		// JRadioButton actionListener
 		itemTypeRadioBtnListener rbal = new itemTypeRadioBtnListener();
@@ -108,15 +144,10 @@ public class View extends JFrame implements Observer {
 		itemTypeJPanel.setBorder(itemsTitle);
 		
 		// Add JPanels as tabs
-		AddGUI addGUI = new AddGUI();
-		addGUI.setSpecialFieldLabel(specialFieldLabel);
-		
-		SearchGUI searchGUI = new SearchGUI();
-		searchGUI.setSpecialFieldLabel(specialFieldLabel);
-		
-		UpdateGUI updateGUI = new UpdateGUI();
-		
-		DisplayGUI displayGUI = new DisplayGUI();
+		addGUI = new AddGUI();
+		searchGUI = new SearchGUI();
+		updateGUI = new UpdateGUI();
+		displayGUI = new DisplayGUI();
 				
 		tabbedPane.add("Inventory", itemTypeJPanel);
 		tabbedPane.add("Add", addGUI);
