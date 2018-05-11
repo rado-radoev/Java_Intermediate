@@ -36,21 +36,11 @@ public class SearchGUI extends ActionsVewTemplate {
 				double length = 0D;
 				String specialField = getSpecialFieldTextField().getText();
 				
-				Date date = null;
-				try {
-					date = new SimpleDateFormat("MM/dd/yyyy").parse(releaseDate);
-				} catch (ParseException e) {
-					// Don't care if this is empty
-				}
-				
-			
 				try {
 					length = Double.valueOf(getLengthTextField().getText());
 				} catch (NumberFormatException nfe) {
 					// Don't care if this is empty
 				}
-				
-				
 				
 				if (!title.equals("")) {
 					searchResults = View.getInstance().getController().findRecord("Title", getTitleTextField().getText(), View.getInstance().getItemType());
