@@ -79,7 +79,6 @@ public class View extends JFrame implements Observer {
 		tabbedPane.addChangeListener(new ChangeListener() {
 			
 			private void changeSpecialLabel() {
-				System.out.println(getItemType().name());
 				if (getItemType().name().toUpperCase() == "CD") {
 					addGUI.setSpecialFieldLabel("Hit Single");
 					searchGUI.setSpecialFieldLabel("Hit Single");
@@ -115,7 +114,7 @@ public class View extends JFrame implements Observer {
 		cdRadioBtn.addActionListener(rbal);
 		dvdRadioBtn = new JRadioButton("DVD");
 		dvdRadioBtn.addActionListener(rbal);
-		bookRadioBtn = new JRadioButton("Book");
+		bookRadioBtn = new JRadioButton("BOOK");
 		bookRadioBtn.addActionListener(rbal);
 		
 		// Create a button group and add all buttons
@@ -131,7 +130,7 @@ public class View extends JFrame implements Observer {
 		itemTypeJPanel.add(bookRadioBtn);
 		
 		// set default selection
-		cdRadioBtn.setSelected(true);
+		cdRadioBtn.setSelected(false);
 		
 		// Set up items JPanel layout
 		itemTypeJPanel.setLayout(new BoxLayout(itemTypeJPanel, BoxLayout.PAGE_AXIS));
@@ -156,6 +155,10 @@ public class View extends JFrame implements Observer {
 		tabbedPane.add("Update", updateGUI);
 		tabbedPane.add("Display", displayGUI);
 	
+		for (int i = 0; i < tabbedPane.getTabCount(); i++) {
+			tabbedPane.setEnabledAt(i, false);
+		}
+		
 		add(tabbedPane);
 	}
 	
@@ -233,6 +236,11 @@ public class View extends JFrame implements Observer {
 				// This gets the item type from the enum
 				controller.setSelectedItem(ItemType.valueOf(bookRadioBtn.getText().toUpperCase()).ordinal());
 				specialFieldLabel = Book.getSpecialField();
+			}
+			
+			// Enabled tabbed Pane
+			for (int i = 0; i < tabbedPane.getTabCount(); i++) {
+				tabbedPane.setEnabledAt(i, true);
 			}
 			
 			// This creates an object based on the selected enum

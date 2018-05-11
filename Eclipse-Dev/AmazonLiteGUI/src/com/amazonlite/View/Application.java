@@ -20,6 +20,7 @@ public class Application {
 		model.setView(view);
 
 		view.setVisible(true);
+		view.setLocationRelativeTo(null);
 		view.setSize(450,350);
 		}		
 	}

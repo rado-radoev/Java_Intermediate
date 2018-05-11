@@ -22,7 +22,7 @@ public class AddGUI extends ActionsVewTemplate {
 	
 	public AddGUI() {
 	
-		addRecord = new JButton("Add record");
+		addRecord = new JButton("Add");
 		addRecord.addActionListener(new ActionListener() {
 			
 			@Override
