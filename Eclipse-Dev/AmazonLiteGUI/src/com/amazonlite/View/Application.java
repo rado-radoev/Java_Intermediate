@@ -16,6 +16,7 @@ public class Application {
 		view.setModel(model);		
 		controller.setView(view);
 		controller.setModel(model);
+		controller.initDefault();
 		model.setView(view);
 
 		view.setVisible(true);

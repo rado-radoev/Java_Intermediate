@@ -55,41 +55,11 @@ public class Controller implements Actionable  {
 		view.setItemType(selectedItem);
 	}
 	
-	public void startMenu() {
+	public void initDefault() {
 		model.initializeDefaultProperties();
 	}
 	
-//	public void displayMenu() {
-//		view.displayAddMenu();
-//	}
-//	
-//	public void displayActionMenu() {
-//		view.displayActionMenu();
-//	}
-//	
-//	public void closeApp() {
-//		view.closeApp();
-//	}
-//
-//	public void selectActionMenu(int menuIndex) {
-//		switch (menuIndex) {
-//		case 1:
-//			view.displayAddMenu();
-//			break;
-//		case 2:
-//			view.displayUpdateMenu();
-//			break;
-//		case 3:
-//			view.displaySearchMenu();
-//			break;
-//		case 4:
-//			view.displayInventory();
-//			break;
-//		default:
-//			break;
-//		}
-//	}
-	
+
 	@Override
 	public boolean addItem(InventoryItem item) {
 		return model.addItem(item);
@@ -99,9 +69,6 @@ public class Controller implements Actionable  {
 		model.updateRecord(propertyToModify, attributeToModify, oldValueToUpdate, newValueToUpdate);
 	}
 	
-	public ArrayList<String> searchItem(String propertyToSearch, String valueToSearch, ItemType itemType) {
-		return model.findRecord(propertyToSearch, valueToSearch, view.getItemType());
-	}
 	
 	public void displayInventory(ItemType item) {
 		model.displayRecords(model.loadRecords(item));
@@ -122,7 +89,6 @@ public class Controller implements Actionable  {
 
 	@Override
 	public ArrayList<String> findRecord(String propertyToFind, String valueToSearch, ItemType itemType) {
-		// TODO Auto-generated method stub
-		return null;
+		return model.findRecord(propertyToFind, valueToSearch, view.getItemType());
 	}
 }

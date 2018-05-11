@@ -53,19 +53,19 @@ public class SearchGUI extends ActionsVewTemplate {
 				
 				
 				if (!title.equals("")) {
-					searchResults = View.getInstance().getController().searchItem("Title", getTitleTextField().getText(), View.getInstance().getItemType());
+					searchResults = View.getInstance().getController().findRecord("Title", getTitleTextField().getText(), View.getInstance().getItemType());
 				}
 				else if (!author.equals("")) {
-					searchResults = View.getInstance().getController().searchItem("Author", getAuthorTextField().getText(), View.getInstance().getItemType());
+					searchResults = View.getInstance().getController().findRecord("Author", getAuthorTextField().getText(), View.getInstance().getItemType());
 				}
 				else if (!releaseDate.equals("")) {
-					searchResults = View.getInstance().getController().searchItem("Release Date", getReleaseDateTextField().getText(), View.getInstance().getItemType());
+					searchResults = View.getInstance().getController().findRecord("Release Date", getReleaseDateTextField().getText(), View.getInstance().getItemType());
 				}
 				else if (length > 0) {
-					searchResults = View.getInstance().getController().searchItem("Length", getLengthTextField().getText(), View.getInstance().getItemType());
+					searchResults = View.getInstance().getController().findRecord("Length", getLengthTextField().getText(), View.getInstance().getItemType());
 				}
 				else if (!specialField.equals("")) {
-					searchResults = View.getInstance().getController().searchItem("Special Field", getSpecialFieldTextField ().getText(), View.getInstance().getItemType());
+					searchResults = View.getInstance().getController().findRecord("Special Field", getSpecialFieldTextField ().getText(), View.getInstance().getItemType());
 				}
 				
 				View.getInstance().getDisplayGUI().setTextArea(searchResults);
