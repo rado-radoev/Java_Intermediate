@@ -116,6 +116,9 @@ public class SearchGUI extends ActionsVewTemplate {
 		add(cancel);
 	}
 	
+	public ArrayList<String> getSearchResults() {
+		return searchResults;
+	}
 	
 	private Component[]	getComponents(Component container) {
 		ArrayList<Component> list = null;

@@ -183,12 +183,38 @@ public class Model implements Actionable, Observable {
 		saveProperties(property, itemType);
 	}
 	
+	
+	public void updateRecord(String recordID) {
+		 /*
+		  * 1. Search for the record
+		  * 2. Select the ID of the record to modify
+		  * 3. Select the property to modify
+		  * 4. Enter new value
+		  * 5. Update
+		  * 
+		  * 
+		  */
+	}
+	
+	
+	public String findRecordById(ArrayList<String> records, String recordId) {
+		for (String record : records) {
+			String currentRecordId = record.substring(0, record.indexOf(" = "));
+			if (currentRecordId.equals(recordId)) {
+				return record;
+			}
+		}
+		
+		return null;
+	}
+	
+	
 	/**
 	 * Method to find an item record
 	 * @param propertyToFind Name of property to find
 	 * @param valueToSearch value to search for in property
 	 * @param itemType type of item to search for
-	 * @return ArrayList of Strings represeinting every property that matches the search
+	 * @return ArrayList of Strings representing every property that matches the search
 	 */
 	@Override
 	public ArrayList<String> findRecord(String propertyToFind, String valueToSearch ,ItemType itemType) {

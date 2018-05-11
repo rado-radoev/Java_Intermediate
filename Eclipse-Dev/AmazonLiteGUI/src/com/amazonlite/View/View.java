@@ -82,17 +82,14 @@ public class View extends JFrame implements Observer {
 				if (getItemType().name().toUpperCase() == "CD") {
 					addGUI.setSpecialFieldLabel("Hit Single");
 					searchGUI.setSpecialFieldLabel("Hit Single");
-					updateGUI.setSpecialFieldLabel("Hit Single");
 				}
 				else if (getItemType().name().toUpperCase() == "DVD") { 
 					addGUI.setSpecialFieldLabel("Bonus Scenes"); 
 					searchGUI.setSpecialFieldLabel("Bonus Scenes");
-					updateGUI.setSpecialFieldLabel("Bonus Scenes");
 					}
 				else if (getItemType().name().toUpperCase() == "BOOK") { 
 					addGUI.setSpecialFieldLabel("Publisher");
 					searchGUI.setSpecialFieldLabel("Publisher");
-					updateGUI.setSpecialFieldLabel("Publisher");
 				}
 			}
 			

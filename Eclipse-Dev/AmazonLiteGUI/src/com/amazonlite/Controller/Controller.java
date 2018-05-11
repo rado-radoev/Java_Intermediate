@@ -69,6 +69,10 @@ public class Controller implements Actionable  {
 		model.updateRecord(propertyToModify, attributeToModify, oldValueToUpdate, newValueToUpdate);
 	}
 	
+	public String findRecordById(ArrayList<String> records, String recordId) {
+		return model.findRecordById(records, recordId);
+	}
+	
 	
 	public void displayInventory(ItemType item) {
 		model.displayRecords(model.loadRecords(item));
