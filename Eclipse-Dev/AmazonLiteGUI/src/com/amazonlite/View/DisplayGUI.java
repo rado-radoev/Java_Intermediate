@@ -23,6 +23,10 @@ public class DisplayGUI extends JPanel {
 		add(scrollPane);
 	}
 	
+	public void setTextArea(String text) {
+		textArea.setText(text);
+	}
+	
 	public void setTextArea(ArrayList<String> text) {
 		for (String string : text) {
 			textArea.setText(textArea.getText() + string + "\n");

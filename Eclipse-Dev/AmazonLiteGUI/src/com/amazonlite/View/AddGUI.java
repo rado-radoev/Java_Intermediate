@@ -1,5 +1,7 @@
 package com.amazonlite.View;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
@@ -21,8 +23,9 @@ public class AddGUI extends ActionsVewTemplate {
 	private final JButton cancel;
 	
 	public AddGUI() {
-	
+		
 		addRecord = new JButton("Add");
+		addRecord.setPreferredSize(new Dimension(75, 26));
 		addRecord.addActionListener(new ActionListener() {
 			
 			@Override
@@ -83,6 +86,7 @@ public class AddGUI extends ActionsVewTemplate {
 		});
 		
 		cancel = new JButton("Cancel");
+		cancel.setPreferredSize(new Dimension(75, 26));
 		cancel.addActionListener(new ActionListener() {
 			
 			@Override

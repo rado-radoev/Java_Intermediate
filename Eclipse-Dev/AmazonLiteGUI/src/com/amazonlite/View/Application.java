@@ -19,7 +19,8 @@ public class Application {
 		controller.initDefault();
 		model.setView(view);
 
-		view.setSize(450,350);
+		view.setSize(400,350);
+		view.setResizable(false);
 		view.setLocationRelativeTo(null);
 		view.setVisible(true);
 		}		

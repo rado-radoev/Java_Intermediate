@@ -2,6 +2,7 @@ package com.amazonlite.View;
 
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
@@ -25,6 +26,7 @@ public class SearchGUI extends ActionsVewTemplate {
 	public SearchGUI() {
 						
 		searchRecord = new JButton("Search");
+		searchRecord.setPreferredSize(new Dimension(75, 26));
 		searchRecord.addActionListener(new ActionListener() {
 			
 			@Override
@@ -58,6 +60,7 @@ public class SearchGUI extends ActionsVewTemplate {
 					searchResults = View.getInstance().getController().findRecord("Special Field", getSpecialFieldTextField ().getText(), View.getInstance().getItemType());
 				}
 				
+				View.getInstance().getDisplayGUI().setTextArea("");
 				View.getInstance().getDisplayGUI().setTextArea(searchResults);
 				View.getInstance().getTabbedPane().setSelectedIndex(4);
 			}
@@ -65,6 +68,7 @@ public class SearchGUI extends ActionsVewTemplate {
 		
 		
 		cancel = new JButton("Cancel");
+		cancel.setPreferredSize(new Dimension(75, 26));
 		cancel.addActionListener(new ActionListener() {
 			
 			@Override
