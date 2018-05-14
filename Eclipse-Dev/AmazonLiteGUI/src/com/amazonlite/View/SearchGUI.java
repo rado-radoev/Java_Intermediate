@@ -5,11 +5,8 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -32,33 +29,7 @@ public class SearchGUI extends ActionsVewTemplate {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				
-				String title = getTitleTextField().getText();
-				String author = getAuthorTextField().getText();
-				String releaseDate = getReleaseDateTextField().getText();
-				double length = 0D;
-				String specialField = getSpecialFieldTextField().getText();
-				
-				try {
-					length = Double.valueOf(getLengthTextField().getText());
-				} catch (NumberFormatException nfe) {
-					// Don't care if this is empty
-				}
-				
-				if (!title.equals("")) {
-					searchResults = View.getInstance().getController().findRecord("Title", getTitleTextField().getText(), View.getInstance().getItemType());
-				}
-				else if (!author.equals("")) {
-					searchResults = View.getInstance().getController().findRecord("Author", getAuthorTextField().getText(), View.getInstance().getItemType());
-				}
-				else if (!releaseDate.equals("")) {
-					searchResults = View.getInstance().getController().findRecord("Release Date", getReleaseDateTextField().getText(), View.getInstance().getItemType());
-				}
-				else if (length > 0) {
-					searchResults = View.getInstance().getController().findRecord("Length", getLengthTextField().getText(), View.getInstance().getItemType());
-				}
-				else if (!specialField.equals("")) {
-					searchResults = View.getInstance().getController().findRecord("Special Field", getSpecialFieldTextField ().getText(), View.getInstance().getItemType());
-				}
+				setSearchResults(findRecords());
 				
 				View.getInstance().getDisplayGUI().setTextArea("");
 				View.getInstance().getDisplayGUI().setTextArea(searchResults);
@@ -118,6 +89,42 @@ public class SearchGUI extends ActionsVewTemplate {
 	
 	public ArrayList<String> getSearchResults() {
 		return searchResults;
+	}
+	
+	private void setSearchResults(ArrayList<String> searchResults) {
+		this.searchResults = searchResults;
+	}
+	
+	public ArrayList<String> findRecords() {
+		String title = getTitleTextField().getText();
+		String author = getAuthorTextField().getText();
+		String releaseDate = getReleaseDateTextField().getText();
+		double length = 0D;
+		String specialField = getSpecialFieldTextField().getText();
+		
+		try {
+			length = Double.valueOf(getLengthTextField().getText());
+		} catch (NumberFormatException nfe) {
+			// Don't care if this is empty
+		}
+		
+		if (!title.equals("")) {
+			return View.getInstance().getController().findRecord("Title", getTitleTextField().getText(), View.getInstance().getItemType());
+		}
+		else if (!author.equals("")) {
+			return View.getInstance().getController().findRecord("Author", getAuthorTextField().getText(), View.getInstance().getItemType());
+		}
+		else if (!releaseDate.equals("")) {
+			return View.getInstance().getController().findRecord("Release Date", getReleaseDateTextField().getText(), View.getInstance().getItemType());
+		}
+		else if (length > 0) {
+			return View.getInstance().getController().findRecord("Length", getLengthTextField().getText(), View.getInstance().getItemType());
+		}
+		else if (!specialField.equals("")) {
+			return View.getInstance().getController().findRecord("Special Field", getSpecialFieldTextField ().getText(), View.getInstance().getItemType());
+		}
+		
+		return new ArrayList<String>();
 	}
 	
 	private Component[]	getComponents(Component container) {
