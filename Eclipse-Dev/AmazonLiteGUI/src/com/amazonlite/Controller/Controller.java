@@ -4,13 +4,11 @@ import com.amazonlite.model.Item;
 import com.amazonlite.model.ItemType;
 import com.amazonlite.View.View;
 import com.amazonlite.interfaces.Actionable;
-import com.amazonlite.View.View;
 import com.amazonlite.model.Model;
 import com.amazonlite.props.Props;
 import com.amazonlite.model.InventoryItem;
 
 import java.util.ArrayList;
-import java.util.Observer;
 import java.util.Properties;
 
 public class Controller implements Actionable  {
@@ -85,9 +83,8 @@ public class Controller implements Actionable  {
 	}
 
 	@Override
-	public void updateRecord(String propertyToModify, String attributeToModify, String oldValueToUpdate,
-			String newValueToUpdate) {
-		// TODO Auto-generated method stub
+	public void updateRecord(String recrodID, String attributeToModify, String newValueToUpdate) {
+		model.updateRecord(recrodID, attributeToModify, newValueToUpdate);
 		
 	}
 

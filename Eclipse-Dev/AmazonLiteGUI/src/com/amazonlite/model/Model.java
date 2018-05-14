@@ -167,7 +167,6 @@ public class Model implements Actionable, Observable {
 	 * @param oldValueToUpdate old value to be modified
 	 * @param newValueToUpdate new value to replace old value
 	 */
-	@Override
 	public void updateRecord(String propertyToModify, String attributeToModify ,String oldValueToUpdate, String newValueToUpdate) {
 		
 		ItemType itemType = ItemType.valueOf(propertyToModify.substring(propertyToModify.indexOf("Type: ") + 6));
@@ -183,17 +182,21 @@ public class Model implements Actionable, Observable {
 		saveProperties(property, itemType);
 	}
 	
-	
-	public void updateRecord(String recordID) {
-		 /*
-		  * 1. Search for the record
-		  * 2. Select the ID of the record to modify
-		  * 3. Select the property to modify
-		  * 4. Enter new value
-		  * 5. Update
-		  * 
-		  * 
-		  */
+	@Override
+	public void updateRecord(String recrodID, String attributeToModify, String newValueToUpdate) {
+		ItemType itemType = View.getInstance().getItemType();
+		Properties property = new Properties();
+		property = loadRecords(itemType);
+		
+		String fullRecord = property.getProperty(recrodID);
+		int startIndexToModify = fullRecord.indexOf(attributeToModify); 
+		
+		String modfiedRecord = fullRecord.substring(0, startIndexToModify + attributeToModify.length() + 2) + 
+				newValueToUpdate + 
+				fullRecord.substring(startIndexToModify + attributeToModify.length() + 2 + newValueToUpdate.length());
+		
+		property.setProperty(recrodID, modfiedRecord);
+		saveProperties(property, itemType);
 	}
 	
 	

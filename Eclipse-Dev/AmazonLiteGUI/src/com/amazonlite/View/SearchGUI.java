@@ -105,7 +105,7 @@ public class SearchGUI extends ActionsVewTemplate {
 		try {
 			length = Double.valueOf(getLengthTextField().getText());
 		} catch (NumberFormatException nfe) {
-			// Don't care if this is empty
+			// No implementation
 		}
 		
 		if (!title.equals("")) {

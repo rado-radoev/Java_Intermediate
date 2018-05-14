@@ -12,6 +12,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.plaf.basic.BasicOptionPaneUI.ButtonActionListener;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public class UpdateGUI extends JPanel {
@@ -49,6 +50,44 @@ public class UpdateGUI extends JPanel {
 		
 		update = new JButton("Update");
 		update.setPreferredSize(new Dimension(75, 26));
+		update.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				String recordId;
+				String attribute;
+				String newValue;
+				boolean allFieldsCompleted = true;
+				
+				
+				if (getRecordIdTextField().getText().isEmpty()) {
+					JOptionPane.showMessageDialog(UpdateGUI.this, "Rcord ID is required field", 
+							"Required Field Missing", JOptionPane.ERROR_MESSAGE);
+					allFieldsCompleted = false;
+				}
+				else if (getAttributeTextField().getText().isEmpty()) {
+					JOptionPane.showMessageDialog(UpdateGUI.this, "Attribute is required field", 
+							"Required Field Missing", JOptionPane.ERROR_MESSAGE);
+					allFieldsCompleted = false;
+				}
+				else if (getNewValueTextField().getText().isEmpty()) {
+					JOptionPane.showMessageDialog(UpdateGUI.this, "New value is required field", 
+							"Required Field Missing", JOptionPane.ERROR_MESSAGE);
+					allFieldsCompleted = false;
+				}
+				
+				if (allFieldsCompleted) {
+					recordId = getRecordIdTextField().getText();
+					attribute = getAttributeTextField().getText();
+					newValue = getNewValueTextField().getText();
+					View.getInstance().getController().updateRecord(recordId, attribute, newValue);
+				}
+				
+				
+			}
+		});
+		
 		cancel = new JButton("Cancel");
 		cancel.setPreferredSize(new Dimension(75, 26));
 		
@@ -104,23 +143,35 @@ public class UpdateGUI extends JPanel {
 		
 		add(panel);
 		add(buttonPanel);
-		
-		// View.getInstance().getController().findRecordById(records, recordId);
-		
-		/*
-		 * Search for record button gets you to the search records tab
-		 * if you know the record ID enter record ID
-		 * enter property to update
-		 * enter new value
-		 * 
-		 * hit update button
-		 * update buttons ivokes controller, controller invokes model
-		 * 
-		 * update(fullrecord, attributeToModify, newValue)
-		 * 	
-		 * 	
-		 */
-
-				
 	}
+	
+	
+	private JTextField getRecordIdTextField() {
+		return recordIdTextField;
+	}
+
+
+	private JTextField getAttributeTextField() {
+		return attributeTextField;
+	}
+
+
+	private JTextField getNewValueTextField() {
+		return newValueTextField;
+	}
+
+
+	/*
+	 * Search for record button gets you to the search records tab
+	 * if you know the record ID enter record ID
+	 * enter property to update
+	 * enter new value
+	 * 
+	 * hit update button
+	 * update buttons ivokes controller, controller invokes model
+	 * 
+	 * update(fullrecord, attributeToModify, newValue)
+	 * 	
+	 * 	
+	 */
 }
