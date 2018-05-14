@@ -1,6 +1,5 @@
 package com.amazonlite.View;
 
-import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -9,7 +8,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.plaf.basic.BasicOptionPaneUI.ButtonActionListener;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -159,19 +157,4 @@ public class UpdateGUI extends JPanel {
 	private JTextField getNewValueTextField() {
 		return newValueTextField;
 	}
-
-
-	/*
-	 * Search for record button gets you to the search records tab
-	 * if you know the record ID enter record ID
-	 * enter property to update
-	 * enter new value
-	 * 
-	 * hit update button
-	 * update buttons ivokes controller, controller invokes model
-	 * 
-	 * update(fullrecord, attributeToModify, newValue)
-	 * 	
-	 * 	
-	 */
 }
