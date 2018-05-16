@@ -63,6 +63,24 @@ public class Controller implements Actionable  {
 		return model.addItem(item);
 	}
 	
+	@Override
+	public void displayRecords(Properties prop) {
+		// No implementation in current version
+		
+	}
+
+	@Override
+	public boolean updateRecord(String recrodID, String attributeToModify, String newValueToUpdate) {
+		return model.updateRecord(recrodID, attributeToModify, newValueToUpdate);
+		
+	}
+
+	@Override
+	public ArrayList<String> findRecord(String propertyToFind, String valueToSearch, ItemType itemType) {
+		return model.findRecord(propertyToFind, valueToSearch, view.getItemType());
+	}
+	
+	@Deprecated
 	public void updateItem(String propertyToModify, String attributeToModify, String oldValueToUpdate, String newValueToUpdate) {
 		model.updateRecord(propertyToModify, attributeToModify, oldValueToUpdate, newValueToUpdate);
 	}
@@ -76,20 +94,5 @@ public class Controller implements Actionable  {
 		model.displayRecords(model.loadRecords(item));
 	}
 
-	@Override
-	public void displayRecords(Properties prop) {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void updateRecord(String recrodID, String attributeToModify, String newValueToUpdate) {
-		model.updateRecord(recrodID, attributeToModify, newValueToUpdate);
-		
-	}
-
-	@Override
-	public ArrayList<String> findRecord(String propertyToFind, String valueToSearch, ItemType itemType) {
-		return model.findRecord(propertyToFind, valueToSearch, view.getItemType());
-	}
 }

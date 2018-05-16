@@ -49,8 +49,8 @@ public class Model implements Actionable, Observable {
 
 	/**
 	 * Method to create new Inventory Item object
-	 * based on the selected enum
-	 * @param itemType the enum object selected
+	 * based on the selected Enum
+	 * @param itemType the Enum object selected
 	 */
 	@Override
 	public void createNewInventoryItem(ItemType itemType) {
@@ -65,9 +65,9 @@ public class Model implements Actionable, Observable {
 	
 
 	/**
-	 * Method to read a Properites argument and display all 
-	 * properties in the comamnd line
-	 * @param prop the properties to display
+	 * Method to read a argument of type Properties
+	 * and notify observer of the property as a String
+	 * @param prop the properties to iterate through
 	 */
 	@Override
 	public void displayRecords(Properties prop) {
@@ -102,7 +102,7 @@ public class Model implements Actionable, Observable {
 	}
 	
 	/**
-	 * Method that loads properties
+	 * Method that loads properties file
 	 * @param item InventoryItem object to load properties from file
 	 * @return Properties object containing all properties from InventoryItem's properties file
 	 */
@@ -127,46 +127,51 @@ public class Model implements Actionable, Observable {
 	 * Method that saves Properties to file
 	 * @param properties Properties object to save
 	 * @param itemType Type of item to save properties for
-	 * @return true if file is saved successfully and false if file save was unsuccessful
+	 * @return true if file is saved successfully and false if file was not saved
 	 */
 	private boolean saveProperties(Properties properties, ItemType itemType) {
+		boolean saveSuccessful = false;
 		String fileName = itemType.name() + ".properties";
 		
 		try (OutputStream output = new FileOutputStream(fileName)) {
 			properties.store(output, null);
-			return true;
+			saveSuccessful = true;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		return false;
+		return saveSuccessful;
 	}
 	
 	/**
-	 * Method to add item to properties file
+	 * Method to add item
 	 * @param item item to add
+	 * @return boolean if item addition is successful or not
 	 */
 	@Override
 	public boolean addItem(InventoryItem item) {
+		boolean successfullAdd = false;
 		Properties property = new Properties();
 		property = loadRecords(item);
 
 		property.setProperty(String.valueOf(property.size() + 1), item.toString());
-		if (saveProperties(property, item.getItemType()))
-			return true;
-		else
-			return false;
+		if (saveProperties(property, item.getItemType())) {
+			successfullAdd = true;
+		}
+			
+		return successfullAdd;
 	}
 
 	/**
-	 * Method to update property value
+	 * Method to update property value. Method is <b>deprecated</b> but is left for backward compatibility
 	 * @param propertyToModify Id of the property to modify
 	 * @param attributeToModify Name of attribute to modify
 	 * @param oldValueToUpdate old value to be modified
 	 * @param newValueToUpdate new value to replace old value
 	 */
+	@Deprecated
 	public void updateRecord(String propertyToModify, String attributeToModify ,String oldValueToUpdate, String newValueToUpdate) {
 		
 		ItemType itemType = ItemType.valueOf(propertyToModify.substring(propertyToModify.indexOf("Type: ") + 6));
@@ -182,8 +187,16 @@ public class Model implements Actionable, Observable {
 		saveProperties(property, itemType);
 	}
 	
+	/**
+	 * Method to update record
+	 * @param recordID the id of the record to update. Represented as a String
+	 * @param attributeToModify the name of the to modify. Represented as a String
+	 * @param newValueToUpdate the new value to be added updated
+	 * @return boolean true or false if update is successful or not
+	 */
 	@Override
-	public void updateRecord(String recrodID, String attributeToModify, String newValueToUpdate) {
+	public boolean updateRecord(String recrodID, String attributeToModify, String newValueToUpdate) {
+		boolean successfullyUpdate = false;
 		ItemType itemType = View.getInstance().getItemType();
 		Properties property = new Properties();
 		property = loadRecords(itemType);
@@ -196,10 +209,21 @@ public class Model implements Actionable, Observable {
 				fullRecord.substring(startIndexToModify + attributeToModify.length() + 2 + newValueToUpdate.length());
 		
 		property.setProperty(recrodID, modfiedRecord);
-		saveProperties(property, itemType);
+		if (saveProperties(property, itemType)) {
+			successfullyUpdate = true;
+		}
+		
+		return successfullyUpdate;
 	}
 	
 	
+	/**
+	 * Method to find record by provided ID
+	 * @param records an ArrayList<String> of records
+	 * @param recordId the record ID to search for
+	 * @return String representation of the record that matches the search or null if 
+	 * no matches found
+	 */
 	public String findRecordById(ArrayList<String> records, String recordId) {
 		for (String record : records) {
 			String currentRecordId = record.substring(0, record.indexOf(" = "));
@@ -217,7 +241,7 @@ public class Model implements Actionable, Observable {
 	 * @param propertyToFind Name of property to find
 	 * @param valueToSearch value to search for in property
 	 * @param itemType type of item to search for
-	 * @return ArrayList of Strings representing every property that matches the search
+	 * @return ArrayList<Strings> representing every property that matches the search
 	 */
 	@Override
 	public ArrayList<String> findRecord(String propertyToFind, String valueToSearch ,ItemType itemType) {
@@ -246,11 +270,12 @@ public class Model implements Actionable, Observable {
 		if (res.isEmpty()) {
 			res.add(String.format("%S", "no match found"));
 		}
+		
 		return res;
 	}
 	
 	/**
-	 * Method to initialize default properties if none are existing
+	 * Method to initialize default inventory files if none are existing
 	 */
 	public void initializeDefaultProperties() {
 		InitializeProperties.init();
@@ -259,7 +284,7 @@ public class Model implements Actionable, Observable {
 	
 	
 	/**
-	 * Method to check if properties file exists
+	 * Method to check if inventory file exists
 	 * @param itemType the item type to check for
 	 * @return boolean if file exists or not
 	 */
@@ -268,33 +293,49 @@ public class Model implements Actionable, Observable {
 		else return false;
 	}
 	
-	
+	/**
+	 * Method that outputs data in ArrayList<String> to View class
+	 * @return date in ArrayList<String> or null
+	 */
 	public ArrayList<String> outputToView() {
 		return null;
 	}
 
-
+	/**
+	 * Method to unregister observers
+	 */
 	@Override
 	public void removeObserver(Observer o) {
 		views.remove(o);
 	}
 
+
+	/**
+	 * Mehtod to notify all observers for a change
+	 */
 	@Override
 	public void notifyObserver() {
 		for (Observer view : views) {
 			view.update();
 		}
 	}
-	
+		
+	/**
+	 * Method to notify a specific observer for a change 
+	 * @param message The message to be sent to the observer
+	 */
 	@Override
 	public void notifyObserver(Observer o, String message) {
 		o.update(message);
 	}
 
+	/**
+	 * Method to add subscribe observer to model events
+	 * @param o observer to add a subscriber
+	 */
 	@Override
 	public void addObserver(Observer o) {
 		views.add(o);
 		
 	}
-
 }
