@@ -39,6 +39,7 @@ public class AddGUI extends ActionsVewTemplate {
 				double length = 0D;
 				String specialField = getSpecialFieldTextField().getText();
 				
+				// Basic data validation performed. Date only allowed in the MM/DD/YYYY format
 				Date date = null;
 				try {
 					date = new SimpleDateFormat("MM/dd/yyyy").parse(releaseDate);
@@ -50,7 +51,7 @@ public class AddGUI extends ActionsVewTemplate {
 							JOptionPane.ERROR_MESSAGE);
 				}
 				
-			
+				// Checking if the input is a valid double
 				try {
 					length = Double.valueOf(getLengthTextField().getText());
 					item.setLength(length);
@@ -78,6 +79,7 @@ public class AddGUI extends ActionsVewTemplate {
 
 				// Add item to the properties file
 				boolean itemAddSuccessful = View.getInstance().getController().addItem(item);
+				// Message will be output to the user if addition was successful or not
 				JOptionPane.showMessageDialog(AddGUI.this, 
 						"Item Add " + (itemAddSuccessful ? "successfull" : "not successfull"),
 						"Item Add",
@@ -91,6 +93,7 @@ public class AddGUI extends ActionsVewTemplate {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// Clear all text fields
 				setTextFieldText(getAuthorTextField(), "");
 				setTextFieldText(getTitleTextField(), "");
 				setTextFieldText(getLengthTextField(), "");

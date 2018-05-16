@@ -17,8 +17,9 @@ public interface Actionable {
 	/**
 	 * Method to read properties, passed as argument and notify observers for each K,V pair as a String
 	 * @param prop the properties to iterate through
+	 * @return ArrayList<String> of all records in the inventory
 	 */
-	public void displayRecords(Properties prop);
+	public ArrayList<String> displayRecords(Properties prop);
 	
 	/**
 	 * Method to add item

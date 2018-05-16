@@ -112,6 +112,8 @@ public class SearchGUI extends ActionsVewTemplate {
 	 * @return ArrayList<String> of results that are matching the query
 	 */
 	public ArrayList<String> findRecords() {
+		ArrayList<String> recordsFound = new ArrayList<String>();
+		
 		String title = getTitleTextField().getText();
 		String author = getAuthorTextField().getText();
 		String releaseDate = getReleaseDateTextField().getText();
@@ -125,22 +127,22 @@ public class SearchGUI extends ActionsVewTemplate {
 		}
 		
 		if (!title.equals("")) {
-			return View.getInstance().getController().findRecord("Title", getTitleTextField().getText(), View.getInstance().getItemType());
+			recordsFound = View.getInstance().getController().findRecord("Title", getTitleTextField().getText(), View.getInstance().getItemType());
 		}
 		else if (!author.equals("")) {
-			return View.getInstance().getController().findRecord("Author", getAuthorTextField().getText(), View.getInstance().getItemType());
+			recordsFound = View.getInstance().getController().findRecord("Author", getAuthorTextField().getText(), View.getInstance().getItemType());
 		}
 		else if (!releaseDate.equals("")) {
-			return View.getInstance().getController().findRecord("Release Date", getReleaseDateTextField().getText(), View.getInstance().getItemType());
+			recordsFound = View.getInstance().getController().findRecord("Release Date", getReleaseDateTextField().getText(), View.getInstance().getItemType());
 		}
 		else if (length > 0) {
-			return View.getInstance().getController().findRecord("Length", getLengthTextField().getText(), View.getInstance().getItemType());
+			recordsFound = View.getInstance().getController().findRecord("Length", getLengthTextField().getText(), View.getInstance().getItemType());
 		}
 		else if (!specialField.equals("")) {
-			return View.getInstance().getController().findRecord("Special Field", getSpecialFieldTextField ().getText(), View.getInstance().getItemType());
+			recordsFound = View.getInstance().getController().findRecord("Special Field", getSpecialFieldTextField ().getText(), View.getInstance().getItemType());
 		}
 		
-		return new ArrayList<String>();
+		return recordsFound;
 	}
 	
 	/**

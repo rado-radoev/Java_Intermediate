@@ -58,7 +58,7 @@ public class UpdateGUI extends JPanel {
 				String newValue;
 				boolean allFieldsCompleted = true;
 				
-				
+				// Basic checks if text fields contain text. Input validity is not verified.
 				if (getRecordIdTextField().getText().isEmpty()) {
 					JOptionPane.showMessageDialog(UpdateGUI.this, "Rcord ID is required field", 
 							"Required Field Missing", JOptionPane.ERROR_MESSAGE);
@@ -75,19 +75,36 @@ public class UpdateGUI extends JPanel {
 					allFieldsCompleted = false;
 				}
 				
+				// If all text fields contain text an attempt to update record is performed.
+				// Message is displayed to the user based on the output of the update (true - success or false - failure)
 				if (allFieldsCompleted) {
 					recordId = getRecordIdTextField().getText();
 					attribute = getAttributeTextField().getText();
 					newValue = getNewValueTextField().getText();
-					View.getInstance().getController().updateRecord(recordId, attribute, newValue);
+					
+					if (View.getInstance().getController().updateRecord(recordId, attribute, newValue)) {
+						JOptionPane.showMessageDialog(UpdateGUI.this, "Record Updated", "Record Update", JOptionPane.INFORMATION_MESSAGE);
+					}
+					else {
+						JOptionPane.showMessageDialog(UpdateGUI.this, "Record Not Update", "Record Update", JOptionPane.ERROR_MESSAGE);
+					}
 				}
-				
-				
 			}
 		});
 		
 		cancel = new JButton("Cancel");
 		cancel.setPreferredSize(new Dimension(75, 26));
+		cancel.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Clearing all text fields
+				recordIdTextField.setText("");
+				attributeTextField.setText("");
+				newValueTextField.setText("");
+				
+			}
+		});
 		
 		// add buttons to view
 		buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 5, 10));
@@ -143,7 +160,7 @@ public class UpdateGUI extends JPanel {
 		add(buttonPanel);
 	}
 	
-	
+	// Text Field getters
 	private JTextField getRecordIdTextField() {
 		return recordIdTextField;
 	}

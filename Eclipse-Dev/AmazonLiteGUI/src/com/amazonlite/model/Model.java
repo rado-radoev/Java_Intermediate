@@ -69,7 +69,9 @@ public class Model implements Actionable, Observable {
 	 * @param prop the properties to iterate through
 	 */
 	@Override
-	public void displayRecords(Properties prop) {
+	public ArrayList<String> displayRecords(Properties prop) {
+		ArrayList<String> records = new ArrayList<String>();
+		
 		Map<String, String> propMap = new HashMap<String, String>();
 		propMap.putAll(prop.entrySet().stream()
 				.collect(Collectors.toMap(e -> e.getKey().toString(), e -> e.getValue().toString())));
@@ -77,8 +79,10 @@ public class Model implements Actionable, Observable {
 		Iterator<Entry<String, String>> propMapIterator = propMap.entrySet().iterator();
 		while (propMapIterator.hasNext()) {
 			Map.Entry<String, String> property = (Map.Entry<String, String>) propMapIterator.next();
-			notifyObserver(view, property.getKey() + " = " + property.getValue());
+			records.add(property.getKey() + " = " + property.getValue());
 		}
+		
+		return records;
 	}
 	
 	/**
@@ -196,20 +200,24 @@ public class Model implements Actionable, Observable {
 	@Override
 	public boolean updateRecord(String recrodID, String attributeToModify, String newValueToUpdate) {
 		boolean successfullyUpdate = false;
-		ItemType itemType = View.getInstance().getItemType();
-		Properties property = new Properties();
-		property = loadRecords(itemType);
-		
-		String fullRecord = property.getProperty(recrodID);
-		int startIndexToModify = fullRecord.indexOf(attributeToModify); 
-		
-		String modfiedRecord = fullRecord.substring(0, startIndexToModify + attributeToModify.length() + 2) + 
-				newValueToUpdate + 
-				fullRecord.substring(startIndexToModify + attributeToModify.length() + 2 + newValueToUpdate.length());
-		
-		property.setProperty(recrodID, modfiedRecord);
-		if (saveProperties(property, itemType)) {
-			successfullyUpdate = true;
+		try {
+			ItemType itemType = View.getInstance().getItemType();
+			Properties property = new Properties();
+			property = loadRecords(itemType);
+			
+			String fullRecord = property.getProperty(recrodID);
+			int startIndexToModify = fullRecord.indexOf(attributeToModify); 
+			
+			String modfiedRecord = fullRecord.substring(0, startIndexToModify + attributeToModify.length() + 2) + 
+					newValueToUpdate + 
+					fullRecord.substring(startIndexToModify + attributeToModify.length() + 2 + newValueToUpdate.length());
+			
+			property.setProperty(recrodID, modfiedRecord);
+			if (saveProperties(property, itemType)) {
+				successfullyUpdate = true;
+			}
+		} catch (NullPointerException npe) {
+			successfullyUpdate = false;
 		}
 		
 		return successfullyUpdate;
