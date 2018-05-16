@@ -1,6 +1,5 @@
 package com.amazonlite.View;
 
-import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -15,12 +14,9 @@ import javax.swing.JTabbedPane;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 import com.amazonlite.Controller.Controller;
 import com.amazonlite.model.Book;
@@ -59,6 +55,7 @@ public class View extends JFrame implements Observer {
 	
 	private static View instance = null;
 	
+	// Only one instance of the class is allowed
 	public static View getInstance() {
 		if (instance == null) {
 			instance = new View();
@@ -78,6 +75,11 @@ public class View extends JFrame implements Observer {
 		tabbedPane = new JTabbedPane();
 		tabbedPane.addChangeListener(new ChangeListener() {
 			
+			/** 
+			* The special label in the Add and Search tabs is displayed differently
+			* depending on the selected type of item 
+			*/
+
 			private void changeSpecialLabel() {
 				if (getItemType().name().toUpperCase() == "CD") {
 					addGUI.setSpecialFieldLabel("Hit Single");
@@ -251,11 +253,11 @@ public class View extends JFrame implements Observer {
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
+		// No implementation. Not used in current version.
 	}
 
 	@Override
 	public void update(String message) {
-		// TODO Auto-generated method stub
+		// No implementation. Not used in current version.
 	}	
 }

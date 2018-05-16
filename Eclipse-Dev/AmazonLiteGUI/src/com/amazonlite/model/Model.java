@@ -65,8 +65,7 @@ public class Model implements Actionable, Observable {
 	
 
 	/**
-	 * Method to read a argument of type Properties
-	 * and notify observer of the property as a String
+	 * Method to read properties, passed as argument and notify observers for each K,V pair as a String
 	 * @param prop the properties to iterate through
 	 */
 	@Override

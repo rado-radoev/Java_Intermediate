@@ -52,6 +52,10 @@ public class SearchGUI extends ActionsVewTemplate {
 			}
 		});
 		
+		/**
+		 * Text fields will be disabled once text is entered in one of the text fields
+		 * Text fields are enabled again as long as there is not text entered in any of them
+		 */
 		List<JTextField> textFields = getTextFields();
 		for (JTextField textField : textFields) {
 			textField.getDocument().addDocumentListener(new DocumentListener() {
@@ -87,14 +91,26 @@ public class SearchGUI extends ActionsVewTemplate {
 		add(cancel);
 	}
 	
+	/**
+	 * Method to get search results as ArrayList<String>
+	 * @return all results returned by the search as ArrayList<String>
+	 */
 	public ArrayList<String> getSearchResults() {
 		return searchResults;
 	}
 	
+	/**
+	 * Helper method that sets search results
+	 * @param searchResults
+	 */
 	private void setSearchResults(ArrayList<String> searchResults) {
 		this.searchResults = searchResults;
 	}
 	
+	/**
+	 * Method to search for records that match specific criteria
+	 * @return ArrayList<String> of results that are matching the query
+	 */
 	public ArrayList<String> findRecords() {
 		String title = getTitleTextField().getText();
 		String author = getAuthorTextField().getText();
@@ -127,6 +143,11 @@ public class SearchGUI extends ActionsVewTemplate {
 		return new ArrayList<String>();
 	}
 	
+	/**
+	 * Helper method that returns all components in a container
+	 * @param container the container to search through and return all components
+	 * @return List of components
+	 */
 	private Component[]	getComponents(Component container) {
 		ArrayList<Component> list = null;
 		
@@ -146,7 +167,10 @@ public class SearchGUI extends ActionsVewTemplate {
 		return list.toArray(new Component[list.size()]);
 	}
 	
-	
+	/**
+	 * Helper method that returns all text fields from array of components
+	 * @return List<JTextField> containing all text fields in the provided components collection
+	 */
 	private List<JTextField> getTextFields () {
 		List<JTextField> textFields = new ArrayList<JTextField>();
 		Component[] components = getComponents(this);
