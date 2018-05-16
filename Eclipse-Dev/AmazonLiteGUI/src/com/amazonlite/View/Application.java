@@ -4,6 +4,9 @@ import com.amazonlite.Controller.Controller;
 import com.amazonlite.model.Model;
 import com.amazonlite.View.View;
 
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+
 public class Application {
 
 	
@@ -12,17 +15,22 @@ public class Application {
 		Controller controller = new Controller();
 		View view = View.getInstance();
 		
-		view.setController(controller);
-		view.setModel(model);		
-		controller.setView(view);
-		controller.setModel(model);
-		controller.initDefault();
-		model.setView(view);
-
-		view.setSize(400,350);
-		view.setResizable(false);
-		view.setLocationRelativeTo(null);
-		view.setVisible(true);
-		}		
-	}
+		SwingUtilities.invokeLater(new Runnable() {
+	        public void run() {
+	        	view.setController(controller);
+	    		view.setModel(model);		
+	    		controller.setView(view);
+	    		controller.setModel(model);
+	    		controller.initDefault();
+	    		model.setView(view);
+	
+	    		view.setSize(400,350);
+	    		view.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    		view.setResizable(false);
+	    		view.setLocationRelativeTo(null);
+	    		view.setVisible(true);
+	        }
+		});
+	}		
+}
 
