@@ -5,7 +5,7 @@ import com.amazonlite.model.ItemType;
 import com.amazonlite.View.View;
 import com.amazonlite.interfaces.Actionable;
 import com.amazonlite.model.Model;
-import com.amazonlite.props.Props;
+import com.amazonlite.test.Props;
 import com.amazonlite.model.InventoryItem;
 
 import java.util.ArrayList;

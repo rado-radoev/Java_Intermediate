@@ -1,4 +1,4 @@
-package com.amazonlite.View;
+package com.amazonlite.test;
 
 import java.awt.BorderLayout;
 
@@ -6,6 +6,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
+
+import com.amazonlite.View.AddGUI;
+import com.amazonlite.View.DisplayGUI;
+import com.amazonlite.View.SearchGUI;
+import com.amazonlite.View.UpdateGUI;
 
 public class Tabbed extends JFrame {
 	

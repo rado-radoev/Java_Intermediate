@@ -1,4 +1,4 @@
-package com.amazonlite.View;
+package com.amazonlite.test;
 
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
@@ -21,6 +21,10 @@ import java.util.Arrays;
 import java.util.Enumeration;
 
 import com.amazonlite.Controller.Controller;
+import com.amazonlite.View.AddGUI;
+import com.amazonlite.View.DisplayGUI;
+import com.amazonlite.View.SearchGUI;
+import com.amazonlite.View.UpdateGUI;
 import com.amazonlite.model.InventoryItem;
 import com.amazonlite.model.ItemType;
 import com.amazonlite.model.Model;

@@ -1,4 +1,4 @@
-package com.amazonlite.View;
+package com.amazonlite.test;
 
 import java.awt.event.KeyEvent;
 

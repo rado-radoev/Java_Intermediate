@@ -294,17 +294,17 @@ public class View implements Observer {
 	 * Method that terminates the app
 	 */
 	public void closeApp() {
-		displayOnScreen("Exiting application ... Goodbye!");
+		// Unimplemented method
 	}
 
 	@Override
 	public void update() {
-		displayOnScreen(model.outputToView());
+		// Unimplemented method
 	}
 	
 	@Override
 	public void update(String message) {
-		displayOnScreen(message);
+		// Unimplemented method
 	}
 
 }

@@ -11,7 +11,7 @@ import java.util.Properties;
 import com.amazonlite.model.ItemType;
 import com.amazonlite.model.Model;
 
-public class InitializeProperties {
+public class InitializeDefaultInventory {
 	
 	private static Model model;
 	
@@ -21,7 +21,7 @@ public class InitializeProperties {
 	public static void init() {
 		model = new Model();
 		for (ItemType itemType : ItemType.values()) {
-			InitializeProperties.initializeDefaultProperites(itemType);
+			InitializeDefaultInventory.initializeDefaultProperites(itemType);
 		}
 	}
 

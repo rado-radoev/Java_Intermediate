@@ -1,4 +1,4 @@
-package com.amazonlite.model;
+package com.amazonlite.test;
 
 import com.amazonlite.model.*;
 

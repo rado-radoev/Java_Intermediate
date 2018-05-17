@@ -24,6 +24,9 @@ public class AddGUI extends ActionsVewTemplate {
 	
 	public AddGUI() {
 		
+		/**
+		 * Button that adds records to inventory
+		 */
 		addRecord = new JButton("Add");
 		addRecord.setPreferredSize(new Dimension(75, 26));
 		addRecord.addActionListener(new ActionListener() {
@@ -87,6 +90,9 @@ public class AddGUI extends ActionsVewTemplate {
 			}
 		});
 		
+		/**
+		 * Cancel button clears all text fields
+		 */
 		cancel = new JButton("Cancel");
 		cancel.setPreferredSize(new Dimension(75, 26));
 		cancel.addActionListener(new ActionListener() {

@@ -1,4 +1,4 @@
-package com.amazonlite.props;
+package com.amazonlite.test;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -18,8 +18,6 @@ import com.amazonlite.model.ItemType;
 
 import java.util.Map;
 import java.util.Map.Entry;
-
-
 
 public class Props {
 

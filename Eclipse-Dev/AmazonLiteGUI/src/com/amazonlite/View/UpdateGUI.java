@@ -46,6 +46,9 @@ public class UpdateGUI extends JPanel {
 			}
 		});
 		
+		/**
+		 * Update button updates a record
+		 */
 		update = new JButton("Update");
 		update.setPreferredSize(new Dimension(75, 26));
 		update.addActionListener(new ActionListener() {
@@ -92,6 +95,9 @@ public class UpdateGUI extends JPanel {
 			}
 		});
 		
+		/**
+		 * Cancel button clears text fields
+		 */
 		cancel = new JButton("Cancel");
 		cancel.setPreferredSize(new Dimension(75, 26));
 		cancel.addActionListener(new ActionListener() {

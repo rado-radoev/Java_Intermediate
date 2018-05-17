@@ -1,4 +1,4 @@
-package com.amazonlite.interfaces;
+package com.amazonlite.test;
 
 import java.util.ArrayList;
 import java.util.Properties;

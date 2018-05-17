@@ -4,7 +4,7 @@ import com.amazonlite.View.View;
 import com.amazonlite.interfaces.Actionable;
 import com.amazonlite.interfaces.Observable;
 import com.amazonlite.interfaces.Observer;
-import com.amazonlite.props.InitializeProperties;
+import com.amazonlite.props.InitializeDefaultInventory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -285,7 +285,7 @@ public class Model implements Actionable, Observable {
 	 * Method to initialize default inventory files if none are existing
 	 */
 	public void initializeDefaultProperties() {
-		InitializeProperties.init();
+		InitializeDefaultInventory.init();
 	}
 	
 	
