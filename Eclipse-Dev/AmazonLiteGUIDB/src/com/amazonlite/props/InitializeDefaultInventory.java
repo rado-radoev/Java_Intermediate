@@ -9,17 +9,17 @@ import java.text.SimpleDateFormat;
 import java.util.Properties;
 
 import com.amazonlite.model.ItemType;
-import com.amazonlite.model.Model;
+import com.amazonlite.model.Model_OLD;
 
 public class InitializeDefaultInventory {
 	
-	private static Model model;
+	private static Model_OLD model_OLD;
 	
 	/**
 	 * Initialization method that creates default properties files if they are missing
 	 */
 	public static void init() {
-		model = new Model();
+		model_OLD = new Model_OLD();
 		for (ItemType itemType : ItemType.values()) {
 			InitializeDefaultInventory.initializeDefaultProperites(itemType);
 		}
@@ -30,7 +30,7 @@ public class InitializeDefaultInventory {
 	 * @param itemType ItemType to be used when initializing properties files
 	 */
 	private static void initializeDefaultProperites(ItemType itemType) {
-		if (!model.checkInventoryExists(itemType)) { 
+		if (!model_OLD.checkInventoryExists(itemType)) { 
 			createDummyProperties(itemType);
 		}
 	}

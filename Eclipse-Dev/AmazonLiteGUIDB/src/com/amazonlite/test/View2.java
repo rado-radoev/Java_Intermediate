@@ -27,7 +27,7 @@ import com.amazonlite.View.SearchGUI;
 import com.amazonlite.View.UpdateGUI;
 import com.amazonlite.model.InventoryItem;
 import com.amazonlite.model.ItemType;
-import com.amazonlite.model.Model;
+import com.amazonlite.model.Model_OLD;
 import com.amazonlite.interfaces.Observer;
 
 public class View2 extends JFrame implements Observer {
@@ -49,7 +49,7 @@ public class View2 extends JFrame implements Observer {
 	
 	private BorderLayout layout;
 	
-	private Model model;
+	private Model_OLD model_OLD;
 	private Controller controller;
 	private ItemType itemType;
 	private InventoryItem item;
@@ -155,12 +155,12 @@ public class View2 extends JFrame implements Observer {
 	}
 	
 	/* Getters and Setters */
-	public Model getModel() { 
-		return model;
+	public Model_OLD getModel() { 
+		return model_OLD;
 	}
 	
-	public final void setModel(Model model) {
-		this.model = model;
+	public final void setModel(Model_OLD model_OLD) {
+		this.model_OLD = model_OLD;
 	}
 	
 	public Controller getController() {

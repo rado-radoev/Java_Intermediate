@@ -1,7 +1,7 @@
 package com.amazonlite.View;
 
 import com.amazonlite.Controller.Controller;
-import com.amazonlite.model.Model;
+import com.amazonlite.model.Model_OLD;
 import com.amazonlite.View.View;
 
 import javax.swing.JFrame;
@@ -11,18 +11,18 @@ public class Application {
 
 	
 	public static void main (String[] args) {
-		Model model = new Model();
+		Model_OLD model_OLD = new Model_OLD();
 		Controller controller = new Controller();
 		View view = View.getInstance();
 		
 		SwingUtilities.invokeLater(new Runnable() {
 	        public void run() {
 	        	view.setController(controller);
-	    		view.setModel(model);		
+	    		view.setModel(model_OLD);		
 	    		controller.setView(view);
-	    		controller.setModel(model);
+	    		controller.setModel(model_OLD);
 	    		controller.initDefault();
-	    		model.setView(view);
+	    		model_OLD.setView(view);
 	
 	    		view.setSize(400,350);
 	    		view.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
