@@ -38,15 +38,33 @@ public class Model {
 		
 	}
 	
+	public boolean updateInventoryItem(String tableName, String column, String condition) {
+		boolean successful = false;
+		
+		String sql = String.format("UPDATE %S SET %S = ? WHERE %S = ?", tableName, column, condition); 
+		
+		try (PreparedStatement statement = connection.prepareStatement(sql)) {
+			
+			statement.setString(1, "KukuBend");
+			statement.setString(2, "def");
+			
+			statement.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+				
+		return successful;
+	}
+	
+	
 	public boolean addInventoryItem(String inventoryType) {
 		boolean successful = false;
 		
-		PreparedStatement statement = null;
-		String sql = "INSERT INTO CD (title, author, length, releasedate, hitsingle)" +
-				" values (?, ?, ?, ?, ?)";
+		String sql = String.format("INSERT INTO %s (title, author, length, releasedate, hitsingle)" +
+				" values (?, ?, ?, ?, ?)", inventoryType);
 		
-		try {
-			statement = connection.prepareStatement(sql);
+		try (PreparedStatement statement = connection.prepareStatement(sql)) {
 			statement.setString(1, "fsfa");
 			statement.setString(2, "fadsfas");
 			statement.setDouble(3, Double.valueOf("1.2"));
@@ -64,6 +82,7 @@ public class Model {
 	
 	public static void main(String[] args) {
 		Model m = new Model();
-		m.addInventoryItem("CD");
+		//m.addInventoryItem("CD");
+		m.updateInventoryItem("CD", "Title", "Author");
 	}
 }
