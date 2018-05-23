@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.Properties;
 
 public class Model {
@@ -29,8 +30,8 @@ public class Model {
 		
 		// Connect to DB 
 		try {
-		connection = DriverManager.getConnection(dburl, user, pass);
-		System.out.println("DB connection successful to: " + connection.getSchema());
+			connection = DriverManager.getConnection(dburl, user, pass);
+			System.out.println("DB connection successful to: " + connection.getSchema());
 		} catch (SQLException sqle) {
 			sqle.printStackTrace();
 		}
@@ -41,18 +42,21 @@ public class Model {
 		boolean successful = false;
 		
 		PreparedStatement statement = null;
-		String sql = "INSERT INTO CD (title, author, length, release_date, hit_single)" +
+		String sql = "INSERT INTO CD (title, author, length, releasedate, hitsingle)" +
 				" values (?, ?, ?, ?, ?)";
 		
 		try {
 			statement = connection.prepareStatement(sql);
-			statement.setString(1, "test title");
-			statement.setString(2, "test author");
-			statement.setString(3, "5.5");
-			statement.setString(4, "05/05/2005");
-			statement.setString(5, "test hit single");
-		} catch (Exception e) {
-			// TODO: handle exception
+			statement.setString(1, "fsfa");
+			statement.setString(2, "fadsfas");
+			statement.setDouble(3, Double.valueOf("1.2"));
+			statement.setDate(4, java.sql.Date.valueOf("2001-01-01"));
+			statement.setString(5, "fadfasf");
+			
+			statement.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		
 		return successful;
@@ -60,5 +64,6 @@ public class Model {
 	
 	public static void main(String[] args) {
 		Model m = new Model();
+		m.addInventoryItem("CD");
 	}
 }
