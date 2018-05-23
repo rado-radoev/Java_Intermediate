@@ -5,9 +5,14 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
+
+import org.apache.derby.client.am.SqlException;
 
 public class Model {
 
@@ -38,10 +43,83 @@ public class Model {
 		
 	}
 	
-	public boolean updateInventoryItem(String tableName, String column, String condition) {
+	public List<String> searchItem(String attributeToSearch, String itemType) {
+		List<String> searchResults = new ArrayList<String>();
+		ResultSet resultSet = null;
+		String sql = String.format("SELCT * FROM %s WHERE $s LIKE ?", itemType, attributeToSearch);
+		
+		try (PreparedStatement statement = connection.prepareStatement(sql)) {
+			statement.setString(1, "test title");
+			resultSet = statement.executeQuery();
+			
+			while(resultSet.next()) {
+				searchResults.add(convertRowToString(resultSet));
+			}
+			
+		} catch (SQLException sqle) {
+			sqle.printStackTrace();
+		}
+		
+		return searchResults;
+	}
+	
+	private String convertRowToString(ResultSet resultset) {
+		String title = null, author = null, special = null;
+		Date releaseDate = null;
+		Double length = null;
+		Boolean bonusScenes = null;
+
+		
+		try {
+			String tableName = resultset.getMetaData().getTableName(1);
+			title = resultset.getString("title");
+			author = resultset.getString("author");
+			releaseDate = resultset.getDate("releaseDate");
+			length = resultset.getDouble("length");
+			
+			if (tableName.equals("CD")) {
+				special = resultset.getString("hitsingle");
+			}
+			else if (tableName.equals("Book")) {
+				special = resultset.getString("publisher");
+			}
+			else {
+				bonusScenes = resultset.getBoolean("bonusscenes");
+			}
+			
+		} catch (SQLException sqle) {
+			sqle.printStackTrace();
+		}
+		
+		return String.format("%s %s %s %.2f %s", title,
+												 author,
+												 String.valueOf(releaseDate),
+												 String.valueOf(length),
+												 special != null ? special : bonusScenes);
+	}
+	
+	public void displayInventory(String inventoryItem, String searchString) {
+		String sql = String.format("SELECT ? FROM %s", inventoryItem);
+		ResultSet results; 
+		
+		try (PreparedStatement statement = connection.prepareStatement(sql)) {
+			statement.setString(1, searchString);
+			
+			results = statement.executeQuery();
+			
+			while (results.next()) {
+				System.out.println(convertRowToString(results));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public boolean updateInventoryItem(String inventoryItem, String attributeToUpdate, String conditionAttribute) {
 		boolean successful = false;
 		
-		String sql = String.format("UPDATE %S SET %S = ? WHERE %S = ?", tableName, column, condition); 
+		String sql = String.format("UPDATE %S SET %S = ? WHERE %S = ?", inventoryItem, attributeToUpdate, conditionAttribute); 
 		
 		try (PreparedStatement statement = connection.prepareStatement(sql)) {
 			
@@ -83,6 +161,8 @@ public class Model {
 	public static void main(String[] args) {
 		Model m = new Model();
 		//m.addInventoryItem("CD");
-		m.updateInventoryItem("CD", "Title", "Author");
+		//m.updateInventoryItem("CD", "Title", "Author");
+		//m.displayInventory("CD", "*");
+		m.searchItem("Title", "CD");
 	}
 }
