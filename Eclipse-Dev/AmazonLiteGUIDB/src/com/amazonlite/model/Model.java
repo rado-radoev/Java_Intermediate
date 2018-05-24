@@ -7,15 +7,20 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
-import org.apache.derby.impl.store.raw.data.RecordId;
-
 import com.amazonlite.View.View;
 import com.amazonlite.interfaces.Actionable;
+import com.amazonlite.model.DVD;
+import com.amazonlite.model.CD;
+import com.amazonlite.model.Book;
 
 public class Model implements Actionable {
 
@@ -171,6 +176,14 @@ public class Model implements Actionable {
 		}
 	}
 	
+	/**
+	 * Method to update record
+	 * @param recordID the id of the record to update. Represented as a String
+	 * @param attributeToModify the name of the to modify. Represented as a String
+	 * @param newValueToUpdate the new value to be added updated
+	 * @return boolean true or false if update is successful or not
+	 */
+	@Override
 	public boolean updateRecord(String recrodID, String attributeToModify, String newValueToUpdate) {
 		boolean successful = false;
 		
@@ -208,6 +221,50 @@ public class Model implements Actionable {
 //				
 //		return successful;
 //	}
+	
+	
+	public boolean addItem(InventoryItem item) {
+		boolean successful = false;
+		String specialField = null;
+		
+		if (item.getItemType().name().toUpperCase().equals("CD")) {
+			specialField = "hitsingle";
+		}
+		else if (item.getItemType().name().toUpperCase().equals("DVD")) {
+			specialField = "bonusscenes";
+		}
+		else {
+			specialField = "publisher";
+		}
+		
+		String sql = String.format("INSERT INTO %s (title, author, length, releasedate, %s)" +
+				" values (?, ?, ?, ?, ?)", item.getItemType(), specialField);
+		
+		try (PreparedStatement statement = connection.prepareStatement(sql)) {
+			statement.setString(1, item.getTitle());
+			statement.setString(2, item.getAuthor());
+			statement.setDouble(3, item.getLength());
+			Instant rdInst = item.getReleaseDate().toInstant();
+			LocalDate ldt = LocalDateTime.ofInstant(rdInst, ZoneOffset.UTC).toLocalDate();
+			statement.setDate(4, java.sql.Date.valueOf(ldt));
+			
+			DVD dvd = (DVD)item;
+			statement.setBoolean(5, dvd.getBonusScenes());
+			
+			CD cd = (CD)item;
+			statement.setString(5, cd.getHitSingle());
+			
+			Book book = (Book)item;
+			statement.setString(5, book.getPublisher());
+			
+			statement.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return successful;
+	}
 	
 	
 	public boolean addInventoryItem(String inventoryType) {
