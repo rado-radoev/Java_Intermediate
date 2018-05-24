@@ -12,11 +12,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
-import org.apache.derby.client.am.SqlException;
+import com.amazonlite.View.View;
+import com.amazonlite.interfaces.Actionable;
 
-public class Model {
+public class Model implements Actionable {
 
 	private Connection connection;
+	private View view;
+	private Item item;
+	private ItemType itemType;
 	
 	public Model() {
 		// get DB properties
@@ -43,13 +47,48 @@ public class Model {
 		
 	}
 	
-	public List<String> searchItem(String attributeToSearch, String itemType) {
-		List<String> searchResults = new ArrayList<String>();
+	public Model(View view) {
+		this.view = view;
+	}
+	
+	public Model(Item item) {
+		this.item = item;
+		this.itemType = item.getItemType();
+	}
+	
+	public View getView() {
+		return view;
+	}
+
+	public void setView(View view2) {
+		this.view = view2;
+	}
+	
+	/**
+	 * Method to create new Inventory Item object
+	 * based on the selected Enum
+	 * @param itemType the Enum object selected
+	 */
+	@Override
+	public void createNewInventoryItem(ItemType itemType) {
+		if (itemType.name().equals("CD")) {
+			view.setInventoryItem(new CD());
+		} else if (itemType.name().equals("DVD")) {
+			view.setInventoryItem(new DVD());
+		} else {
+			view.setInventoryItem(new Book());
+		}
+	}
+	
+	@Override
+	public ArrayList<String> findRecord(String propertyToFind, String valueToSearch, ItemType itemType) {
+		ArrayList<String> searchResults = new ArrayList<String>();
 		ResultSet resultSet = null;
-		String sql = String.format("SELCT * FROM %s WHERE $s LIKE ?", itemType, attributeToSearch);
+		
+		String sql = String.format("SELECT * FROM %s WHERE %s LIKE ?", itemType.name(), propertyToFind);
 		
 		try (PreparedStatement statement = connection.prepareStatement(sql)) {
-			statement.setString(1, "test title");
+			statement.setString(1, valueToSearch);
 			resultSet = statement.executeQuery();
 			
 			while(resultSet.next()) {
@@ -61,7 +100,28 @@ public class Model {
 		}
 		
 		return searchResults;
+		
 	}
+	
+//	public List<String> searchItem(String attributeToSearch, String itemType) {
+//		List<String> searchResults = new ArrayList<String>();
+//		ResultSet resultSet = null;
+//		String sql = String.format("SELECT * FROM %s WHERE %s LIKE ?", itemType, attributeToSearch);
+//		
+//		try (PreparedStatement statement = connection.prepareStatement(sql)) {
+//			statement.setString(1, "KukuBend");
+//			resultSet = statement.executeQuery();
+//			
+//			while(resultSet.next()) {
+//				searchResults.add(convertRowToString(resultSet));
+//			}
+//			
+//		} catch (SQLException sqle) {
+//			sqle.printStackTrace();
+//		}
+//		
+//		return searchResults;
+//	}
 	
 	private String convertRowToString(ResultSet resultset) {
 		String title = null, author = null, special = null;
@@ -71,7 +131,7 @@ public class Model {
 
 		
 		try {
-			String tableName = resultset.getMetaData().getTableName(1);
+			String tableName = resultset.getMetaData().getTableName(1).toUpperCase();
 			title = resultset.getString("title");
 			author = resultset.getString("author");
 			releaseDate = resultset.getDate("releaseDate");
@@ -93,8 +153,8 @@ public class Model {
 		
 		return String.format("%s %s %s %.2f %s", title,
 												 author,
-												 String.valueOf(releaseDate),
-												 String.valueOf(length),
+												 releaseDate,
+												 length,
 												 special != null ? special : bonusScenes);
 	}
 	
@@ -163,6 +223,6 @@ public class Model {
 		//m.addInventoryItem("CD");
 		//m.updateInventoryItem("CD", "Title", "Author");
 		//m.displayInventory("CD", "*");
-		m.searchItem("Title", "CD");
+		System.out.println(m.findRecord("Title", "fsfa", ItemType.CD));
 	}
 }
