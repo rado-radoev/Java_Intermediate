@@ -12,6 +12,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
+import org.apache.derby.impl.store.raw.data.RecordId;
+
 import com.amazonlite.View.View;
 import com.amazonlite.interfaces.Actionable;
 
@@ -80,6 +82,13 @@ public class Model implements Actionable {
 		}
 	}
 	
+	/**
+	 * Method to find an item record
+	 * @param propertyToFind Name of property to find
+	 * @param valueToSearch value to search for in property
+	 * @param itemType type of item to search for
+	 * @return ArrayList<Strings> representing every property that matches the search
+	 */
 	@Override
 	public ArrayList<String> findRecord(String propertyToFind, String valueToSearch, ItemType itemType) {
 		ArrayList<String> searchResults = new ArrayList<String>();
@@ -103,26 +112,11 @@ public class Model implements Actionable {
 		
 	}
 	
-//	public List<String> searchItem(String attributeToSearch, String itemType) {
-//		List<String> searchResults = new ArrayList<String>();
-//		ResultSet resultSet = null;
-//		String sql = String.format("SELECT * FROM %s WHERE %s LIKE ?", itemType, attributeToSearch);
-//		
-//		try (PreparedStatement statement = connection.prepareStatement(sql)) {
-//			statement.setString(1, "KukuBend");
-//			resultSet = statement.executeQuery();
-//			
-//			while(resultSet.next()) {
-//				searchResults.add(convertRowToString(resultSet));
-//			}
-//			
-//		} catch (SQLException sqle) {
-//			sqle.printStackTrace();
-//		}
-//		
-//		return searchResults;
-//	}
-	
+	/**
+	 * Helper method to convert resultSet to strings
+	 * @param resultset the result set entry to convert to string
+	 * @return String representing the current entry in the resultSet
+	 */
 	private String convertRowToString(ResultSet resultset) {
 		String title = null, author = null, special = null;
 		Date releaseDate = null;
@@ -158,6 +152,7 @@ public class Model implements Actionable {
 												 special != null ? special : bonusScenes);
 	}
 	
+	
 	public void displayInventory(String inventoryItem, String searchString) {
 		String sql = String.format("SELECT ? FROM %s", inventoryItem);
 		ResultSet results; 
@@ -176,24 +171,43 @@ public class Model implements Actionable {
 		}
 	}
 	
-	public boolean updateInventoryItem(String inventoryItem, String attributeToUpdate, String conditionAttribute) {
+	public boolean updateRecord(String recrodID, String attributeToModify, String newValueToUpdate) {
 		boolean successful = false;
 		
-		String sql = String.format("UPDATE %S SET %S = ? WHERE %S = ?", inventoryItem, attributeToUpdate, conditionAttribute); 
-		
+		String sql = String.format("UPDATE %S SET %S = ? WHERE ID = %S", "CD"/*View.getInstance().getItemType().name()*/,
+														   attributeToModify,
+														   recrodID);
 		try (PreparedStatement statement = connection.prepareStatement(sql)) {
 			
-			statement.setString(1, "KukuBend");
-			statement.setString(2, "def");
+			statement.setString(1, newValueToUpdate);
 			
 			statement.executeUpdate();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-				
+		
 		return successful;
 	}
+	
+//	public boolean updateInventoryItem(String inventoryItem, String attributeToUpdate, String conditionAttribute) {
+//		boolean successful = false;
+//		
+//		String sql = String.format("UPDATE %S SET %S = ? WHERE %S = ?", inventoryItem, attributeToUpdate, conditionAttribute); 
+//		
+//		try (PreparedStatement statement = connection.prepareStatement(sql)) {
+//			
+//			statement.setString(1, "KukuBend");
+//			statement.setString(2, "def");
+//			
+//			statement.executeUpdate();
+//			
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//				
+//		return successful;
+//	}
 	
 	
 	public boolean addInventoryItem(String inventoryType) {
@@ -223,6 +237,7 @@ public class Model implements Actionable {
 		//m.addInventoryItem("CD");
 		//m.updateInventoryItem("CD", "Title", "Author");
 		//m.displayInventory("CD", "*");
-		System.out.println(m.findRecord("Title", "fsfa", ItemType.CD));
+		//System.out.println(m.findRecord("Title", "fsfa", ItemType.CD));
+		m.updateRecord("2", "Title", "UpdateRecordTestTItle");
 	}
 }
