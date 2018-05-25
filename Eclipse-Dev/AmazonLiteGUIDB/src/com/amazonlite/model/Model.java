@@ -203,42 +203,12 @@ public class Model implements Actionable {
 		return successful;
 	}
 	
-//	public boolean updateInventoryItem(String inventoryItem, String attributeToUpdate, String conditionAttribute) {
-//		boolean successful = false;
-//		
-//		String sql = String.format("UPDATE %S SET %S = ? WHERE %S = ?", inventoryItem, attributeToUpdate, conditionAttribute); 
-//		
-//		try (PreparedStatement statement = connection.prepareStatement(sql)) {
-//			
-//			statement.setString(1, "KukuBend");
-//			statement.setString(2, "def");
-//			
-//			statement.executeUpdate();
-//			
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//				
-//		return successful;
-//	}
-	
 	
 	public boolean addItem(InventoryItem item) {
 		boolean successful = false;
-		String specialField = null;
-		
-		if (item.getItemType().name().toUpperCase().equals("CD")) {
-			specialField = "hitsingle";
-		}
-		else if (item.getItemType().name().toUpperCase().equals("DVD")) {
-			specialField = "bonusscenes";
-		}
-		else {
-			specialField = "publisher";
-		}
-		
-		String sql = String.format("INSERT INTO %s (title, author, length, releasedate, %s)" +
-				" values (?, ?, ?, ?, ?)", item.getItemType(), specialField);
+			
+		String sql = String.format("INSERT INTO %s (title, author, length, releasedate)" +
+				" values (?, ?, ?, ?)", item.getItemType());
 		
 		try (PreparedStatement statement = connection.prepareStatement(sql)) {
 			statement.setString(1, item.getTitle());
@@ -247,21 +217,7 @@ public class Model implements Actionable {
 			Instant rdInst = item.getReleaseDate().toInstant();
 			LocalDate ldt = LocalDateTime.ofInstant(rdInst, ZoneOffset.UTC).toLocalDate();
 			statement.setDate(4, java.sql.Date.valueOf(ldt));
-			
-			
-			if (item.getItemType().name().toUpperCase().equals("CD")) {
-				CD cd = (CD)item;
-				statement.setString(5, cd.getHitSingle());
-			}
-			else if (item.getItemType().name().toUpperCase().equals("DVD")) {
-				DVD dvd = (DVD)item;
-				statement.setBoolean(5, dvd.getBonusScenes());
-			}
-			else {
-				Book book = (Book)item;
-				statement.setString(5, book.getPublisher());
-			}
-			
+						
 			statement.executeUpdate();
 			
 		} catch (SQLException e) {
@@ -299,7 +255,7 @@ public class Model implements Actionable {
 		InventoryItem iv = new InventoryItem("This title is too late", 
 				"This author is too late",
 				65.5,
-				new Date(2001/5/10),
+				new Date(2001-05-03),
 				ItemType.CD);
 		m.addItem(iv);
 		//m.addInventoryItem("CD");
