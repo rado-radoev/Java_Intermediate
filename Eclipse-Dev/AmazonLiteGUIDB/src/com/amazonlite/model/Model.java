@@ -248,14 +248,19 @@ public class Model implements Actionable {
 			LocalDate ldt = LocalDateTime.ofInstant(rdInst, ZoneOffset.UTC).toLocalDate();
 			statement.setDate(4, java.sql.Date.valueOf(ldt));
 			
-			DVD dvd = (DVD)item;
-			statement.setBoolean(5, dvd.getBonusScenes());
 			
-			CD cd = (CD)item;
-			statement.setString(5, cd.getHitSingle());
-			
-			Book book = (Book)item;
-			statement.setString(5, book.getPublisher());
+			if (item.getItemType().name().toUpperCase().equals("CD")) {
+				CD cd = (CD)item;
+				statement.setString(5, cd.getHitSingle());
+			}
+			else if (item.getItemType().name().toUpperCase().equals("DVD")) {
+				DVD dvd = (DVD)item;
+				statement.setBoolean(5, dvd.getBonusScenes());
+			}
+			else {
+				Book book = (Book)item;
+				statement.setString(5, book.getPublisher());
+			}
 			
 			statement.executeUpdate();
 			
@@ -267,34 +272,46 @@ public class Model implements Actionable {
 	}
 	
 	
-	public boolean addInventoryItem(String inventoryType) {
-		boolean successful = false;
-		
-		String sql = String.format("INSERT INTO %s (title, author, length, releasedate, hitsingle)" +
-				" values (?, ?, ?, ?, ?)", inventoryType);
-		
-		try (PreparedStatement statement = connection.prepareStatement(sql)) {
-			statement.setString(1, "fsfa");
-			statement.setString(2, "fadsfas");
-			statement.setDouble(3, Double.valueOf("1.2"));
-			statement.setDate(4, java.sql.Date.valueOf("2001-01-01"));
-			statement.setString(5, "fadfasf");
-			
-			statement.executeUpdate();
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return successful;
-	}
+//	public boolean addInventoryItem(String inventoryType) {
+//		boolean successful = false;
+//		
+//		String sql = String.format("INSERT INTO %s (title, author, length, releasedate, hitsingle)" +
+//				" values (?, ?, ?, ?, ?)", inventoryType);
+//		
+//		try (PreparedStatement statement = connection.prepareStatement(sql)) {
+//			statement.setString(1, "fsfa");
+//			statement.setString(2, "fadsfas");
+//			statement.setDouble(3, Double.valueOf("1.2"));
+//			statement.setDate(4, java.sql.Date.valueOf("2001-01-01"));
+//			statement.setString(5, "fadfasf");
+//			
+//			statement.executeUpdate();
+//			
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		return successful;
+//	}
 	
 	public static void main(String[] args) {
 		Model m = new Model();
+		InventoryItem iv = new InventoryItem("This title is too late", 
+				"This author is too late",
+				65.5,
+				new Date(2001/5/10),
+				ItemType.CD);
+		m.addItem(iv);
 		//m.addInventoryItem("CD");
 		//m.updateInventoryItem("CD", "Title", "Author");
 		//m.displayInventory("CD", "*");
 		//System.out.println(m.findRecord("Title", "fsfa", ItemType.CD));
 		m.updateRecord("2", "Title", "UpdateRecordTestTItle");
+	}
+
+	@Override
+	public ArrayList<String> displayRecords(Properties prop) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

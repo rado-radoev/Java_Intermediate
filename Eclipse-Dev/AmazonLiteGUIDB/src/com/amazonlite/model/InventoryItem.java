@@ -9,6 +9,7 @@ public class InventoryItem {
 	private double length;
 	private Date releaseDate;
 	private ItemType itemType;
+	private String specialField;
 	
 	public InventoryItem(String title, String author, double length, Date releaseDate, ItemType itemType) {
 		super();
@@ -60,7 +61,7 @@ public class InventoryItem {
 	public void setItemType(ItemType itemType) {
 		this.itemType = itemType;
 	}
-
+	
 	@Override
 	public String toString() {
 		return String.format("Title: %s,Author: %s,Length: %.1f,Release Date: %tD,Item Type: %s", 

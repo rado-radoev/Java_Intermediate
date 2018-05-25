@@ -30,7 +30,7 @@ public class Book extends InventoryItem {
 		instance--;
 	}
 	
-	public static String getSpecialField() {
+	public String getSpecialField() {
 		return "Publisher";
 	}
 	
