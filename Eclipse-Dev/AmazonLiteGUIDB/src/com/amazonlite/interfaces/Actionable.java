@@ -19,7 +19,7 @@ public interface Actionable {
 	 * @param prop the properties to iterate through
 	 * @return ArrayList<String> of all records in the inventory
 	 */
-	public ArrayList<String> displayRecords(Properties prop);
+	public ArrayList<String> displayRecords(String inventoryItem, String searchString);
 	
 	/**
 	 * Method to add item

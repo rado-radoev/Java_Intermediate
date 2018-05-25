@@ -157,8 +157,10 @@ public class Model implements Actionable {
 												 special != null ? special : bonusScenes);
 	}
 	
-	
-	public void displayInventory(String inventoryItem, String searchString) {
+	@Override
+	public ArrayList<String> displayRecords(String inventoryItem, String searchString) {
+		ArrayList<String> res = new ArrayList<String>();
+		
 		String sql = String.format("SELECT ? FROM %s", inventoryItem);
 		ResultSet results; 
 		
@@ -168,12 +170,14 @@ public class Model implements Actionable {
 			results = statement.executeQuery();
 			
 			while (results.next()) {
-				System.out.println(convertRowToString(results));
+				res.add(convertRowToString(results));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		return res;
 	}
 	
 	/**
@@ -226,29 +230,6 @@ public class Model implements Actionable {
 		
 		return successful;
 	}
-	
-	
-//	public boolean addInventoryItem(String inventoryType) {
-//		boolean successful = false;
-//		
-//		String sql = String.format("INSERT INTO %s (title, author, length, releasedate, hitsingle)" +
-//				" values (?, ?, ?, ?, ?)", inventoryType);
-//		
-//		try (PreparedStatement statement = connection.prepareStatement(sql)) {
-//			statement.setString(1, "fsfa");
-//			statement.setString(2, "fadsfas");
-//			statement.setDouble(3, Double.valueOf("1.2"));
-//			statement.setDate(4, java.sql.Date.valueOf("2001-01-01"));
-//			statement.setString(5, "fadfasf");
-//			
-//			statement.executeUpdate();
-//			
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		
-//		return successful;
-//	}
 	
 	public static void main(String[] args) {
 		Model m = new Model();

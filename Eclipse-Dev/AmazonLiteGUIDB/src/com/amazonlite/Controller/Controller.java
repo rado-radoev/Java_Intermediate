@@ -87,8 +87,8 @@ public class Controller implements Actionable  {
 	 * @param prop the properties to iterate through
 	 */
 	@Override
-	public ArrayList<String> displayRecords(Properties prop) {
-		return model_OLD.displayRecords(prop);
+	public ArrayList<String> displayRecords(String inventoryItem, String searchString) {
+		return model.displayRecords(inventoryItem, searchString);
 	}
 
 	/**
