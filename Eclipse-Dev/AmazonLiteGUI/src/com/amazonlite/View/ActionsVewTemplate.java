@@ -30,7 +30,7 @@ public abstract class ActionsVewTemplate extends JPanel {
 	private final JTextField lengthTextField;
 	private final JTextField specialFieldTextField;
 	
-	private final String DATEFORMAT = "MM/DD/YYYY";
+	private final String DATEFORMAT = "MM-DD-YYYY";
 	
 	public ActionsVewTemplate() {
 			

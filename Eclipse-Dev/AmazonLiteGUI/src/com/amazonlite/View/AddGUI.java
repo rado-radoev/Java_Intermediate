@@ -45,7 +45,7 @@ public class AddGUI extends ActionsVewTemplate {
 				// Basic data validation performed. Date only allowed in the MM/DD/YYYY format
 				Date date = null;
 				try {
-					date = new SimpleDateFormat("MM/dd/yyyy").parse(releaseDate);
+					date = new SimpleDateFormat("MM-dd-yyyy").parse(releaseDate);
 					item.setReleaseDate(date);
 				} catch (ParseException e) {
 					JOptionPane.showMessageDialog(AddGUI.this, 
