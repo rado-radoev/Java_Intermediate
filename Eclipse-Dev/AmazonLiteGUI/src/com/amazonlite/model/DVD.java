@@ -34,6 +34,10 @@ public class DVD extends InventoryItem {
 		return "Bonus Scenes";
 	}
 	
+	public static String getSpecialFieldTrimmed() {
+		return getSpecialField().replaceAll("\\s+", "").toLowerCase();
+	}
+	
 	@Override
 	public String toString() {
 		return String.format("Title: %s, Author: %s, Length: %.1f, Bonus Scenes: %s ,Release Date: %tD", 

@@ -11,6 +11,7 @@ public class CD extends InventoryItem {
 	}
 	
 	public CD() {
+		super();
 		instance++;
 	}
 
@@ -32,6 +33,10 @@ public class CD extends InventoryItem {
 	
 	public static String getSpecialField() {
 		return "Hit Single";
+	}
+	
+	public static String getSpecialFieldTrimmed() {
+		return getSpecialField().replaceAll("\\s+", "").toLowerCase();
 	}
 
 	@Override

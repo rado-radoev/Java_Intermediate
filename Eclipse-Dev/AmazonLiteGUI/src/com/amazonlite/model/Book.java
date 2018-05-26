@@ -34,6 +34,10 @@ public class Book extends InventoryItem {
 		return "Publisher";
 	}
 	
+	public static String getSpecialFieldTrimmed() {
+		return getSpecialField().replaceAll("\\s+", "").toLowerCase();
+	}
+	
 	@Override
 	public String toString() {
 		return String.format("Title: %s, Author: %s, Length: %.0f, Publisher: %s ,Release Date: %tD", 

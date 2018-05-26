@@ -7,9 +7,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Date;
@@ -207,22 +211,45 @@ public class Model implements Actionable {
 		return successful;
 	}
 	
+	private String[] getItemSpecialField(InventoryItem item) {
+		
+		String specialField = "";
+		String itemSpecificity = ""; 
+		
+		if (item.getItemType().name() == "CD") {
+			specialField = CD.getSpecialField().replaceAll("\\s+", "").toLowerCase();
+			itemSpecificity = String.valueOf(((CD)item).getHitSingle());
+		} else if (item.getItemType().name() == "DVD") {
+			specialField = DVD.getSpecialField().replaceAll("\\s+", "").toLowerCase();
+			itemSpecificity = String.valueOf(((DVD)item).getBonusScenes());
+		} else {
+			specialField = Book.getSpecialField().replaceAll("\\s+", "").toLowerCase();
+			itemSpecificity = ((Book)item).getPublisher();
+		}
+		
+		return new String[] {specialField, itemSpecificity};
+	}
+	
 	
 	public boolean addItem(InventoryItem item) {
 		boolean successful = false;
-			
-		String sql = String.format("INSERT INTO %s (title, author, length, releasedate)" +
-				" values (?, ?, ?, ?)", item.getItemType());
+				
+		String specialField = getItemSpecialField(item)[0];
+		String itemSpecificity = getItemSpecialField(item)[1];
+		LocalDate relDate = item.getReleaseDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		try (Statement statement = connection.createStatement()) {
 		
-		try (PreparedStatement statement = connection.prepareStatement(sql)) {
-			statement.setString(1, item.getTitle());
-			statement.setString(2, item.getAuthor());
-			statement.setDouble(3, item.getLength());
-			Instant rdInst = item.getReleaseDate().toInstant();
-			LocalDate ldt = LocalDateTime.ofInstant(rdInst, ZoneOffset.UTC).toLocalDate();
-			statement.setDate(4, java.sql.Date.valueOf(ldt));
-						
-			statement.executeUpdate();
+		String sql = String.format("INSERT INTO %S (title, author, length, releasedate, %s)" +
+								   " values (\"%s\", \"%s\", %.2f, \"%s\", \"%s\")", 
+								   		item.getItemType().name(),
+								   		specialField,
+								   		item.getTitle(),
+								   		item.getAuthor(),
+								   		Double.valueOf(item.getLength()),
+								   		relDate.toString().replaceAll("-", "/"),
+								   		itemSpecificity);
+		
+		statement.executeUpdate(sql);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -231,14 +258,23 @@ public class Model implements Actionable {
 		return successful;
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ParseException {
 		Model m = new Model();
+		Date date = new SimpleDateFormat("MM/dd/yyyy").parse("06/12/2008");
 		InventoryItem iv = new InventoryItem("This title is too late", 
 				"This author is too late",
 				65.5,
-				new Date(2001-05-03),
-				ItemType.CD);
-		m.addItem(iv);
+				date,
+				ItemType.DVD);
+		DVD dvd = new DVD();
+		dvd.setTitle(iv.getTitle());
+		dvd.setAuthor(iv.getAuthor());
+		dvd.setLength(iv.getLength());
+		dvd.setReleaseDate(iv.getReleaseDate());
+		dvd.setItemType(iv.getItemType());
+		dvd.setBonusScenes(true);
+		
+		m.addItem(dvd);
 		//m.addInventoryItem("CD");
 		//m.updateInventoryItem("CD", "Title", "Author");
 		//m.displayInventory("CD", "*");
