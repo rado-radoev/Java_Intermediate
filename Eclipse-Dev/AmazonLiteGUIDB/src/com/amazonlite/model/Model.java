@@ -8,16 +8,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Properties;
 
 import com.amazonlite.View.View;
@@ -51,7 +45,6 @@ public class Model implements Actionable {
 		// Connect to DB 
 		try {
 			connection = DriverManager.getConnection(dburl, user, pass);
-			System.out.println("DB connection successful to: " + connection.getSchema());
 		} catch (SQLException sqle) {
 			sqle.printStackTrace();
 		}
@@ -287,27 +280,27 @@ public class Model implements Actionable {
 		return successful;
 	}
 	
-	public static void main(String[] args) throws ParseException {
-		Model m = new Model();
-		Date date = new SimpleDateFormat("MM/dd/yyyy").parse("06/12/2008");
-		InventoryItem iv = new InventoryItem("This title is too late", 
-				"This author is too late",
-				65.5,
-				date,
-				ItemType.DVD);
-		DVD dvd = new DVD();
-		dvd.setTitle(iv.getTitle());
-		dvd.setAuthor(iv.getAuthor());
-		dvd.setLength(iv.getLength());
-		dvd.setReleaseDate(iv.getReleaseDate());
-		dvd.setItemType(iv.getItemType());
-		dvd.setBonusScenes(true);
-		
-		m.addItem(dvd);
-		//m.addInventoryItem("CD");
-		//m.updateInventoryItem("CD", "Title", "Author");
-		//m.displayInventory("CD", "*");
-		//System.out.println(m.findRecord("Title", "fsfa", ItemType.CD));
-		m.updateRecord("2", "Title", "UpdateRecordTestTItle");
-	}
+//	public static void main(String[] args) throws ParseException {
+//		Model m = new Model();
+//		Date date = new SimpleDateFormat("MM/dd/yyyy").parse("06/12/2008");
+//		InventoryItem iv = new InventoryItem("This title is too late", 
+//				"This author is too late",
+//				65.5,
+//				date,
+//				ItemType.DVD);
+//		DVD dvd = new DVD();
+//		dvd.setTitle(iv.getTitle());
+//		dvd.setAuthor(iv.getAuthor());
+//		dvd.setLength(iv.getLength());
+//		dvd.setReleaseDate(iv.getReleaseDate());
+//		dvd.setItemType(iv.getItemType());
+//		dvd.setBonusScenes(true);
+//		
+//		m.addItem(dvd);
+//		//m.addInventoryItem("CD");
+//		//m.updateInventoryItem("CD", "Title", "Author");
+//		//m.displayInventory("CD", "*");
+//		//System.out.println(m.findRecord("Title", "fsfa", ItemType.CD));
+//		m.updateRecord("2", "Title", "UpdateRecordTestTItle");
+//	}
 }

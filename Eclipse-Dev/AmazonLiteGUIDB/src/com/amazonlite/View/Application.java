@@ -25,7 +25,7 @@ public class Application {
 	
 	    		view.setSize(400,350);
 	    		view.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    		view.setResizable(false);
+	    		view.setResizable(true);
 	    		view.setLocationRelativeTo(null);
 	    		view.setVisible(true);
 	        }
