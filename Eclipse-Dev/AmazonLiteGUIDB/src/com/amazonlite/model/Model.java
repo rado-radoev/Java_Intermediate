@@ -75,6 +75,27 @@ public class Model implements Actionable {
 		this.view = view2;
 	}
 	
+	public Connection getConnection() {
+		return connection;
+	}
+	
+	/**
+	 * Method to disconnect DB connection
+	 * @return boolean if disconnect was successful or not
+	 */
+	public boolean disconnectFromDatabase() {
+		boolean disconnected = false;
+		
+		try {
+			getConnection().close();
+			disconnected = true;
+		} catch (SQLException sqle) {
+			sqle.printStackTrace();
+		}
+		
+		return disconnected;
+	}
+
 	/**
 	 * Method to create new Inventory Item object
 	 * based on the selected Enum
@@ -89,6 +110,14 @@ public class Model implements Actionable {
 		} else {
 			view.setInventoryItem(new Book());
 		}
+	}
+	
+	public String constructSearchPattern(String propertyToFind, String valueToSearch, ItemType itemType) {
+		
+		String sql = String.format("SELECT * FROM %s WHERE %s LIKE \"%%%s%%\"", itemType.name(), 
+				propertyToFind, valueToSearch);
+			
+		return sql;
 	}
 	
 	/**
@@ -280,11 +309,5 @@ public class Model implements Actionable {
 		//m.displayInventory("CD", "*");
 		//System.out.println(m.findRecord("Title", "fsfa", ItemType.CD));
 		m.updateRecord("2", "Title", "UpdateRecordTestTItle");
-	}
-
-	@Override
-	public ArrayList<String> displayRecords(Properties prop) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

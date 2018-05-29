@@ -19,6 +19,9 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
+
+import com.amazonlite.model.ResultSetTableModel;
+
 import javax.swing.table.TableModel;
 
 public class DisplayQueryResults2 extends JFrame {
@@ -134,7 +137,7 @@ public class DisplayQueryResults2 extends JFrame {
 			window.addWindowListener(new WindowAdapter() {
 				// disconnect from database and exit when window has closed
 				public void windowClosed(WindowEvent event) {
-					tableModel.disconnectFromDatabase();
+					tableModel.closeConnections();
 					System.exit(0);
 				}
 			}); 

@@ -24,7 +24,7 @@ import com.amazonlite.model.CD;
 import com.amazonlite.model.DVD;
 import com.amazonlite.model.InventoryItem;
 import com.amazonlite.model.ItemType;
-import com.amazonlite.model.Model_OLD;
+import com.amazonlite.model.Model;
 import com.amazonlite.interfaces.Observer;
 
 public class View extends JFrame implements Observer {
@@ -43,7 +43,7 @@ public class View extends JFrame implements Observer {
 	
 	private String specialFieldLabel;
 	
-	private Model_OLD model_OLD;
+	private Model model;
 	private Controller controller;
 	private ItemType itemType;
 	private InventoryItem item;
@@ -174,12 +174,12 @@ public class View extends JFrame implements Observer {
 		return tabbedPane;
 	}
 	
-	public Model_OLD getModel() { 
-		return model_OLD;
+	public Model getModel() { 
+		return model;
 	}
 	
-	public final void setModel(Model_OLD model_OLD) {
-		this.model_OLD = model_OLD;
+	public final void setModel(Model model) {
+		this.model = model;
 	}
 	
 	public Controller getController() {

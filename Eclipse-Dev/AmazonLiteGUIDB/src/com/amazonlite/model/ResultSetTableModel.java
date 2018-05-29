@@ -1,4 +1,4 @@
-package com.amazonlite.test;
+package com.amazonlite.model;
 
 import java.sql.Connection;
 import java.sql.Statement;
@@ -8,6 +8,8 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import javax.swing.table.AbstractTableModel;
 
+import com.amazonlite.View.View;
+
 public class ResultSetTableModel extends AbstractTableModel {
 
 	private final Connection connection;
@@ -15,17 +17,17 @@ public class ResultSetTableModel extends AbstractTableModel {
 	private ResultSet resultSet;
 	private ResultSetMetaData metaData;
 	private int numberOfRows;
+	private Model model;
 	
 	// keep track of database connection status
 	private boolean connectedToDatabase = false;
 	
 	// constructor initializes resultSet and obtains its meta data object
 	// determines number of rows
-	public ResultSetTableModel(String url, String username, 
-			String password, String query) throws SQLException {
-		// connect to database
-		connection = DriverManager.getConnection(url, username, password);
+	public ResultSetTableModel(String query) throws SQLException {
 		
+		connection = View.getInstance().getModel().getConnection();
+				
 		// create statement to query database
 		statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
 				ResultSet.CONCUR_READ_ONLY);
@@ -56,13 +58,12 @@ public class ResultSetTableModel extends AbstractTableModel {
 	}
 	
 	// close Statement and Connection
-	public void disconnectFromDatabase() {
+	public void closeConnections() {
 		if (connectedToDatabase) {
 			// close statement and connection
 			try {
 				resultSet.close();
 				statement.close();
-				connection.close();
 			} catch (SQLException sqle) {
 				sqle.printStackTrace();
 			} finally {

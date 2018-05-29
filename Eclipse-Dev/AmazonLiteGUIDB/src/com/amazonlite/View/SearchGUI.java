@@ -18,7 +18,6 @@ import javax.swing.event.DocumentListener;
 public class SearchGUI extends ActionsVewTemplate {
 	private final JButton searchRecord;
 	private final JButton cancel;
-	private ArrayList<String> searchResults;
 	
 	public SearchGUI() {
 		
@@ -33,10 +32,9 @@ public class SearchGUI extends ActionsVewTemplate {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				
-				setSearchResults(findRecords());
-				
-				View.getInstance().getDisplayGUI().setTextArea("");
-				View.getInstance().getDisplayGUI().setTextArea(searchResults);
+		
+				View.getInstance().getDisplayGUI().setSearchPattern(findRecords());
+				View.getInstance().getDisplayGUI().displayResults();
 				View.getInstance().getTabbedPane().setSelectedIndex(4);
 			}
 		});
@@ -99,28 +97,28 @@ public class SearchGUI extends ActionsVewTemplate {
 		add(cancel);
 	}
 	
-	/**
-	 * Method to get search results as ArrayList<String>
-	 * @return all results returned by the search as ArrayList<String>
-	 */
-	public ArrayList<String> getSearchResults() {
-		return searchResults;
-	}
-	
-	/**
-	 * Helper method that sets search results
-	 * @param searchResults
-	 */
-	private void setSearchResults(ArrayList<String> searchResults) {
-		this.searchResults = searchResults;
-	}
+//	/**
+//	 * Method to get search results as ArrayList<String>
+//	 * @return all results returned by the search as ArrayList<String>
+//	 */
+//	public ArrayList<String> getSearchResults() {
+//		return searchResults;
+//	}
+//	
+//	/**
+//	 * Helper method that sets search results
+//	 * @param searchResults
+//	 */
+//	private void setSearchResults(ArrayList<String> searchResults) {
+//		this.searchResults = searchResults;
+//	}
 	
 	/**
 	 * Method to search for records that match specific criteria
 	 * @return ArrayList<String> of results that are matching the query
 	 */
-	public ArrayList<String> findRecords() {
-		ArrayList<String> recordsFound = new ArrayList<String>();
+	public String findRecords() {
+		String recordsFound = "";
 		
 		String title = getTitleTextField().getText();
 		String author = getAuthorTextField().getText();
@@ -135,19 +133,19 @@ public class SearchGUI extends ActionsVewTemplate {
 		}
 		
 		if (!title.equals("")) {
-			recordsFound = View.getInstance().getController().findRecord("Title", getTitleTextField().getText(), View.getInstance().getItemType());
+			recordsFound = View.getInstance().getController().constructSearchPattern("Title", getTitleTextField().getText(), View.getInstance().getItemType());
 		}
 		else if (!author.equals("")) {
-			recordsFound = View.getInstance().getController().findRecord("Author", getAuthorTextField().getText(), View.getInstance().getItemType());
+			recordsFound = View.getInstance().getController().constructSearchPattern("Author", getAuthorTextField().getText(), View.getInstance().getItemType());
 		}
 		else if (!releaseDate.equals("")) {
-			recordsFound = View.getInstance().getController().findRecord("Release Date", getReleaseDateTextField().getText(), View.getInstance().getItemType());
+			recordsFound = View.getInstance().getController().constructSearchPattern("Release Date", getReleaseDateTextField().getText(), View.getInstance().getItemType());
 		}
 		else if (length > 0) {
-			recordsFound = View.getInstance().getController().findRecord("Length", getLengthTextField().getText(), View.getInstance().getItemType());
+			recordsFound = View.getInstance().getController().constructSearchPattern("Length", getLengthTextField().getText(), View.getInstance().getItemType());
 		}
 		else if (!specialField.equals("")) {
-			recordsFound = View.getInstance().getController().findRecord("Special Field", getSpecialFieldTextField ().getText(), View.getInstance().getItemType());
+			recordsFound = View.getInstance().getController().constructSearchPattern("Special Field", getSpecialFieldTextField ().getText(), View.getInstance().getItemType());
 		}
 		
 		return recordsFound;

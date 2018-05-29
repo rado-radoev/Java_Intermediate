@@ -4,8 +4,7 @@ import com.amazonlite.model.Item;
 import com.amazonlite.model.ItemType;
 import com.amazonlite.View.View;
 import com.amazonlite.interfaces.Actionable;
-import com.amazonlite.model.Model_OLD;
-import com.amazonlite.test.Props;
+import com.amazonlite.model.Model;
 import com.amazonlite.model.InventoryItem;
 
 import java.util.ArrayList;
@@ -16,8 +15,7 @@ public class Controller implements Actionable  {
 	private View view;
 	private ItemType itemType;
 	private Item item;
-	private Model_OLD model_OLD;
-	private Props props;
+	private Model model;
 	
 	// Default constructor
 	public Controller() { }
@@ -37,38 +35,24 @@ public class Controller implements Actionable  {
 		this.view = view2;
 	}
 	
-	public Model_OLD getModel() {
-		return model_OLD;
+	public Model getModel() {
+		return model;
 	}
 
-	public void setModel(Model_OLD model_OLD) {
-		this.model_OLD = model_OLD;
+	public void setModel(Model model) {
+		this.model = model;
 	}
 	
 	public void setSelectedItem(int selectedItem) {
 		view.setItemType(selectedItem);
 	}
 
-	/** 
-	 * Add View as on observer to a Model_OLD 
-	 */
-	public void addObserver() {
-		model_OLD.addObserver(view);
-	}
-	
+
 	/**
 	 * Method to create new inventory object
 	 */
 	public void createNewInventoryItem(ItemType itemType) {
-		model_OLD.createNewInventoryItem(itemType);
-	}
-	
-	/**
-	 * Create new inventory file if none is present
-	 * Launches only the very first time the app is run
-	 */
-	public void initDefault() {
-		model_OLD.initializeDefaultProperties();
+		model.createNewInventoryItem(itemType);
 	}
 	
 
@@ -79,7 +63,7 @@ public class Controller implements Actionable  {
 	 */
 	@Override
 	public boolean addItem(InventoryItem item) {
-		return model_OLD.addItem(item);
+		return model.addItem(item);
 	}
 	
 	/**
@@ -100,7 +84,7 @@ public class Controller implements Actionable  {
 	 */
 	@Override
 	public boolean updateRecord(String recrodID, String attributeToModify, String newValueToUpdate) {
-		return model_OLD.updateRecord(recrodID, attributeToModify, newValueToUpdate);
+		return model.updateRecord(recrodID, attributeToModify, newValueToUpdate);
 		
 	}
 
@@ -113,19 +97,11 @@ public class Controller implements Actionable  {
 	 */
 	@Override
 	public ArrayList<String> findRecord(String propertyToFind, String valueToSearch, ItemType itemType) {
-		return model_OLD.findRecord(propertyToFind, valueToSearch, view.getItemType());
+		return model.findRecord(propertyToFind, valueToSearch, view.getItemType());
 	}
 	
-	/**
-	 * Method to update property value. Method is <b>deprecated</b> but is left for backward compatibility
-	 * @param propertyToModify Id of the property to modify
-	 * @param attributeToModify Name of attribute to modify
-	 * @param oldValueToUpdate old value to be modified
-	 * @param newValueToUpdate new value to replace old value
-	 */
-	@Deprecated
-	public void updateItem(String propertyToModify, String attributeToModify, String oldValueToUpdate, String newValueToUpdate) {
-		model_OLD.updateRecord(propertyToModify, attributeToModify, oldValueToUpdate, newValueToUpdate);
+	public String constructSearchPattern(String propertyToFind, String valueToSearch, ItemType itemType) {
+		return model.constructSearchPattern(propertyToFind, valueToSearch, itemType);
 	}
 	
 	/**
@@ -135,15 +111,8 @@ public class Controller implements Actionable  {
 	 * @return String representation of the record that matches the search or null if 
 	 * no matches found
 	 */
-	public String findRecordById(ArrayList<String> records, String recordId) {
-		return model_OLD.findRecordById(records, recordId);
-	}
-	
-	/**
-	 * Method to read properties, passed as argument and notify observers for each K,V pair as a String
-	 * @param item the type of inventory to iterate through
-	 */
-	public void displayInventory(ItemType item) {
-		model_OLD.displayRecords(model_OLD.loadRecords(item));
-	}
+//	public String findRecordById(ArrayList<String> records, String recordId) {
+//		return model.findRecordById(records, recordId);
+//	}
+
 }
