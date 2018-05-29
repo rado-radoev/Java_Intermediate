@@ -8,8 +8,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import javax.swing.table.AbstractTableModel;
 
-import sun.management.ConnectorAddressLink;
-
 public class ResultSetTableModel extends AbstractTableModel {
 
 	private final Connection connection;
@@ -39,10 +37,9 @@ public class ResultSetTableModel extends AbstractTableModel {
 		setQuery(query);
 	}
 	
-	public void setQuery(String query) throws SQLException, IllegalStateException {
+	public void setQuery(String query) throws SQLException {
 		// ensure database connection is available 
-		if (!connectedToDatabase)
-			throw new IllegalStateException("Not connected to databse");
+		isDbConnected();
 		
 		// specify query and execute it
 		resultSet = statement.executeQuery(query);
@@ -58,11 +55,26 @@ public class ResultSetTableModel extends AbstractTableModel {
 		fireTableDataChanged();
 	}
 	
+	// close Statement and Connection
+	public void disconnectFromDatabase() {
+		if (connectedToDatabase) {
+			// close statement and connection
+			try {
+				resultSet.close();
+				statement.close();
+				connection.close();
+			} catch (SQLException sqle) {
+				sqle.printStackTrace();
+			} finally {
+				connectedToDatabase = false;
+			}
+		}
+	}
+	
 	// get class that represents column type
-	public Class getColumnClass(int column) throws IllegalStateException {
+	public Class getColumnClass(int column) {
 		// ensure database connection is available
-		if (!connectedToDatabase)
-			throw new IllegalStateException("Not connected to Databse");
+		isDbConnected();
 		
 		// determine class of column
 		try {
@@ -78,16 +90,15 @@ public class ResultSetTableModel extends AbstractTableModel {
 	}
 	
 	// get name of a particular column in ResultSet
-	public String getColumnName(int column) throws IllegalStateException {
+	public String getColumnName(int column) {
 		// ensure database connection is available
-		if (!connectedToDatabase) 
-			throw new IllegalStateException("Not Connected to Databse!");
+		isDbConnected();
 		
 		String columnName = "";
 		
 		// determine column name
 		try {
-			columnName = metaData.getColumnTypeName(column + 1); 
+			columnName = metaData.getColumnName(column + 1); 
 		} catch (SQLException sqle) {
 			sqle.printStackTrace();
 		}
@@ -95,12 +106,41 @@ public class ResultSetTableModel extends AbstractTableModel {
 		// if problem occurs return empty string for column name
 		return columnName;
 	}
+	
+	// check if DB is connected or throw an error message
+	private void isDbConnected() {
+		try {
+			if (!connectedToDatabase) 
+				throw new IllegalStateException("Not Connected to Databse!");
+		} catch (IllegalStateException e) {
+			System.err.println(e.getMessage());
+		}
+	}
+	
+	// obtain value in particular row and column
+	@Override
+	public Object getValueAt(int row, int column) throws IllegalStateException {
+		// ensure database connection is available
+		isDbConnected();
+		
+		Object valueAt = null;
+		
+		// obtain a value at specified ResultSet row and column
+		try {
+			resultSet.absolute(row + 1);
+			valueAt = resultSet.getObject(column + 1);
+		} catch (SQLException sqle) {
+			sqle.printStackTrace();
+		}
+		
+		// if object is null return empty string else return object 
+		return valueAt == null ? "" : valueAt;
+	}
 
 	@Override
 	public int getRowCount() throws IllegalStateException {
 		// ensure database connection is available
-		if (!connectedToDatabase) 
-			throw new IllegalStateException("Not Connected to Databse!");
+		isDbConnected();
 		
 		return numberOfRows;
 	}
@@ -109,8 +149,7 @@ public class ResultSetTableModel extends AbstractTableModel {
 	@Override
 	public int getColumnCount() {		
 		// ensure database connection is available
-		if (!connectedToDatabase)
-			throw new IllegalStateException("Not Connected to Databse");
+		isDbConnected();
 		
 		// set default column count
 		int columnCount = 0;
@@ -124,11 +163,5 @@ public class ResultSetTableModel extends AbstractTableModel {
 		
 		// if problem occurs return 0 for number of columns;
 		return columnCount;
-	}
-
-	@Override
-	public Object getValueAt(int rowIndex, int columnIndex) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }
