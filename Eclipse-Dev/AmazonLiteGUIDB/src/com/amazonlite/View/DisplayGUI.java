@@ -38,8 +38,7 @@ public class DisplayGUI extends JPanel {
 			
 			DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
 			dtcr.setHorizontalAlignment(SwingConstants.LEFT);
-			
-			
+				
 			// create TableModel for results of query 
 			tableModel = new ResultSetTableModel(getSearchPattern());
 						
