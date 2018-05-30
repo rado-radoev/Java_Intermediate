@@ -27,7 +27,7 @@ import com.amazonlite.model.ItemType;
 import com.amazonlite.model.Model;
 import com.amazonlite.interfaces.Observer;
 
-public class View extends JFrame implements Observer {
+public class View extends JFrame {
 	
 	private final JTabbedPane tabbedPane;
 
@@ -84,14 +84,17 @@ public class View extends JFrame implements Observer {
 				if (getItemType().name().toUpperCase() == "CD") {
 					addGUI.setSpecialFieldLabel("Hit Single");
 					searchGUI.setSpecialFieldLabel("Hit Single");
+					updateGUI.addSpecialAttributeToComboBox(CD.getSpecialField().replaceAll("\\s+", ""));
 				}
 				else if (getItemType().name().toUpperCase() == "DVD") { 
 					addGUI.setSpecialFieldLabel("Bonus Scenes"); 
 					searchGUI.setSpecialFieldLabel("Bonus Scenes");
+					updateGUI.addSpecialAttributeToComboBox(DVD.getSpecialField().replaceAll("\\s+", ""));
 					}
 				else if (getItemType().name().toUpperCase() == "BOOK") { 
 					addGUI.setSpecialFieldLabel("Publisher");
 					searchGUI.setSpecialFieldLabel("Publisher");
+					updateGUI.addSpecialAttributeToComboBox(Book.getSpecialField().replaceAll("\\s+", ""));
 				}
 			}
 			
@@ -131,7 +134,7 @@ public class View extends JFrame implements Observer {
 		itemTypeJPanel.add(dvdRadioBtn);
 		itemTypeJPanel.add(bookRadioBtn);
 		
-		// set default selection
+		// turn off default selection
 		cdRadioBtn.setSelected(false);
 		
 		// Set up items JPanel layout
@@ -249,15 +252,4 @@ public class View extends JFrame implements Observer {
 			controller.createNewInventoryItem(getItemType());	
  		}
 	} // End of JButton ActionListener
-	
-
-	@Override
-	public void update() {
-		// No implementation. Not used in current version.
-	}
-
-	@Override
-	public void update(String message) {
-		// No implementation. Not used in current version.
-	}	
 }

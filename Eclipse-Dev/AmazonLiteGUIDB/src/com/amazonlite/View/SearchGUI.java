@@ -99,22 +99,6 @@ public class SearchGUI extends ActionsVewTemplate {
 		add(cancel);
 	}
 	
-//	/**
-//	 * Method to get search results as ArrayList<String>
-//	 * @return all results returned by the search as ArrayList<String>
-//	 */
-//	public ArrayList<String> getSearchResults() {
-//		return searchResults;
-//	}
-//	
-//	/**
-//	 * Helper method that sets search results
-//	 * @param searchResults
-//	 */
-//	private void setSearchResults(ArrayList<String> searchResults) {
-//		this.searchResults = searchResults;
-//	}
-	
 	/**
 	 * Method to search for records that match specific criteria
 	 * @return ArrayList<String> of results that are matching the query

@@ -4,12 +4,14 @@ import java.awt.BorderLayout;
 import java.sql.SQLException;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.TableRowSorter;
 
 import com.amazonlite.model.ResultSetTableModel;
 
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 
 public class DisplayGUI extends JPanel {
@@ -34,6 +36,10 @@ public class DisplayGUI extends JPanel {
 				throw new IllegalArgumentException("No search pattern provided");
 			}
 			
+			DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
+			dtcr.setHorizontalAlignment(SwingConstants.LEFT);
+			
+			
 			// create TableModel for results of query 
 			tableModel = new ResultSetTableModel(getSearchPattern());
 						
@@ -47,6 +53,11 @@ public class DisplayGUI extends JPanel {
 			final TableRowSorter<TableModel> sorter = 
 					new TableRowSorter<TableModel>(tableModel);
 			resultTable.setRowSorter(sorter);
+			
+			resultTable.getTableHeader().setDefaultRenderer(dtcr);
+			for (int i = 0; i < tableModel.getColumnCount(); i++) {
+				resultTable.setDefaultRenderer(tableModel.getColumnClass(i), dtcr);
+			}
 			
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);

@@ -13,6 +13,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import sun.print.AttributeClass;
+
+import javax.swing.JComboBox;
+
 public class UpdateGUI extends JPanel {
 
 	private final JPanel panel;
@@ -23,8 +27,8 @@ public class UpdateGUI extends JPanel {
 	private final JLabel attributeLabel;
 	private final JLabel newValueLabel;
 	private final JTextField recordIdTextField;
-	private final JTextField attributeTextField;
 	private final JTextField newValueTextField;
+	private final JComboBox attributeComboBox;
 	
 	private final JButton search;
 	private final JButton update;
@@ -67,11 +71,6 @@ public class UpdateGUI extends JPanel {
 							"Required Field Missing", JOptionPane.ERROR_MESSAGE);
 					allFieldsCompleted = false;
 				}
-				else if (getAttributeTextField().getText().isEmpty()) {
-					JOptionPane.showMessageDialog(UpdateGUI.this, "Attribute is required field", 
-							"Required Field Missing", JOptionPane.ERROR_MESSAGE);
-					allFieldsCompleted = false;
-				}
 				else if (getNewValueTextField().getText().isEmpty()) {
 					JOptionPane.showMessageDialog(UpdateGUI.this, "New value is required field", 
 							"Required Field Missing", JOptionPane.ERROR_MESSAGE);
@@ -82,7 +81,7 @@ public class UpdateGUI extends JPanel {
 				// Message is displayed to the user based on the output of the update (true - success or false - failure)
 				if (allFieldsCompleted) {
 					recordId = getRecordIdTextField().getText();
-					attribute = getAttributeTextField().getText();
+					attribute = attributeComboBox.getSelectedItem().toString();
 					newValue = getNewValueTextField().getText();
 					
 					if (View.getInstance().getController().updateRecord(recordId, attribute, newValue)) {
@@ -106,8 +105,8 @@ public class UpdateGUI extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				// Clearing all text fields
 				recordIdTextField.setText("");
-				attributeTextField.setText("");
 				newValueTextField.setText("");
+				attributeComboBox.setSelectedIndex(0);
 				
 			}
 		});
@@ -125,8 +124,10 @@ public class UpdateGUI extends JPanel {
 
 		// Create text fields
 		recordIdTextField = new JTextField(20);
-		attributeTextField = new JTextField(20);
 		newValueTextField = new JTextField(20);
+		
+		// create empty combo box
+		attributeComboBox = new JComboBox<String>();
 		
 		// setup main panel
 		panel = new JPanel();
@@ -145,7 +146,7 @@ public class UpdateGUI extends JPanel {
 				.addComponent(newValueLabel));
 		hGroup.addGroup(groupLayout.createParallelGroup()
 				.addComponent(recordIdTextField)
-				.addComponent(attributeTextField)
+				.addComponent(attributeComboBox)
 				.addComponent(newValueTextField));
 		groupLayout.setHorizontalGroup(hGroup);
 		
@@ -156,7 +157,7 @@ public class UpdateGUI extends JPanel {
 				.addComponent(recordIdTextField));
 		vGroup.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 				.addComponent(attributeLabel)
-				.addComponent(attributeTextField));
+				.addComponent(attributeComboBox));
 		vGroup.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 				.addComponent(newValueLabel)
 				.addComponent(newValueTextField));
@@ -171,11 +172,21 @@ public class UpdateGUI extends JPanel {
 		return recordIdTextField;
 	}
 
-
-	private JTextField getAttributeTextField() {
-		return attributeTextField;
+	protected void addSpecialAttributeToComboBox(String specialAttirbute) {
+		
+		// create attributes combo box and add list of items
+		//String specialAttirbute = View.getInstance().getModel().getItemSpecialField(View.getInstance().getItem())[0];
+		String[] attributesList = {"Title", "Author", "Length", "ReleaseDate", specialAttirbute};
+		
+		addComboBoxElements(attributesList);
 	}
-
+	
+	private void addComboBoxElements(String[] comboBoxItemList) {
+		attributeComboBox.removeAllItems();
+		for (String element : comboBoxItemList) {
+			attributeComboBox.addItem(element);
+		}
+	}
 
 	private JTextField getNewValueTextField() {
 		return newValueTextField;

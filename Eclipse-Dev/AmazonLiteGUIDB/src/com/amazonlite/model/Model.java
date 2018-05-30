@@ -217,7 +217,8 @@ public class Model implements Actionable {
 	public boolean updateRecord(String recrodID, String attributeToModify, String newValueToUpdate) {
 		boolean successful = false;
 		
-		String sql = String.format("UPDATE %S SET %S = ? WHERE ID = %S", "CD"/*View.getInstance().getItemType().name()*/,
+		String sql = String.format("UPDATE %S SET %S = ? WHERE ID = %S", 
+														   View.getInstance().getItemType().name(),
 														   attributeToModify,
 														   recrodID);
 		try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -225,7 +226,7 @@ public class Model implements Actionable {
 			statement.setString(1, newValueToUpdate);
 			
 			statement.executeUpdate();
-			
+			successful = true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -251,26 +252,6 @@ public class Model implements Actionable {
 		
 		return new String[] {specialField, itemSpecificity};
 	}
-	
-//	public String[] getItemSpecialField(InventoryItem item) {
-//		
-//		String specialField = "";
-//		String itemSpecificity = ""; 
-//		
-//		if (item.getItemType().name() == "CD") {
-//			specialField = CD.getSpecialField().replaceAll("\\s+", "").toLowerCase();
-//			itemSpecificity = String.valueOf(((CD)item).getHitSingle());
-//		} else if (item.getItemType().name() == "DVD") {
-//			specialField = DVD.getSpecialField().replaceAll("\\s+", "").toLowerCase();
-//			itemSpecificity = String.valueOf(((DVD)item).getBonusScenes());
-//		} else {
-//			specialField = Book.getSpecialField().replaceAll("\\s+", "").toLowerCase();
-//			itemSpecificity = ((Book)item).getPublisher();
-//		}
-//		
-//		return new String[] {specialField, itemSpecificity};
-//	}
-	
 	
 	public boolean addItem(InventoryItem item) {
 		boolean successful = false;
@@ -299,28 +280,4 @@ public class Model implements Actionable {
 		
 		return successful;
 	}
-	
-//	public static void main(String[] args) throws ParseException {
-//		Model m = new Model();
-//		Date date = new SimpleDateFormat("MM/dd/yyyy").parse("06/12/2008");
-//		InventoryItem iv = new InventoryItem("This title is too late", 
-//				"This author is too late",
-//				65.5,
-//				date,
-//				ItemType.DVD);
-//		DVD dvd = new DVD();
-//		dvd.setTitle(iv.getTitle());
-//		dvd.setAuthor(iv.getAuthor());
-//		dvd.setLength(iv.getLength());
-//		dvd.setReleaseDate(iv.getReleaseDate());
-//		dvd.setItemType(iv.getItemType());
-//		dvd.setBonusScenes(true);
-//		
-//		m.addItem(dvd);
-//		//m.addInventoryItem("CD");
-//		//m.updateInventoryItem("CD", "Title", "Author");
-//		//m.displayInventory("CD", "*");
-//		//System.out.println(m.findRecord("Title", "fsfa", ItemType.CD));
-//		m.updateRecord("2", "Title", "UpdateRecordTestTItle");
-//	}
 }
