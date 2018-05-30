@@ -233,18 +233,18 @@ public class Model implements Actionable {
 		return successful;
 	}
 	
-	private String[] getItemSpecialField(InventoryItem item) {
-		
+	public <T> String[] getItemSpecialField(T item) {
+		String selectedItemType = item.getClass().getSimpleName();
 		String specialField = "";
 		String itemSpecificity = ""; 
 		
-		if (item.getItemType().name() == "CD") {
+		if (selectedItemType.toLowerCase().equals("cd")) {
 			specialField = CD.getSpecialField().replaceAll("\\s+", "").toLowerCase();
 			itemSpecificity = String.valueOf(((CD)item).getHitSingle());
-		} else if (item.getItemType().name() == "DVD") {
+		} else if (selectedItemType.toLowerCase().equals("dvd")) {
 			specialField = DVD.getSpecialField().replaceAll("\\s+", "").toLowerCase();
 			itemSpecificity = String.valueOf(((DVD)item).getBonusScenes());
-		} else {
+		} else if (selectedItemType.toLowerCase().equals("book")) {
 			specialField = Book.getSpecialField().replaceAll("\\s+", "").toLowerCase();
 			itemSpecificity = ((Book)item).getPublisher();
 		}
@@ -252,12 +252,32 @@ public class Model implements Actionable {
 		return new String[] {specialField, itemSpecificity};
 	}
 	
+//	public String[] getItemSpecialField(InventoryItem item) {
+//		
+//		String specialField = "";
+//		String itemSpecificity = ""; 
+//		
+//		if (item.getItemType().name() == "CD") {
+//			specialField = CD.getSpecialField().replaceAll("\\s+", "").toLowerCase();
+//			itemSpecificity = String.valueOf(((CD)item).getHitSingle());
+//		} else if (item.getItemType().name() == "DVD") {
+//			specialField = DVD.getSpecialField().replaceAll("\\s+", "").toLowerCase();
+//			itemSpecificity = String.valueOf(((DVD)item).getBonusScenes());
+//		} else {
+//			specialField = Book.getSpecialField().replaceAll("\\s+", "").toLowerCase();
+//			itemSpecificity = ((Book)item).getPublisher();
+//		}
+//		
+//		return new String[] {specialField, itemSpecificity};
+//	}
+	
 	
 	public boolean addItem(InventoryItem item) {
 		boolean successful = false;
-				
-		String specialField = getItemSpecialField(item)[0];
-		String itemSpecificity = getItemSpecialField(item)[1];
+		
+		String[] itemSpecials = getItemSpecialField(item);
+		String specialField = itemSpecials[0];
+		String itemSpecificity = itemSpecials[1];
 		LocalDate relDate = item.getReleaseDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		try (Statement statement = connection.createStatement()) {
 		
@@ -268,11 +288,11 @@ public class Model implements Actionable {
 								   		item.getTitle(),
 								   		item.getAuthor(),
 								   		Double.valueOf(item.getLength()),
-								   		relDate.toString().replaceAll("-", "/"),
+								   		relDate.toString(),
 								   		itemSpecificity);
 		
 		statement.executeUpdate(sql);
-			
+		successful = true;	
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

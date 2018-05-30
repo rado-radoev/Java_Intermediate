@@ -1,6 +1,7 @@
 package com.amazonlite.View;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -45,11 +46,12 @@ public class AddGUI extends ActionsVewTemplate {
 				// Basic data validation performed. Date only allowed in the MM/DD/YYYY format
 				Date date = null;
 				try {
-					date = new SimpleDateFormat("MM/dd/yyyy").parse(releaseDate);
+					SimpleDateFormat dateFormat = new SimpleDateFormat(getDATE_FORMAT());
+					date = dateFormat.parse(releaseDate);
 					item.setReleaseDate(date);
 				} catch (ParseException e) {
 					JOptionPane.showMessageDialog(AddGUI.this, 
-							"Date must be in the MM/DD/YYYY format",
+							String.format("Date must be in the %s format", getDATE_FORMAT()),
 							"Date Format Error",
 							JOptionPane.ERROR_MESSAGE);
 				}
@@ -103,7 +105,8 @@ public class AddGUI extends ActionsVewTemplate {
 				setTextFieldText(getAuthorTextField(), "");
 				setTextFieldText(getTitleTextField(), "");
 				setTextFieldText(getLengthTextField(), "");
-				setTextFieldText(getReleaseDateTextField(), "");
+				setTextFieldText(getReleaseDateTextField(), getDATE_FORMAT());
+				getReleaseDateTextField().setForeground(Color.GRAY);
 				setTextFieldText(getSpecialFieldTextField(), "");
 			}
 		});

@@ -30,7 +30,7 @@ public abstract class ActionsVewTemplate extends JPanel {
 	private final JTextField lengthTextField;
 	private final JTextField specialFieldTextField;
 	
-	private final String DATEFORMAT = "YYYY-MM-DD";
+	private final String DATE_FORMAT = "yyyy-MM-dd";
 	
 	public ActionsVewTemplate() {
 			
@@ -48,21 +48,21 @@ public abstract class ActionsVewTemplate extends JPanel {
 		authorTextField = new JTextField(20);
 		releaseDateTextField = new JTextField(20);
 		releaseDateTextField.setForeground(Color.GRAY);
-		releaseDateTextField.setText(DATEFORMAT);
+		releaseDateTextField.setText(getDATE_FORMAT());
 		releaseDateTextField.addFocusListener(new FocusListener() {
 			
 			@Override
 			public void focusLost(FocusEvent e) {
 				if (releaseDateTextField.getText().isEmpty()) {
 					releaseDateTextField.setForeground(Color.GRAY);
-					releaseDateTextField.setText(DATEFORMAT);
+					releaseDateTextField.setText(getDATE_FORMAT());
 				}
 				
 			}
 			
 			@Override
 			public void focusGained(FocusEvent e) {
-				if (releaseDateTextField.getText().equals(DATEFORMAT)) {
+				if (releaseDateTextField.getText().equals(getDATE_FORMAT())) {
 					releaseDateTextField.setText("");
 					releaseDateTextField.setForeground(Color.BLACK);
 				}
@@ -151,6 +151,11 @@ public abstract class ActionsVewTemplate extends JPanel {
 		return specialFieldTextField;
 	}
 	
+
+	public String getDATE_FORMAT() {
+		return DATE_FORMAT;
+	}
+
 
 	private class TextFieldsActionListener implements ActionListener {
 

@@ -1,5 +1,6 @@
 package com.amazonlite.View;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -52,7 +53,8 @@ public class SearchGUI extends ActionsVewTemplate {
 				setTextFieldText(getAuthorTextField(), "");
 				setTextFieldText(getTitleTextField(), "");
 				setTextFieldText(getLengthTextField(), "");
-				setTextFieldText(getReleaseDateTextField(), "");
+				setTextFieldText(getReleaseDateTextField(), getDATE_FORMAT());
+				getReleaseDateTextField().setForeground(Color.GRAY);
 				setTextFieldText(getSpecialFieldTextField(), "");
 			}
 		});
@@ -138,14 +140,15 @@ public class SearchGUI extends ActionsVewTemplate {
 		else if (!author.equals("")) {
 			recordsFound = View.getInstance().getController().constructSearchPattern("Author", getAuthorTextField().getText(), View.getInstance().getItemType());
 		}
-		else if (!releaseDate.equals("")) {
-			recordsFound = View.getInstance().getController().constructSearchPattern("Release Date", getReleaseDateTextField().getText(), View.getInstance().getItemType());
+		else if (!releaseDate.equals("") && !releaseDate.equals(getDATE_FORMAT())) {
+			recordsFound = View.getInstance().getController().constructSearchPattern("ReleaseDate", getReleaseDateTextField().getText(), View.getInstance().getItemType());
 		}
 		else if (length > 0) {
 			recordsFound = View.getInstance().getController().constructSearchPattern("Length", getLengthTextField().getText(), View.getInstance().getItemType());
 		}
 		else if (!specialField.equals("")) {
-			recordsFound = View.getInstance().getController().constructSearchPattern("Special Field", getSpecialFieldTextField ().getText(), View.getInstance().getItemType());
+			String special = View.getInstance().getModel().getItemSpecialField(View.getInstance().getItem())[0];
+			recordsFound = View.getInstance().getController().constructSearchPattern(special, getSpecialFieldTextField ().getText(), View.getInstance().getItemType());
 		}
 		
 		return recordsFound;
