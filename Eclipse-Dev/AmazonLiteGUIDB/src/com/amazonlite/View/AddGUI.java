@@ -1,6 +1,5 @@
 package com.amazonlite.View;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -9,8 +8,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import com.amazonlite.model.Book;
 import com.amazonlite.model.CD;
@@ -22,8 +23,11 @@ public class AddGUI extends ActionsVewTemplate {
 
 	private final JButton addRecord;
 	private final JButton cancel;
+	private final JPanel buttonPanel;
 	
 	public AddGUI() {
+		
+		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		
 		/**
 		 * Button that adds records to inventory
@@ -111,8 +115,14 @@ public class AddGUI extends ActionsVewTemplate {
 			}
 		});
 		
-		add(addRecord);
-		add(cancel);
+		buttonPanel = new JPanel();
+		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
+		//buttonPanel.add(Box.createVerticalGlue());
+		
+		buttonPanel.add(addRecord);
+		buttonPanel.add(cancel);
+		
+		add(buttonPanel);
 	}
 	
 }

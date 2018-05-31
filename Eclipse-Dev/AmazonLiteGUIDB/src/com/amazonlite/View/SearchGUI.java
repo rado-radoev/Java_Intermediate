@@ -10,17 +10,23 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 
 public class SearchGUI extends ActionsVewTemplate {
+	
 	private final JButton searchRecord;
 	private final JButton cancel;
+	private final JPanel buttonPanel;
 	
 	public SearchGUI() {
+		
+		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		
 		/**
 		 * Text fields will be disabled once text is entered in one of the text fields
@@ -98,10 +104,13 @@ public class SearchGUI extends ActionsVewTemplate {
 			}
 		});
 		
-
+		buttonPanel = new JPanel();
+		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
 		
-		add(searchRecord);
-		add(cancel);
+		buttonPanel.add(searchRecord);
+		buttonPanel.add(cancel);
+		
+		add(buttonPanel);
 	}
 	
 	/**

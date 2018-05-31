@@ -1,19 +1,17 @@
 package com.amazonlite.View;
 
-import java.awt.FlowLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-
-import sun.print.AttributeClass;
 
 import javax.swing.JComboBox;
 
@@ -28,7 +26,7 @@ public class UpdateGUI extends JPanel {
 	private final JLabel newValueLabel;
 	private final JTextField recordIdTextField;
 	private final JTextField newValueTextField;
-	private final JComboBox attributeComboBox;
+	private final JComboBox<String> attributeComboBox;
 	
 	private final JButton search;
 	private final JButton update;
@@ -37,7 +35,7 @@ public class UpdateGUI extends JPanel {
 	public UpdateGUI() {
 		
 		// set main panel layout
-		setLayout(new FlowLayout());
+		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		
 		// Create buttons
 		search = new JButton("Search");
@@ -112,7 +110,8 @@ public class UpdateGUI extends JPanel {
 		});
 		
 		// add buttons to view
-		buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 5, 10));
+		buttonPanel = new JPanel();
+		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
 		buttonPanel.add(search);
 		buttonPanel.add(update);
 		buttonPanel.add(cancel);
