@@ -38,7 +38,7 @@ public class DisplayQueryResults2 extends JFrame {
 		// create ResultSetTableModel and display database table
 		try {
 			// create TableModel for results of query SELECT * FROM CD
-			tableModel = new ResultSetTableModel(DATABASE_URL, USERNAME, PASSWORD, DEFAULT_QUERY);
+			tableModel = new ResultSetTableModel(DEFAULT_QUERY);
 			
 			// set up JTextArea in which user types queries
 //			final JTextArea queryArea = new JTextArea(DEFAULT_QUERY, 10, 100);
