@@ -42,14 +42,14 @@ public class AddGUI extends ActionsVewTemplate {
 				double length = 0D;
 				String specialField = getSpecialFieldTextField().getText();
 				
-				// Basic data validation performed. Date only allowed in the MM/DD/YYYY format
+				// Basic data validation performed. Date only allowed in the MM-dd-yyyy format
 				Date date = null;
 				try {
 					date = new SimpleDateFormat("MM-dd-yyyy").parse(releaseDate);
 					item.setReleaseDate(date);
 				} catch (ParseException e) {
 					JOptionPane.showMessageDialog(AddGUI.this, 
-							"Date must be in the MM/DD/YYYY format",
+							"Date must be in the MM-dd-yyyy format",
 							"Date Format Error",
 							JOptionPane.ERROR_MESSAGE);
 				}

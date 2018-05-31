@@ -23,43 +23,6 @@ public class SearchGUI extends ActionsVewTemplate {
 	public SearchGUI() {
 		
 		/**
-		 * Search button gathers text from text fields and searches
-		 * inventory. Then moves to Display tab to display results
-		 */
-		searchRecord = new JButton("Search");
-		searchRecord.setPreferredSize(new Dimension(75, 26));
-		searchRecord.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				
-		
-				View.getInstance().getDisplayGUI().setSearchPattern(findRecords());
-				View.getInstance().getDisplayGUI().displayResults();
-				View.getInstance().getTabbedPane().setSelectedIndex(4);
-			}
-		});
-		
-		
-		/**
-		 * Cancel button clears text fields
-		 */
-		cancel = new JButton("Cancel");
-		cancel.setPreferredSize(new Dimension(75, 26));
-		cancel.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				setTextFieldText(getAuthorTextField(), "");
-				setTextFieldText(getTitleTextField(), "");
-				setTextFieldText(getLengthTextField(), "");
-				setTextFieldText(getReleaseDateTextField(), getDATE_FORMAT());
-				getReleaseDateTextField().setForeground(Color.GRAY);
-				setTextFieldText(getSpecialFieldTextField(), "");
-			}
-		});
-		
-		/**
 		 * Text fields will be disabled once text is entered in one of the text fields
 		 * All text fields but the one that has text in it will be disabled
 		 * Text fields are enabled again as long as there is not text entered in any of them
@@ -94,6 +57,48 @@ public class SearchGUI extends ActionsVewTemplate {
 				}
 			});
 		}
+		
+		/**
+		 * Search button gathers text from text fields and searches
+		 * inventory. Then moves to Display tab to display results
+		 */
+		searchRecord = new JButton("Search");
+		searchRecord.setPreferredSize(new Dimension(75, 26));
+		searchRecord.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				
+		
+				View.getInstance().getDisplayGUI().setSearchPattern(findRecords());
+				View.getInstance().getDisplayGUI().displayResults();
+				View.getInstance().getTabbedPane().setSelectedIndex(4);
+			}
+		});
+		
+		
+		/**
+		 * Cancel button clears text fields
+		 */
+		cancel = new JButton("Cancel");
+		cancel.setPreferredSize(new Dimension(75, 26));
+		cancel.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setTextFieldText(getAuthorTextField(), "");
+				setTextFieldText(getTitleTextField(), "");
+				setTextFieldText(getLengthTextField(), "");
+				setTextFieldText(getReleaseDateTextField(), getDATE_FORMAT());
+				getReleaseDateTextField().setForeground(Color.GRAY);
+				setTextFieldText(getSpecialFieldTextField(), "");
+				for (JTextField jTextField : textFields) {
+					jTextField.setEnabled(true);
+				}
+			}
+		});
+		
+
 		
 		add(searchRecord);
 		add(cancel);

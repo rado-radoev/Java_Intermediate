@@ -159,9 +159,11 @@ public class Model implements Actionable, Observable {
 		Properties property = new Properties();
 		property = loadRecords(item);
 
-		property.setProperty(String.valueOf(property.size() + 1), item.toString());
-		if (saveProperties(property, item.getItemType())) {
-			successfullAdd = true;
+		if (!item.getTitle().equals("") || !item.getAuthor().equals("")) {
+			property.setProperty(String.valueOf(property.size() + 1), item.toString());
+			if (saveProperties(property, item.getItemType())) {
+				successfullAdd = true;
+			}
 		}
 			
 		return successfullAdd;
@@ -206,11 +208,11 @@ public class Model implements Actionable, Observable {
 			property = loadRecords(itemType);
 			
 			String fullRecord = property.getProperty(recrodID);
-			int startIndexToModify = fullRecord.indexOf(attributeToModify); 
+			int startIndexToModify = fullRecord.indexOf(attributeToModify) + 2; 
 			
-			String modfiedRecord = fullRecord.substring(0, startIndexToModify + attributeToModify.length() + 2) + 
-					newValueToUpdate + 
-					fullRecord.substring(startIndexToModify + attributeToModify.length() + 2 + newValueToUpdate.length());
+			String modfiedRecord = fullRecord.substring(0, startIndexToModify + attributeToModify.length()) + 
+					newValueToUpdate +
+					fullRecord.substring(2 + startIndexToModify + attributeToModify.length() + newValueToUpdate.length());
 			
 			property.setProperty(recrodID, modfiedRecord);
 			if (saveProperties(property, itemType)) {

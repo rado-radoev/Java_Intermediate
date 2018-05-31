@@ -1,5 +1,6 @@
 package com.amazonlite.View;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -21,6 +22,9 @@ public class SearchGUI extends ActionsVewTemplate {
 	private ArrayList<String> searchResults;
 	
 	public SearchGUI() {
+		
+		// get all text fields
+		List<JTextField> textFields = getTextFields();
 		
 		/**
 		 * Search button gathers text from text fields and searches
@@ -54,8 +58,12 @@ public class SearchGUI extends ActionsVewTemplate {
 				setTextFieldText(getAuthorTextField(), "");
 				setTextFieldText(getTitleTextField(), "");
 				setTextFieldText(getLengthTextField(), "");
-				setTextFieldText(getReleaseDateTextField(), "");
+				setTextFieldText(getReleaseDateTextField(), "MM-dd-yyyy");
+				getReleaseDateTextField().setForeground(Color.GRAY);
 				setTextFieldText(getSpecialFieldTextField(), "");
+				for (JTextField jTextField : textFields) {
+					jTextField.setEnabled(true);
+				}
 			}
 		});
 		
@@ -64,7 +72,7 @@ public class SearchGUI extends ActionsVewTemplate {
 		 * All text fields but the one that has text in it will be disabled
 		 * Text fields are enabled again as long as there is not text entered in any of them
 		 */
-		List<JTextField> textFields = getTextFields();
+		
 		for (JTextField textField : textFields) {
 			textField.getDocument().addDocumentListener(new DocumentListener() {
 							
