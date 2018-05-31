@@ -34,7 +34,7 @@ public class UpdateGUI extends JPanel {
 	
 	public UpdateGUI() {
 		
-		// set main panel layout
+		// set main panel layout. This control the buttons to show after the labels and text fields
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		
 		// Create buttons
@@ -42,6 +42,7 @@ public class UpdateGUI extends JPanel {
 		search.setPreferredSize(new Dimension(75, 26));
 		search.addActionListener(new ActionListener() {
 			
+			// User is redirected to the Display search results tab
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				View.getInstance().getTabbedPane().setSelectedIndex(2);
@@ -49,7 +50,7 @@ public class UpdateGUI extends JPanel {
 		});
 		
 		/**
-		 * Update button updates a record
+		 * Update button updates a record 
 		 */
 		update = new JButton("Update");
 		update.setPreferredSize(new Dimension(75, 26));
@@ -74,7 +75,7 @@ public class UpdateGUI extends JPanel {
 							"Required Field Missing", JOptionPane.ERROR_MESSAGE);
 					allFieldsCompleted = false;
 				}
-				
+							
 				// If all text fields contain text an attempt to update record is performed.
 				// Message is displayed to the user based on the output of the update (true - success or false - failure)
 				if (allFieldsCompleted) {
@@ -109,7 +110,7 @@ public class UpdateGUI extends JPanel {
 			}
 		});
 		
-		// add buttons to view
+		// add buttons to button JPanel
 		buttonPanel = new JPanel();
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
 		buttonPanel.add(search);
@@ -162,6 +163,7 @@ public class UpdateGUI extends JPanel {
 				.addComponent(newValueTextField));
 		groupLayout.setVerticalGroup(vGroup);
 		
+		// Add both view panels to the update tab
 		add(panel);
 		add(buttonPanel);
 	}
@@ -171,6 +173,10 @@ public class UpdateGUI extends JPanel {
 		return recordIdTextField;
 	}
 
+	/**
+	 * Method to generate special attributes to add to combo box
+	 * @param specialAttirbute a String of attribute to add to combo box as a special filed
+	 */
 	protected void addSpecialAttributeToComboBox(String specialAttirbute) {
 		
 		// create attributes combo box and add list of items
@@ -180,6 +186,10 @@ public class UpdateGUI extends JPanel {
 		addComboBoxElements(attributesList);
 	}
 	
+	/**
+	 * Method to load items to the Combo Box list
+	 * @param comboBoxItemList a String array with all items to be added to the combo box
+	 */
 	private void addComboBoxElements(String[] comboBoxItemList) {
 		attributeComboBox.removeAllItems();
 		for (String element : comboBoxItemList) {
@@ -187,6 +197,10 @@ public class UpdateGUI extends JPanel {
 		}
 	}
 
+	/**
+	 * Get the value of the New Value Text Field
+	 * @return The text entered in the New Value Text Field as String
+	 */
 	private JTextField getNewValueTextField() {
 		return newValueTextField;
 	}

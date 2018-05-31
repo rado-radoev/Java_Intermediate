@@ -79,7 +79,6 @@ public class View extends JFrame {
 			* The special label in the Add and Search tabs is displayed differently
 			* depending on the selected type of item 
 			*/
-
 			private void changeSpecialLabel() {
 				if (getItemType().name().toUpperCase() == "CD") {
 					addGUI.setSpecialFieldLabel("Hit Single");
@@ -98,13 +97,18 @@ public class View extends JFrame {
 				}
 			}
 			
+			
+			/**
+			 * Internal method to update the Add & Search tabs
+			 * on the fly with the currently selected item special field
+			 */
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				
 				JTabbedPane sourceTabbedPane = (JTabbedPane) e.getSource();
 				int index = sourceTabbedPane.getSelectedIndex();
 				if (sourceTabbedPane.getTitleAt(index).equals("Add") || 
-						sourceTabbedPane.getTitleAt(index).equals("Update") ||
+						//sourceTabbedPane.getTitleAt(index).equals("Update") ||
 						sourceTabbedPane.getTitleAt(index).equals("Search")) {
 					changeSpecialLabel();
 				}
@@ -160,6 +164,7 @@ public class View extends JFrame {
 		tabbedPane.add("Update", updateGUI);
 		tabbedPane.add("Display", displayGUI);
 	
+		// All tabs are disabled by default until an Inventory item is selected
 		for (int i = 0; i < tabbedPane.getTabCount(); i++) {
 			tabbedPane.setEnabledAt(i, false);
 		}
