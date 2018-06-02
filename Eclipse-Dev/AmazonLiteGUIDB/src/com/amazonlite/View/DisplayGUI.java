@@ -19,6 +19,7 @@ public class DisplayGUI extends JPanel {
 	private static String searchPattern;
 	private static ResultSetTableModel tableModel;
 	
+	// search pattern getter and setter
 	public void setSearchPattern(String searchPattern) {
 		this.searchPattern = searchPattern;
 	}
@@ -27,11 +28,12 @@ public class DisplayGUI extends JPanel {
 		return searchPattern;
 	}
 	
+	
+	// create ResultSetTableModel and display database table
 	public void displayResults() {
 		setLayout(new BorderLayout());
-		// create ResultSetTableModel and display database table
+		
 		try {
-			
 			if (getSearchPattern().equals("") || getSearchPattern().equals(null)) {
 				throw new IllegalArgumentException("No search pattern provided");
 			}
@@ -48,11 +50,13 @@ public class DisplayGUI extends JPanel {
 			
 			// place GUI components on JFrame's content pane
 			add(new JScrollPane(resultTable), BorderLayout.CENTER);
-				
+			
+			
 			final TableRowSorter<TableModel> sorter = 
 					new TableRowSorter<TableModel>(tableModel);
 			resultTable.setRowSorter(sorter);
 			
+			// right align all cells
 			resultTable.getTableHeader().setDefaultRenderer(dtcr);
 			for (int i = 0; i < tableModel.getColumnCount(); i++) {
 				resultTable.setDefaultRenderer(tableModel.getColumnClass(i), dtcr);
@@ -60,7 +64,6 @@ public class DisplayGUI extends JPanel {
 			
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
-			//System.exit(1);
 		} catch (IllegalArgumentException iae) {
 			JOptionPane.showMessageDialog(null, iae.getMessage(), "Search Pattern Error", JOptionPane.ERROR_MESSAGE);
 		}

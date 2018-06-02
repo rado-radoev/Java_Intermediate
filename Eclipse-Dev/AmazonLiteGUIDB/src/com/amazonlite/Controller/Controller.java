@@ -100,19 +100,14 @@ public class Controller implements Actionable  {
 		return model.findRecord(propertyToFind, valueToSearch, view.getItemType());
 	}
 	
+	/**
+	 * Method to consturct a SQL search query with provided attributes
+	 * @param propertyToFind the table to search
+	 * @param valueToSearch the value to search for
+	 * @param itemType the type of item to search for
+	 * @return a String representation of a SQL query
+	 */
 	public String constructSearchPattern(String propertyToFind, String valueToSearch, ItemType itemType) {
 		return model.constructSearchPattern(propertyToFind, valueToSearch, itemType);
 	}
-	
-	/**
-	 * Method to find record by provided ID
-	 * @param records an ArrayList<String> of records
-	 * @param recordId the record ID to search for
-	 * @return String representation of the record that matches the search or null if 
-	 * no matches found
-	 */
-//	public String findRecordById(ArrayList<String> records, String recordId) {
-//		return model.findRecordById(records, recordId);
-//	}
-
 }

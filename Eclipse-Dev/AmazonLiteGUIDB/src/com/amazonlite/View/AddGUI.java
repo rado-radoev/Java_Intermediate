@@ -47,9 +47,10 @@ public class AddGUI extends ActionsVewTemplate {
 				double length = 0D;
 				String specialField = getSpecialFieldTextField().getText();
 				
-				// Basic data validation performed. Date only allowed in the MM/DD/YYYY format
+				// Basic data validation performed. Date only allowed in the MM-DD-YYYY format
 				Date date = null;
 				try {
+					// convert the date entered and set
 					SimpleDateFormat dateFormat = new SimpleDateFormat(getDATE_FORMAT());
 					date = dateFormat.parse(releaseDate);
 					item.setReleaseDate(date);
@@ -117,7 +118,6 @@ public class AddGUI extends ActionsVewTemplate {
 		
 		buttonPanel = new JPanel();
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
-		//buttonPanel.add(Box.createVerticalGlue());
 		
 		buttonPanel.add(addRecord);
 		buttonPanel.add(cancel);

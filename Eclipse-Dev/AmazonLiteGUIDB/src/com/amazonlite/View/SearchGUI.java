@@ -95,6 +95,7 @@ public class SearchGUI extends ActionsVewTemplate {
 				setTextFieldText(getAuthorTextField(), "");
 				setTextFieldText(getTitleTextField(), "");
 				setTextFieldText(getLengthTextField(), "");
+				// when clearing the date field set it back to the default text
 				setTextFieldText(getReleaseDateTextField(), getDATE_FORMAT());
 				getReleaseDateTextField().setForeground(Color.GRAY);
 				setTextFieldText(getSpecialFieldTextField(), "");

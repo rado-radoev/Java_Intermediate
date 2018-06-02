@@ -12,6 +12,9 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import com.amazonlite.View.View;
@@ -28,7 +31,7 @@ public class Model implements Actionable {
 	private ItemType itemType;
 	
 	public Model() {
-		// get DB properties
+		// get DB username, password, and URL
 		Properties props = new Properties();
 		
 		try { 
@@ -51,6 +54,8 @@ public class Model implements Actionable {
 		
 	}
 	
+	// Model construcotrs
+	
 	public Model(View view) {
 		this.view = view;
 	}
@@ -59,6 +64,8 @@ public class Model implements Actionable {
 		this.item = item;
 		this.itemType = item.getItemType();
 	}
+	
+	// getters and setters
 	
 	public View getView() {
 		return view;
@@ -105,6 +112,13 @@ public class Model implements Actionable {
 		}
 	}
 	
+	/**
+	 * Method to consturct a SQL search query with provided attributes
+	 * @param propertyToFind the table to search
+	 * @param valueToSearch the value to search for
+	 * @param itemType the type of item to search for
+	 * @return a String representation of a SQL query
+	 */
 	public String constructSearchPattern(String propertyToFind, String valueToSearch, ItemType itemType) {
 		
 		String sql = String.format("SELECT * FROM %s WHERE %s LIKE \"%%%s%%\"", itemType.name(), 
@@ -183,6 +197,12 @@ public class Model implements Actionable {
 												 special != null ? special : bonusScenes);
 	}
 	
+	/**
+	 * Mehtod to return an ArrayList<String> with records
+	 * @param inventoryItem the type of inventory item to search for
+	 * @param searchString the value to search for
+	 * @return an ArrayList<String> of records that match the search
+	 */
 	@Override
 	public ArrayList<String> displayRecords(String inventoryItem, String searchString) {
 		ArrayList<String> res = new ArrayList<String>();
@@ -234,7 +254,12 @@ public class Model implements Actionable {
 		return successful;
 	}
 	
-	public <T> String[] getItemSpecialField(T item) {
+	/**
+	 * Method to return the name an item special field and its value
+	 * @param item the item to check for special field and get its value
+	 * @return a String array with the item special field name and the value
+	 */
+	public <T extends InventoryItem> String[] getItemSpecialField(T item) {
 		String selectedItemType = item.getClass().getSimpleName();
 		String specialField = "";
 		String itemSpecificity = ""; 
@@ -253,6 +278,10 @@ public class Model implements Actionable {
 		return new String[] {specialField, itemSpecificity};
 	}
 	
+	/**
+	 * Method to add item to inventory
+	 * @param item the item to add to inventory
+	 */
 	public boolean addItem(InventoryItem item) {
 		boolean successful = false;
 		

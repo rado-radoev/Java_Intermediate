@@ -34,10 +34,13 @@ public abstract class ActionsVewTemplate extends JPanel {
 	
 	public ActionsVewTemplate() {
 			
+		// create main panel and set default layout
 		mainJPanel = new JPanel();
 		layout = new GroupLayout(mainJPanel);
 		mainJPanel.setLayout(layout);
 	
+		// create labels and text fields
+		
 		titleLabel = new JLabel("Title");
 		authorLabel = new JLabel("Author");
 		releaseDateLabel = new JLabel("Release Date");
@@ -49,6 +52,7 @@ public abstract class ActionsVewTemplate extends JPanel {
 		releaseDateTextField = new JTextField(20);
 		releaseDateTextField.setForeground(Color.GRAY);
 		releaseDateTextField.setText(getDATE_FORMAT());
+		// add default text to the date text field. remove it when clicked outside
 		releaseDateTextField.addFocusListener(new FocusListener() {
 			
 			@Override
@@ -119,6 +123,8 @@ public abstract class ActionsVewTemplate extends JPanel {
 		add(mainJPanel);
 	}
 	
+	// getters and setters
+	
 	public void setSpecialFieldLabel (String specialFieldLabel) {
 		this.specialFieldLabel.setText(specialFieldLabel);;
 	}
@@ -154,17 +160,5 @@ public abstract class ActionsVewTemplate extends JPanel {
 
 	public String getDATE_FORMAT() {
 		return DATE_FORMAT;
-	}
-
-
-	private class TextFieldsActionListener implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if (e.getSource() == titleTextField) {
-				
-			}
-		}
-		
 	}	
 }
