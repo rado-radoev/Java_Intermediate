@@ -75,7 +75,7 @@ public class SearchGUI extends ActionsVewTemplate {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				
-		
+				//View.getInstance().getDisplayGUI().clearTable();
 				View.getInstance().getDisplayGUI().setSearchPattern(findRecords());
 				View.getInstance().getDisplayGUI().displayResults();
 				View.getInstance().getTabbedPane().setSelectedIndex(4);

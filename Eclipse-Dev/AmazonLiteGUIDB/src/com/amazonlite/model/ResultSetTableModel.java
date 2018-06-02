@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
+import javax.sql.RowSet;
 import javax.swing.SwingConstants;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -32,14 +33,19 @@ public class ResultSetTableModel extends AbstractTableModel {
 		connection = View.getInstance().getModel().getConnection();
 				
 		// create statement to query database
-		statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-				ResultSet.CONCUR_READ_ONLY);
+		statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+				ResultSet.CONCUR_UPDATABLE);
 		
 		// update database connection status
 		connectedToDatabase = true;
 		
 		// set query and execute it
 		setQuery(query);
+	}
+	
+	public void clearTable() {
+		fireTableDataChanged();
+		numberOfRows = 0;
 	}
 	
 	public void setQuery(String query) throws SQLException {

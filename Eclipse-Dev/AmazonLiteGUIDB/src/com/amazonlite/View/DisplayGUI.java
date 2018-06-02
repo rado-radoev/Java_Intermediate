@@ -28,6 +28,12 @@ public class DisplayGUI extends JPanel {
 		return searchPattern;
 	}
 	
+	public void clearTable() {
+		if (tableModel != null) {
+			tableModel.clearTable();
+		}
+	}
+	
 	
 	// create ResultSetTableModel and display database table
 	public void displayResults() {
@@ -47,6 +53,7 @@ public class DisplayGUI extends JPanel {
 			// create JTable based on the tableModel
 			JTable resultTable = new JTable(tableModel);
 			resultTable.setAutoResizeMode( JTable.AUTO_RESIZE_ALL_COLUMNS);
+			
 			
 			// place GUI components on JFrame's content pane
 			add(new JScrollPane(resultTable), BorderLayout.CENTER);
