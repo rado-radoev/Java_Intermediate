@@ -12,6 +12,7 @@ import javax.swing.table.TableRowSorter;
 import com.amazonlite.model.ResultSetTableModel;
 
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 public class DisplayGUI extends JPanel {
@@ -53,7 +54,6 @@ public class DisplayGUI extends JPanel {
 			// create JTable based on the tableModel
 			JTable resultTable = new JTable(tableModel);
 			resultTable.setAutoResizeMode( JTable.AUTO_RESIZE_ALL_COLUMNS);
-			
 			
 			// place GUI components on JFrame's content pane
 			add(new JScrollPane(resultTable), BorderLayout.CENTER);

@@ -107,9 +107,8 @@ public class View extends JFrame {
 				
 				JTabbedPane sourceTabbedPane = (JTabbedPane) e.getSource();
 				int index = sourceTabbedPane.getSelectedIndex();
-				if (sourceTabbedPane.getTitleAt(index).equals("Add") || 
-						//sourceTabbedPane.getTitleAt(index).equals("Update") ||
-						sourceTabbedPane.getTitleAt(index).equals("Search")) {
+				if (!sourceTabbedPane.getTitleAt(index).equals("Display") && 
+						!sourceTabbedPane.getTitleAt(index).equals("Inventory")) {
 					changeSpecialLabel();
 				}
 			}

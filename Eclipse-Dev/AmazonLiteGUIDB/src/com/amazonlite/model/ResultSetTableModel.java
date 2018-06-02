@@ -11,10 +11,13 @@ import javax.sql.RowSet;
 import javax.swing.SwingConstants;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
+import org.apache.derby.iapi.services.loader.GeneratedMethod;
 
 import com.amazonlite.View.View;
 
-public class ResultSetTableModel extends AbstractTableModel {
+public class ResultSetTableModel extends DefaultTableModel {
 
 	private final Connection connection;
 	private final Statement statement;
@@ -44,8 +47,8 @@ public class ResultSetTableModel extends AbstractTableModel {
 	}
 	
 	public void clearTable() {
-		fireTableDataChanged();
-		numberOfRows = 0;
+		
+		
 	}
 	
 	public void setQuery(String query) throws SQLException {
