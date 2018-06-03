@@ -25,6 +25,7 @@ public class ResultSetTableModel extends DefaultTableModel {
 	private ResultSetMetaData metaData;
 	private int numberOfRows;
 	private Model model;
+	private DefaultTableModel tableModel;
 	
 	// keep track of database connection status
 	private boolean connectedToDatabase = false;
@@ -47,8 +48,7 @@ public class ResultSetTableModel extends DefaultTableModel {
 	}
 	
 	public void clearTable() {
-		
-		
+
 	}
 	
 	public void setQuery(String query) throws SQLException {
