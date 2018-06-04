@@ -235,16 +235,19 @@ public class View extends JFrame {
 				// This gets the item type from the enum
 				controller.setSelectedItem(ItemType.valueOf(cdRadioBtn.getText().toUpperCase()).ordinal());
 				specialFieldLabel = CD.getSpecialField();
+//				System.out.println("CD Selected");
 			}
 			else if (e.getSource() == dvdRadioBtn) {
 				// This gets the item type from the enum
 				controller.setSelectedItem(ItemType.valueOf(dvdRadioBtn.getText().toUpperCase()).ordinal());
 				specialFieldLabel = DVD.getSpecialField();
+//				System.out.println("DVD Selected");
 			}
 			else if (e.getSource() == bookRadioBtn) {
 				// This gets the item type from the enum
 				controller.setSelectedItem(ItemType.valueOf(bookRadioBtn.getText().toUpperCase()).ordinal());
 				specialFieldLabel = Book.getSpecialField();
+//				System.out.println("Book Selected");
 			}
 			
 			// Enabled tabbed Pane

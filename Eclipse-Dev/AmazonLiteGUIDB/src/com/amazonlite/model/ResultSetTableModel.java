@@ -123,7 +123,7 @@ public class ResultSetTableModel extends DefaultTableModel {
 	// check if DB is connected or throw an error message
 	private void isDbConnected() {
 		try {
-			if (!connectedToDatabase) 
+			if (!connectedToDatabase && connection != null) 
 				throw new IllegalStateException("Not Connected to Databse!");
 		} catch (IllegalStateException e) {
 			System.err.println(e.getMessage());
