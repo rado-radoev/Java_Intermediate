@@ -19,6 +19,7 @@ import javax.swing.ActionMap;
 import javax.swing.BoxLayout;
 import javax.swing.InputMap;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
@@ -90,7 +91,6 @@ public class SearchGUI extends ActionsVewTemplate {
 			}
 		});
 		
-		
 		/**
 		 * Cancel button clears text fields
 		 */
@@ -105,6 +105,7 @@ public class SearchGUI extends ActionsVewTemplate {
 		});
 
 		buttonPanel = new JPanel();
+		
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
 		
 		buttonPanel.add(searchRecord);
