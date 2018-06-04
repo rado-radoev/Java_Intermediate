@@ -4,16 +4,24 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.ActionMap;
 import javax.swing.BoxLayout;
+import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -23,6 +31,7 @@ public class SearchGUI extends ActionsVewTemplate {
 	private final JButton searchRecord;
 	private final JButton cancel;
 	private final JPanel buttonPanel;
+	String ACTION_KEY = "theAction";
 	
 	public SearchGUI() {
 		
@@ -91,19 +100,10 @@ public class SearchGUI extends ActionsVewTemplate {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				setTextFieldText(getAuthorTextField(), "");
-				setTextFieldText(getTitleTextField(), "");
-				setTextFieldText(getLengthTextField(), "");
-				// when clearing the date field set it back to the default text
-				setTextFieldText(getReleaseDateTextField(), getDATE_FORMAT());
-				getReleaseDateTextField().setForeground(Color.GRAY);
-				setTextFieldText(getSpecialFieldTextField(), "");
-				for (JTextField jTextField : textFields) {
-					jTextField.setEnabled(true);
-				}
+				clearTextFields();
 			}
 		});
-		
+
 		buttonPanel = new JPanel();
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
 		
@@ -111,6 +111,20 @@ public class SearchGUI extends ActionsVewTemplate {
 		buttonPanel.add(cancel);
 		
 		add(buttonPanel);
+	}
+
+	private void clearTextFields() {
+		List<JTextField> textFields = getTextFields();
+		setTextFieldText(getAuthorTextField(), "");
+		setTextFieldText(getTitleTextField(), "");
+		setTextFieldText(getLengthTextField(), "");
+		// when clearing the date field set it back to the default text
+		setTextFieldText(getReleaseDateTextField(), getDATE_FORMAT());
+		getReleaseDateTextField().setForeground(Color.GRAY);
+		setTextFieldText(getSpecialFieldTextField(), "");
+		for (JTextField jTextField : textFields) {
+			jTextField.setEnabled(true);
+		}
 	}
 	
 	/**

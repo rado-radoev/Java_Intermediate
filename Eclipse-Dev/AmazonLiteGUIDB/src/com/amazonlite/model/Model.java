@@ -49,9 +49,8 @@ public class Model implements Actionable {
 		try {
 			connection = DriverManager.getConnection(dburl, user, pass);
 		} catch (SQLException sqle) {
-			sqle.printStackTrace();
+			View.getInstance().showMessage(null, "Connection cannot be established!\nApplicaiton will run with limited functionality!", "Connection error", 0);
 		}
-		
 	}
 	
 	// Model construcotrs

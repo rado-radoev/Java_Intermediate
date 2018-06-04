@@ -8,6 +8,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
 import javax.sql.RowSet;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -126,7 +127,7 @@ public class ResultSetTableModel extends DefaultTableModel {
 			if (!connectedToDatabase && connection != null) 
 				throw new IllegalStateException("Not Connected to Databse!");
 		} catch (IllegalStateException e) {
-			System.err.println(e.getMessage());
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Connection error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	

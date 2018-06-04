@@ -10,6 +10,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 
 import java.awt.BorderLayout;
@@ -211,6 +212,10 @@ public class View extends JFrame {
 	
 	public ItemType getItemType() {
  		return itemType;
+	}
+	
+	public void showMessage(Component parentComponent, String message, String title, int messageType) {
+		JOptionPane.showMessageDialog(parentComponent, message, title, messageType);
 	}
 		
 	/**
